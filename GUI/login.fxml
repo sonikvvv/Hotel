@@ -39,7 +39,7 @@
         </rowConstraints>
          <children>
             <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="362.0" styleClass="bttn" stylesheets="@style.css" text="Log in" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-            <TextField prefHeight="35.0" prefWidth="260.0" styleClass="txt_field" GridPane.columnIndex="1" GridPane.rowIndex="6">
+            <TextField prefHeight="35.0" prefWidth="260.0" styleClass="txt_field" stylesheets="@style.css" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
