@@ -1,4 +1,4 @@
-package hotel;
+package gui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,13 +11,13 @@ import java.io.IOException;
 /**
  * JavaFX App
  */
-public class App extends Application {
+public class Appp extends Application {
 
     private static Scene scene;
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"));
+        scene = new Scene(loadFXML("home_view"));
         stage.setScene(scene);
         stage.show();
     }
@@ -27,7 +27,7 @@ public class App extends Application {
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Appp.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
     }
 

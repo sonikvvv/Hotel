@@ -1,0 +1,35 @@
+.bg_color {
+    -fx-background-color: #bcbec0;
+}
+
+.label_login {
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 35;
+    -fx-text-aligment: center;
+}
+
+.label_login_user_pas {
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 15;
+    -fx-text-aligment: center;
+}
+
+.txt_field{
+    -fx-background-color:  transparent;
+    -fx-border-color: #FFFFFF;
+    -fx-border-width: 3;
+    -fx-border-radius: 10px;
+}
+
+.bttn {
+    -fx-background-color:  transparent;
+    -fx-border-color: #FFFFFF;
+    -fx-border-width: 3;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #FFFFFF;
+    
+}
+
+th {
+    -fx-background-color:  #000000;
+}
