@@ -10,7 +10,7 @@
             <AnchorPane layoutY="-1.0" prefHeight="53.0" prefWidth="57.0" style="-fx-background-color: #000000;" />
             <Button layoutX="1240.0" layoutY="14.0" mnemonicParsing="false" text="See all" />
          </children></AnchorPane>
-      <AnchorPane prefHeight="750.0" prefWidth="250.0" style="-fx-background-color: #222222;" />
+      <AnchorPane prefHeight="750.0" prefWidth="250.0" style="-fx-background-color: #87898b;" />
       <AnchorPane layoutX="250.0" prefHeight="750.0" prefWidth="1050.0" />
    </children>
 </AnchorPane>
