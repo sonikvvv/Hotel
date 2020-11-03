@@ -1,6 +1,11 @@
 package hotel.base_classes;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class ReservationCancelType {
+    @Id
     private int reservation_cancel_type_id;
     private String reservation_cancel_type;
 

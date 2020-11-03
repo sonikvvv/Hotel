@@ -1,6 +1,11 @@
 package hotel.base_classes;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class UserRoles {
+    @Id
     private int role_id;
     private String role_title;
 

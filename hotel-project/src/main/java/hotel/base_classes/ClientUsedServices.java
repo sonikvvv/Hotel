@@ -2,12 +2,22 @@ package hotel.base_classes;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
 public class ClientUsedServices {
     private int client_used_services_id;
+    
     private AdditServices addit_service;
     private int quantity;
+
+    @Temporal(TemporalType.DATE)
     private Date date;
     private String note;
+
+
     private boolean paid = false;
 
     public ClientUsedServices() {

@@ -2,24 +2,38 @@ package hotel.base_classes;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
- * The {@code Reservation Form} class contains the information, that the hotel receives
- * from tour agencies or booking sites.
+ * The {@code Reservation Form} class contains the information, that the hotel
+ * receives from tour agencies or booking sites.
  */
+@Entity
 public class ReservationForm {
+    @Id
     private int reservation_form_id;
+    @OneToMany
     private ReservationType reservation_type;
+    @OneToMany
     private RoomType room_type;
+    @OneToMany
     private ReservationCancelType cancel_type;
     private String vaucher;
+    @Temporal(TemporalType.DATE)
     private Date start_date;
+    @Temporal(TemporalType.DATE)
     private Date end_date;
     private int adults;
     private int kids;
     private int babys;
+    @OneToMany
     private FoodType food_type;
     private double total_price;
+    @OneToMany
     private ReservationStatus status;
     private String notes;
 
@@ -99,8 +113,6 @@ public class ReservationForm {
     public String getVaucher() {
         return vaucher;
     }
-
-
 
     public void setAdults(int adults) {
         this.adults = adults;

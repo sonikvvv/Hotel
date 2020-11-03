@@ -1,9 +1,25 @@
 package hotel.base_classes;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
+
+
+
+@Entity
 public class User {
+    @Id
     private int user_id;
     private String user_name;
     private String user_password;
+
+    @OneToMany // TODO: make the mapping
     private UserRoles user_role;
 
     public User() {}

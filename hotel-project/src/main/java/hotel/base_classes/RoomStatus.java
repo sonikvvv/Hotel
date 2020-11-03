@@ -1,6 +1,11 @@
 package hotel.base_classes;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class RoomStatus {
+    @Id
     private int room_status_id;
     private String room_status;
 

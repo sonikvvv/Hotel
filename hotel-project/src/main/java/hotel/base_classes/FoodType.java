@@ -1,6 +1,11 @@
 package hotel.base_classes;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class FoodType {
+    @Id
     private int food_type_id;
     private String food_type;
 

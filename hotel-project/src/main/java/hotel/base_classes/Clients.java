@@ -3,18 +3,35 @@ package hotel.base_classes;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
 public class Clients {
+    @Id
     private int client_id;
     private String client_name;
+
+    @Temporal(TemporalType.DATE)
     private Date client_birth_date;
-    private boolean client_sex; // 1 -> male, 0 -> female
+
+    private boolean client_sex; // 1 -> male, 0 -> female TODO: see the mapping
     private String client_passport_number;
+
+    @Temporal(TemporalType.DATE)
     private Date client_passport_date;
     private String client_car_number;
     private double client_rating;
+
+    @OneToMany
     private Country client_country;
     private String client_note;
-    private List<AdditServices> client_addit_serv; // fix me: TODO change it to client used services
+
+    
+    private List<AdditServices> client_addit_serv; //TODO: fix it
     private Date check_in;
     private Date check_out;
 

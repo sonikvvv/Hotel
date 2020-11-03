@@ -8,6 +8,14 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
+import hotel.base_classes.User;
+import hotel.base_classes.UserRoles;
+
 /**
  * JavaFX App
  */
@@ -33,6 +41,25 @@ public class App extends Application {
 
     public static void main(String[] args) {
         launch();
+
+        UserRoles ur = new UserRoles("admin");
+        ur.setRole_id(1);
+        User u = new User("ves", "test", ur);
+        u.setUser_id(2);
+
+        Configuration con = new Configuration().configure().addAnnotatedClass(User.class);
+
+        // ServiceRegistry sr = new serviceRegis
+
+        SessionFactory sf = con.buildSessionFactory();
+
+        Session ses = sf.openSession();
+
+        Transaction tx = ses.beginTransaction();
+
+        ses.save(u);
+
+        tx.commit();
     }
 
 }

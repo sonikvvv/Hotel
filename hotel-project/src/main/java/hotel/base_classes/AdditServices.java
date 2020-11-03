@@ -1,6 +1,11 @@
 package hotel.base_classes;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class AdditServices {
+    @Id
     private int addit_services_id;
     private String addit_services_title;
     private double addit_services_price;

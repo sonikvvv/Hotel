@@ -1,10 +1,18 @@
 package hotel.base_classes;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Room {
+    @Id
     private int room_id;
     private String room_number;
     private double room_rating;
+
+    // TODO: make the mapping
     private RoomType room_type;
+    // TODO: make the mapping
     private RoomStatus status;
 
     public Room() {

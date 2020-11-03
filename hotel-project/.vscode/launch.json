@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - App",
+            "request": "launch",
+            "mainClass": "hotel.App",
+            "projectName": "hotel-project"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - User",
+            "request": "launch",
+            "mainClass": "hotel.base_classes.User",
+            "projectName": "hotel-project"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - Appp",
             "request": "launch",
             "mainClass": "hotel/gui.Appp",
