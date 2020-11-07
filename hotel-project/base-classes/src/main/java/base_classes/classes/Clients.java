@@ -1,5 +1,6 @@
 package base_classes.classes;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +12,9 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Type;
 
+import base_classes.classes.emuns.ClientsE;
+import base_classes.classes.emuns.CountryE;
+
 @Entity
 public class Clients {
     @Id
@@ -21,7 +25,7 @@ public class Clients {
     private Date client_birth_date;
 
     @Type(type = "true_false")
-    private boolean client_sex; // 1 -> male, 0 -> female TODO: see the mapping
+    private boolean client_sex; // true -> male, false -> female
     private String client_passport_number;
 
     @Temporal(TemporalType.DATE)
@@ -33,10 +37,11 @@ public class Clients {
     private Country client_country;
     private String client_note;
 
-    
-    private List<AdditServices> client_addit_serv; //TODO: fix it
+    @OneToMany
+    private List<ClientUsedServices> cuds;
     private Date check_in;
     private Date check_out;
+    private double total = 0;
 
     public Clients() {}
 
@@ -95,8 +100,8 @@ public class Clients {
         return client_note;
     }
 
-    public List<AdditServices> getClient_addit_serv() {
-        return client_addit_serv;
+    public List<ClientUsedServices> getClient_addit_serv() {
+        return cuds;
     }
 
     public Date getCheck_in() {
@@ -105,6 +110,10 @@ public class Clients {
 
     public Date getCheck_out() {
         return check_out;
+    }
+
+    public double getTotal() {
+        return total;
     }
 
 
@@ -149,8 +158,8 @@ public class Clients {
         this.client_note = client_note;
     }
 
-    public void setClient_addit_serv(List<AdditServices> client_addit_serv) {
-        this.client_addit_serv = client_addit_serv;
+    public void setClient_addit_serv(List<ClientUsedServices> clientUsedServices) {
+        this.cuds = clientUsedServices;
     }
 
     public void setCheck_in(Date check_in) {
@@ -161,15 +170,99 @@ public class Clients {
         this.check_out = check_out;
     }
 
+    public void addClient_addit_serv(ClientUsedServices clientUsedServices) {
+        this.cuds.add(clientUsedServices);
+        calcTotal();
+    }
 
-    public void addClient_addit_serv(AdditServices additServices) {
-        this.client_addit_serv.add(additServices);
+    public void setTotal(double total) {
+        this.total = total;
     }
 
     public void checkOut() {
         this.check_out = new Date();
     }
 
+    private void calcTotal() {
+        double sum = 0;
+        for (ClientUsedServices clientUsedServices : cuds) {
+            if (clientUsedServices.getPaid() == false) {
+                sum = sum + 
+                    (clientUsedServices.getQuantity() + clientUsedServices.getAddit_service().getAddit_services_price());
+            }
+        }
+
+        this.setTotal(sum);
+    }
+
+    public static String getTableName() {
+        return "clients";
+    }
+
+    public static List<String> getFields() {
+        List<String> ls = new ArrayList<>();
+        ls.add("client_id");
+        ls.add("client_name");
+        ls.add("client_birth_date");
+        ls.add("client_sex");
+        ls.add("client_passport_number");
+        ls.add("client_passport_date");
+        ls.add("client_car_number");
+        ls.add("client_rating");
+        ls.add("client_country");
+        ls.add("check_in");
+        ls.add("check_out");
+        return ls;
+    }
+
+    public String search(ClientsE type) {
+        String sqlString = "from " + getTableName() + " where ";
+        List<String> fields = getFields();
+
+        switch (type) {
+            case ID:
+                sqlString = sqlString + fields.get(0) + " = ";
+                break;
+            case NAME:
+                sqlString = sqlString + fields.get(1) + " = ";
+                break;
+            case BIRTH_DATE:
+                sqlString = sqlString + fields.get(2) + " = ";
+                break;
+            case SEX:
+                sqlString = sqlString + fields.get(3) + " = ";
+                break;
+            case PASSPORT_NUMBER:
+                sqlString = sqlString + fields.get(4) + " = ";
+                break;
+            case PASSPORT_DATE:
+                sqlString = sqlString + fields.get(5) + " = ";
+                break;
+            case CAR_NUMBER:
+                sqlString = sqlString + fields.get(6) + " = ";
+                break;
+            case RATING:
+                sqlString = sqlString + fields.get(7) + " = ";
+                break;
+            case COUNTRY_ID:
+                sqlString = sqlString + fields.get(8) + " = ";
+                break;
+            case COUNTRY_NAME:
+                sqlString = sqlString + fields.get(8) + " = " + this.client_country.search(CountryE.COUNTRY_NAME);
+                break;
+            case CHECK_IN:
+                sqlString = sqlString + fields.get(9) + " = ";
+                break;
+            case CHECK_OUT:
+                sqlString = sqlString + fields.get(10) + " = ";
+                break;
+
+            default:
+                break;
+        }
+
+        return sqlString;
+    }
 
     @Override
     public String toString() {
@@ -178,6 +271,6 @@ public class Clients {
                 + this.client_birth_date + " sex: " + this.client_sex + " passport number: "
                 + this.client_passport_number + " passport end date: " + this.client_passport_date + " car number: "
                 + this.client_car_number + " rating: " + this.client_rating + " note: " + this.client_note 
-                + " additional services: " + this.client_addit_serv + " ]";
+                + " additional services: " + this.cuds + " ]";
     }
 }

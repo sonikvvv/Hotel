@@ -1,6 +1,8 @@
 package base_classes.classes;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -8,11 +10,17 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import base_classes.classes.emuns.FTE;
+import base_classes.classes.emuns.RCTE;
+import base_classes.classes.emuns.RFE;
+import base_classes.classes.emuns.RTE;
+import base_classes.classes.emuns.SE;
+
 /**
  * The {@code Reservation Form} class contains the information, that the hotel
  * receives from tour agencies or booking sites.
  */
-@Entity
+@Entity(name = "r_form")
 public class ReservationForm {
     @Id
     private int reservation_form_id;
@@ -170,10 +178,80 @@ public class ReservationForm {
         this.vaucher = vaucher;
     }
 
+    public static List<String> getFields() {
+        List<String> ls = new ArrayList<>();
+        ls.add("reservation_form_id");
+        ls.add("reservation_type");
+        ls.add("room_type");
+        ls.add("cancel_type");
+        ls.add("vaucher");
+        ls.add("start_date");
+        ls.add("end_date");
+        ls.add("adults");
+        ls.add("kids");
+        ls.add("babys");
+        ls.add("food_type");
+        ls.add("status");
+        return ls;
+    }
+
+    public static String getTableName() {
+        return "r_form";
+    }
+
+    public String search(RFE type) {
+        String sqlString = "from " + getTableName() + " where ";
+        List<String> fields = getFields();
+
+        switch (type) {
+            case ID:
+                sqlString = sqlString + fields.get(0) + " = ";
+                break;
+            case TYPE:
+                sqlString = sqlString + fields.get(1) + " = " + this.reservation_type.search(RTE.TYPE);
+                break;
+            case ROOM_TYPE:
+                sqlString = sqlString + fields.get(2) + " = " + this.room_type.search(RTE.TYPE);
+                break;
+            case CANCEL_TYPE:
+                sqlString = sqlString + fields.get(3) + " = " + this.cancel_type.search(RCTE.CANCEL_TYPE);
+                break;
+            case VAUCHER:
+                sqlString = sqlString + fields.get(4) + " = ";
+                break;
+            case START_DATE:
+                sqlString = sqlString + fields.get(5) + " = ";
+                break;
+            case END_DATE:
+                sqlString = sqlString + fields.get(6) + " = ";
+                break;
+            case ADULTS:
+                sqlString = sqlString + fields.get(7) + " = ";
+                break;
+            case KIDS:
+                sqlString = sqlString + fields.get(8) + " = ";
+                break;
+            case BABYS:
+                sqlString = sqlString + fields.get(9) + " = ";
+                break;
+            case FOOD_TYPE:
+                sqlString = sqlString + fields.get(10) + " = " + this.food_type.search(FTE.TYPE);
+                break;
+            case STATUS:
+                sqlString = sqlString + fields.get(11) + " = " + this.status.search(SE.STATUS);
+                break;
+
+            default:
+                break;
+        }
+
+        return sqlString;
+    }
+
     @Override
     public String toString() {
         return "Reservation form [ id = " + this.reservation_form_id + " reservation type: "
-                + this.reservation_type.getReservation_type() + " room type: " + this.room_type.getRoom_type()
+                + this.reservation_type.getR_type() + " room type: " + this.room_type.getRoom_type()
                 + " cancel type: " + this.cancel_type.getReservation_cancel_type() + " vaucher: " + this.vaucher
                 + " start date: " + this.start_date + " end date: " + this.end_date + " adults: " + this.adults
                 + " kids: " + this.kids + " babys: " + this.babys + " food type: " + this.food_type.getFood_type()

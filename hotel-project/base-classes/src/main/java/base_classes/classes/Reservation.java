@@ -1,11 +1,15 @@
 package base_classes.classes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import base_classes.classes.emuns.ReservE;
+import base_classes.classes.emuns.RoomE;
 
 @Entity
 public class Reservation {
@@ -55,6 +59,52 @@ public class Reservation {
 
     public void addClient(Clients client) {
         this.clients.add(client);
+    }
+
+    public static List<String> getFields() {
+        List<String> ls = new ArrayList<>();
+        ls.add("reservation_id");
+        ls.add("room");
+        ls.add("clients");
+        ls.add("reservation_form");
+        return ls;
+    }
+
+    public static String getTableName() {
+        return "reservation";
+    }
+
+    public String search(ReservE type) {
+        String sqlString = "from " + getTableName() + " where ";
+        List<String> fields = getFields();
+
+        switch (type) {
+            case ID:
+                sqlString = sqlString + fields.get(0) + " = ";
+                break;
+            case ROOM_ID:
+                sqlString = sqlString + fields.get(1) + " = " + this.room.search(RoomE.ID);
+                break;
+            case ROOM_NUMBER:
+                sqlString = sqlString + fields.get(1) + " = " + this.room.search(RoomE.NUMBER);
+                break;
+            case ROOM_TYPE:
+                sqlString = sqlString + fields.get(1) + " = " + this.room.search(RoomE.ROOM_TYPE);
+                break;
+            case CLIENTS_ID:
+                sqlString = sqlString + fields.get(2) + " = from " + Clients.getTableName()
+                    + " where " + Clients.getFields().get(0) + " = ";
+                break;
+            case RESERVATION_FORM_ID:
+                sqlString = sqlString + fields.get(2) + " = from " + ReservationForm.getTableName()
+                    + " where " + ReservationForm.getFields().get(0) + " = ";
+                break;
+
+            default:
+                break;
+        }
+
+        return sqlString;
     }
 
     @Override

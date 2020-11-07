@@ -1,5 +1,5 @@
 package base_classes;
-
+import base_classes.classes.*;
 /**
  * Hello world!
  *
@@ -10,9 +10,12 @@ public class App
     {
         System.out.println( "Hello World!" );
 
-        // UserRoles ur = new UserRoles("meh");
-        // ur.setRole_id(1);
 
-        // System.out.println(ur);
+        //System.out.println((ttt.te1 == ttt.te1)? true: false);
+        //System.out.println((ttt.te2 == ttt.te1)? true: false);
+        UserRoles ur = new UserRoles("meh");
+        //System.out.println(ur.getFields());
+
+        System.out.println(ur);
     }
 }

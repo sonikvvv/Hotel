@@ -1,10 +1,15 @@
 package base_classes.classes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+
+import base_classes.classes.emuns.URE;
 
 @Entity(name = "user_roles")
 public class UserRoles {
@@ -34,6 +39,35 @@ public class UserRoles {
 
     public void setRole_title(String role_title) {
         this.role_title = role_title;
+    }
+
+    public static List<String> getFields() {
+        List<String> ls = new ArrayList<>();
+        ls.add("role_id");
+        ls.add("role_title");
+        return ls;
+    }
+
+    public static String getTableName() {
+        return "user_roles";
+    }
+
+    public String search(URE type) {
+        String sqlString = "from " + getTableName() + " where ";
+        List<String> fields = getFields();
+
+        switch (type) {
+            case ID:
+                sqlString = sqlString + fields.get(0) + " = ";
+                break;
+            case ROLE:
+                sqlString = sqlString + fields.get(1) + " = ";
+                break;
+            default:
+                break;
+        }
+
+        return sqlString;
     }
 
     @Override

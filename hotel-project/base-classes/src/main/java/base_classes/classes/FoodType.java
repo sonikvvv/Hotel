@@ -1,12 +1,17 @@
 package base_classes.classes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity
+import base_classes.classes.emuns.FTE;
+
+@Entity(name = "food_type")
 public class FoodType {
     @Id
-    private int food_type_id;
+    private int ft_id;
     private String food_type;
 
     public FoodType() {}
@@ -19,7 +24,7 @@ public class FoodType {
         return food_type;
     }
     public int getFood_type_id() {
-        return food_type_id;
+        return ft_id;
     }
 
     public void setFood_type(String food_type) {
@@ -27,11 +32,40 @@ public class FoodType {
     }
 
     public void setFood_type_id(int food_type_id) {
-        this.food_type_id = food_type_id;
+        this.ft_id = food_type_id;
+    }
+    
+    public static List<String> getFields() {
+        List<String> ls = new ArrayList<>();
+        ls.add("ft_id");
+        ls.add("food_type");
+        return ls;
+    }
+
+    public static String getTableName() {
+        return "food_type";
+    }
+
+    public String search(FTE type) {
+        String sqlString = "from " + getTableName() + " where ";
+        List<String> fields = getFields();
+
+        switch (type) {
+            case ID:
+                sqlString = sqlString + fields.get(0) + " = ";
+                break;
+            case TYPE:
+                sqlString = sqlString + fields.get(1) + " = ";
+                break;
+            default:
+                break;
+        }
+
+        return sqlString;
     }
 
     @Override
     public String toString() {
-        return "Food type [ id = " + this.food_type_id + " type: " + this.food_type + " ]";
+        return "Food type [ id = " + this.ft_id + " type: " + this.food_type + " ]";
     }
 }

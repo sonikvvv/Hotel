@@ -1,23 +1,30 @@
 package base_classes.classes;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
-@Entity
+import org.hibernate.annotations.Type;
+
+import base_classes.classes.emuns.ADServicesE;
+import base_classes.classes.emuns.CUSe;
+
+@Entity(name = "c_used_serv")
 public class ClientUsedServices {
-    private int client_used_services_id;
+    @Id
+    private int cus_id;
     
+    @OneToOne
     private AdditServices addit_service;
     private int quantity;
-
-    @Temporal(TemporalType.DATE)
     private Date date;
     private String note;
 
-
+    @Type(type = "true_false")
     private boolean paid = false;
 
     public ClientUsedServices() {
@@ -34,8 +41,8 @@ public class ClientUsedServices {
         return addit_service;
     }
 
-    public int getClient_used_services_id() {
-        return client_used_services_id;
+    public int getCus_id() {
+        return cus_id;
     }
 
     public Date getDate() {
@@ -58,8 +65,8 @@ public class ClientUsedServices {
         this.addit_service = addit_service;
     }
 
-    public void setClient_used_services_id(int client_used_services_id) {
-        this.client_used_services_id = client_used_services_id;
+    public void setCus_id(int cus_id) {
+        this.cus_id = cus_id;
     }
 
     public void setDate(Date date) {
@@ -78,9 +85,50 @@ public class ClientUsedServices {
         this.quantity = quantity;
     }
 
+    public static List<String> getFields() {
+        List<String> ls = new ArrayList<>();
+        ls.add("cus_id");
+        ls.add("addit_service");
+        ls.add("quantity");
+        ls.add("date");
+        return ls;
+    }
+
+    public static String getTableName() {
+        return "c_used_serv";
+    }
+
+    public String search(CUSe type) {
+        String sqlString = "from " + getTableName() + " where ";
+        List<String> fields = getFields();
+
+        switch (type) {
+            case ID:
+                sqlString = sqlString + fields.get(0) + " = ";
+                break;
+            case ADDIT_SERVICE_ID:
+                sqlString = sqlString + fields.get(1) + " = ";
+                break;
+            case ADDIT_SERVICE_NAME:
+                sqlString = sqlString + fields.get(1) + " = " + this.addit_service.search(ADServicesE.TITLE);
+                break;
+            case QUANTITY:
+                sqlString = sqlString + fields.get(2) + " = ";
+                break;
+            case DATE:
+                sqlString = sqlString + fields.get(3) + " = ";
+                break;
+
+            default:
+                break;
+        }
+
+        return sqlString;
+    }
+
     @Override
     public String toString() {
-        return "Used additional services [ id = " + this.client_used_services_id + " additional service: "
+        return "Used additional services [ id = " + this.cus_id + " additional service: "
                 + this.addit_service.getAddit_services_title() + " price: "
                 + this.addit_service.getAddit_services_price() + " date: " + this.date + " quantity: " + this.quantity
                 + " paid: " + this.paid + " note: " + this.note + " ]";

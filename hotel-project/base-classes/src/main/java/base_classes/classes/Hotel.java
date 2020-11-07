@@ -1,5 +1,5 @@
 package base_classes.classes;
 
-public class RoomRating {
+public class Hotel {
     
 }

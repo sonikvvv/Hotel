@@ -1,11 +1,16 @@
 package base_classes.classes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+
+import base_classes.classes.emuns.UE;
 
 
 @Entity(name = "app_user")
@@ -57,6 +62,36 @@ public class User {
 
     public UserRoles getUser_role() {
         return user_role;
+    }
+
+    public static List<String> getFields() {
+        List<String> ls = new ArrayList<>();
+        ls.add("user_id");
+        ls.add("user_name");
+        ls.add("user_password");
+        return ls;
+    }
+
+    public static String getTableName() {
+        return "app_user";
+    }
+
+    public String search(UE type) {
+        String sqlString = "from " + getTableName() + " where ";
+        List<String> fields = getFields();
+
+        switch (type) {
+            case ID:
+                sqlString = sqlString + fields.get(0) + " = ";
+                break;
+            case NAME:
+                sqlString = sqlString + fields.get(1) + " = ";
+                break;
+            default:
+                break;
+        }
+
+        return sqlString;
     }
 
     @Override

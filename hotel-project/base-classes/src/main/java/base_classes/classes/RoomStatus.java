@@ -1,12 +1,17 @@
 package base_classes.classes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity
+import base_classes.classes.emuns.SE;
+
+@Entity(name = "room_status")
 public class RoomStatus {
     @Id
-    private int room_status_id;
+    private int rs_id;
     private String room_status;
 
     public RoomStatus() {}
@@ -19,18 +24,47 @@ public class RoomStatus {
         return room_status;
     }
     public int getRoom_status_id() {
-        return room_status_id;
+        return rs_id;
     }
 
     public void setRoom_status(String room_status) {
         this.room_status = room_status;
     }
     public void setRoom_status_id(int room_status_id) {
-        this.room_status_id = room_status_id;
+        this.rs_id = room_status_id;
+    }
+
+    public static List<String> getFields() {
+        List<String> ls = new ArrayList<>();
+        ls.add("rs_id");
+        ls.add("room_status");
+        return ls;
+    }
+
+    public static String getTableName() {
+        return "room_status";
+    }
+
+    public String search(SE type) {
+        String sqlString = "from " + getTableName() + " where ";
+        List<String> fields = getFields();
+
+        switch (type) {
+            case ID:
+                sqlString = sqlString + fields.get(0) + " = ";
+                break;
+            case STATUS:
+                sqlString = sqlString + fields.get(1) + " = ";
+                break;
+            default:
+                break;
+        }
+
+        return sqlString;
     }
 
     @Override
     public String toString() {
-        return "Room status [ id = " + this.room_status_id + " status: " + this.room_status + " ]";
+        return "Room status [ id = " + this.rs_id + " status: " + this.room_status + " ]";
     }
 }
