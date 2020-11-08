@@ -5,12 +5,17 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.SequenceGenerator;
 
 import base_classes.classes.emuns.FTE;
 
 @Entity(name = "food_type")
 public class FoodType {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ft_generator")
+    @SequenceGenerator(name = "ft_generator", sequenceName = "ft_seq", allocationSize = 50)
     private int ft_id;
     private String food_type;
 

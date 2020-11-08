@@ -3,9 +3,13 @@ package base_classes.classes;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.SequenceGenerator;
 
 import base_classes.classes.emuns.RTE;
 import base_classes.classes.emuns.RoomE;
@@ -14,13 +18,15 @@ import base_classes.classes.emuns.SE;
 @Entity
 public class Room {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "room_generator")
+    @SequenceGenerator(name = "room_generator", sequenceName = "room_seq", allocationSize = 50)
     private int r_id;
     private String r_number;
     private double r_rating;
 
-    @OneToMany
+    @OneToOne(cascade = CascadeType.ALL)
     private RoomType r_type;
-    @OneToMany
+    @OneToOne(cascade = CascadeType.ALL)
     private RoomStatus r_status;
 
     public Room() {

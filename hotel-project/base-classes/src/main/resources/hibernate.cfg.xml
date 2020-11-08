@@ -10,8 +10,21 @@
         <property name="hbm2ddl.auto">create</property>
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>
-        <property name="org.hibernate.SQL">debug</property>
-        <property name="org.hibernate.type">trace</property>
+        <!--property name="org.hibernate.SQL">debug</property>
+        <property name="org.hibernate.type">trace</property-->
+        <mapping class="base_classes.classes.AdditServices" />
+        <mapping class="base_classes.classes.Clients" />
+        <mapping class="base_classes.classes.ClientUsedServices" />
+        <mapping class="base_classes.classes.Country" />
+        <mapping class="base_classes.classes.FoodType" />
+        <mapping class="base_classes.classes.Reservation" />
+        <mapping class="base_classes.classes.ReservationCancelType" />
+        <mapping class="base_classes.classes.ReservationForm" />
+        <mapping class="base_classes.classes.ReservationStatus" />
+        <mapping class="base_classes.classes.ReservationType" />
+        <mapping class="base_classes.classes.Room" />
+        <mapping class="base_classes.classes.RoomStatus" />
+        <mapping class="base_classes.classes.RoomType" />
         <mapping class="base_classes.classes.User"/>
         <mapping class="base_classes.classes.UserRoles"/>
     </session-factory>

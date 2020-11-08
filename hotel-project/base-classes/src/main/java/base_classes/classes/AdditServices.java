@@ -4,13 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 import base_classes.classes.emuns.ADServicesE;
 
 @Entity(name = "add_serv")
 public class AdditServices {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ads_generator")
+    @SequenceGenerator(name = "ads_generator", sequenceName = "ads_seq", allocationSize = 50)
     private int a_serv_id;
     private String a_serv_title;
     private double a_serv_price;

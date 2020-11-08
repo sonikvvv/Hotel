@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 
 import base_classes.classes.emuns.UE;
 
@@ -16,7 +17,8 @@ import base_classes.classes.emuns.UE;
 @Entity(name = "app_user")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_generator")
+    @SequenceGenerator(name = "user_generator", sequenceName = "user_seq", allocationSize = 50)
     private int user_id;
     private String user_name;
     private String user_password;
@@ -76,7 +78,7 @@ public class User {
         return "app_user";
     }
 
-    public String search(UE type) {
+    public static String search(UE type) {
         String sqlString = "from " + getTableName() + " where ";
         List<String> fields = getFields();
 

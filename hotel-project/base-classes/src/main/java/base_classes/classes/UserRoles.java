@@ -14,8 +14,8 @@ import base_classes.classes.emuns.URE;
 @Entity(name = "user_roles")
 public class UserRoles {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_generator")
-    @SequenceGenerator(name = "user_generator", sequenceName = "user_seq", allocationSize = 50)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_r_generator")
+    @SequenceGenerator(name = "user_r_generator", sequenceName = "user_r_seq", allocationSize = 50)
     private int role_id;
     private String role_title;
 

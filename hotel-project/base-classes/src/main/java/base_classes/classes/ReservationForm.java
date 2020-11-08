@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.SequenceGenerator;
 
 import base_classes.classes.emuns.FTE;
 import base_classes.classes.emuns.RCTE;
@@ -23,26 +27,38 @@ import base_classes.classes.emuns.SE;
 @Entity(name = "r_form")
 public class ReservationForm {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rf_generator")
+    @SequenceGenerator(name = "rf_generator", sequenceName = "rf_seq", allocationSize = 50)
     private int reservation_form_id;
-    @OneToMany
+
+    @OneToOne(cascade = CascadeType.ALL)
     private ReservationType reservation_type;
-    @OneToMany
+
+    @OneToOne(cascade = CascadeType.ALL)
     private RoomType room_type;
-    @OneToMany
+
+    @OneToOne(cascade = CascadeType.ALL)
     private ReservationCancelType cancel_type;
     private String vaucher;
+
     @Temporal(TemporalType.DATE)
     private Date start_date;
+
     @Temporal(TemporalType.DATE)
     private Date end_date;
+
     private int adults;
     private int kids;
     private int babys;
-    @OneToMany
+
+    @OneToOne(cascade = CascadeType.ALL)
     private FoodType food_type;
+
     private double total_price;
-    @OneToMany
+
+    @OneToOne(cascade = CascadeType.ALL)
     private ReservationStatus status;
+
     private String notes;
 
     public ReservationForm() {

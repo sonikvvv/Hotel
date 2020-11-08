@@ -4,9 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -18,6 +23,8 @@ import base_classes.classes.emuns.CountryE;
 @Entity
 public class Clients {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_generator")
+    @SequenceGenerator(name = "client_generator", sequenceName = "client_seq", allocationSize = 50)
     private int client_id;
     private String client_name;
 
@@ -33,11 +40,11 @@ public class Clients {
     private String client_car_number;
     private double client_rating;
 
-    @OneToMany
+    @OneToOne(cascade = CascadeType.ALL)
     private Country client_country;
     private String client_note;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<ClientUsedServices> cuds;
     private Date check_in;
     private Date check_out;

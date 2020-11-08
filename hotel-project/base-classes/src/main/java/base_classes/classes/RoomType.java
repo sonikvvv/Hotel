@@ -5,12 +5,17 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.SequenceGenerator;
 
 import base_classes.classes.emuns.RTE;
 
 @Entity(name = "room_type")
 public class RoomType {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "room_t_generator")
+    @SequenceGenerator(name = "room_t_generator", sequenceName = "room_t_seq", allocationSize = 50)
     private int rt_id;
     private String room_type;
 

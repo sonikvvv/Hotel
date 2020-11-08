@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.Type;
 
@@ -16,12 +20,14 @@ import base_classes.classes.emuns.CUSe;
 @Entity(name = "c_used_serv")
 public class ClientUsedServices {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cus_generator")
+    @SequenceGenerator(name = "cus_generator", sequenceName = "cus_seq", allocationSize = 50)
     private int cus_id;
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private AdditServices addit_service;
     private int quantity;
-    private Date date;
+    private Date purchase_date;
     private String note;
 
     @Type(type = "true_false")
@@ -33,7 +39,7 @@ public class ClientUsedServices {
     public ClientUsedServices(AdditServices addit_service, int quantity, String note) {
         this.addit_service = addit_service;
         this.quantity = quantity;
-        this.date = new Date();
+        this.purchase_date = new Date();
         this.note = note;
     }
 
@@ -46,7 +52,7 @@ public class ClientUsedServices {
     }
 
     public Date getDate() {
-        return date;
+        return purchase_date;
     }
 
     public String getNote() {
@@ -69,8 +75,8 @@ public class ClientUsedServices {
         this.cus_id = cus_id;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDate(Date purchase_date) {
+        this.purchase_date = purchase_date;
     }
 
     public void setNote(String note) {
@@ -90,7 +96,7 @@ public class ClientUsedServices {
         ls.add("cus_id");
         ls.add("addit_service");
         ls.add("quantity");
-        ls.add("date");
+        ls.add("purchase_date");
         return ls;
     }
 
@@ -130,7 +136,7 @@ public class ClientUsedServices {
     public String toString() {
         return "Used additional services [ id = " + this.cus_id + " additional service: "
                 + this.addit_service.getAddit_services_title() + " price: "
-                + this.addit_service.getAddit_services_price() + " date: " + this.date + " quantity: " + this.quantity
+                + this.addit_service.getAddit_services_price() + " purchase_date: " + this.purchase_date + " quantity: " + this.quantity
                 + " paid: " + this.paid + " note: " + this.note + " ]";
     }
 

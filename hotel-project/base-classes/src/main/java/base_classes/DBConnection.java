@@ -6,28 +6,31 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import base_classes.classes.*;
+import base_classes.classes.emuns.UE;
 import base_classes.util.HibernateUtil;
 
 
 public class DBConnection {
     private Session session = HibernateUtil.getSessionFactory().openSession();
 
-    public void commit() {
+    private void commit() {
         session.getTransaction().commit();
     }
     
     public void saveObject(Object object) {
         session.beginTransaction();
+        //String object.getClass().toString(),
         session.save(object);
         commit();
+        //session.tran;
     }
 
 
     public User getUser(String searchType, String value) {
-        session.beginTransaction();
+        session.getTransaction();
         Query<User> query = null;
 
-        query = session.createQuery("queryString", User.class);
+        query = session.createQuery(User.search(UE.ID) + value, User.class);
 
         List<User> res = query.list();
 
@@ -188,7 +191,7 @@ public class DBConnection {
         return res.get(0);
     }
 
-        public Reservation getReservation(String searchType, String value) {
+    public Reservation getReservation(String searchType, String value) {
         session.beginTransaction();
         Query<Reservation> query = null;
         String id = "from app_user where user_id = " + value;
@@ -206,4 +209,5 @@ public class DBConnection {
         
         return res.get(0);
     }
+
 }

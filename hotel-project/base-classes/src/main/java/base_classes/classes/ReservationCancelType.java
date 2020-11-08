@@ -5,12 +5,17 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.SequenceGenerator;
 
 import base_classes.classes.emuns.RCTE;
 
 @Entity(name = "r_cancel_type")
 public class ReservationCancelType {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rct_generator")
+    @SequenceGenerator(name = "rct_generator", sequenceName = "rct_seq", allocationSize = 50)
     private int rct_id;
     private String r_cancel_type;
 
