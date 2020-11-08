@@ -26,10 +26,27 @@
     -fx-border-color: #FFFFFF;
     -fx-border-width: 3;
     -fx-border-radius: 10px;
-    -fx-text-fill: #FFFFFF;
+    -fx-text-fill: #000000;
+    -fx-font-size: 15;
     
 }
 
 th {
     -fx-background-color:  #000000;
+}
+
+.big_label{
+    -fx-font-size: 30;
+}
+
+.small_label {
+    -fx-font-size: 15;
+}
+
+.date_picker {
+    -fx-background-color: transparent;
+}
+
+.table_view {
+    -fx-background-color: transparent;
 }

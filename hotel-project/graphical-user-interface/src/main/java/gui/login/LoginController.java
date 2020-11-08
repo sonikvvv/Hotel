@@ -1,12 +1,13 @@
-package gui;
+package gui.login;
 
-import base_classes.classes.UserRoles;
+import java.util.List;
+
+import base_classes.DBConnection;
+import base_classes.classes.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-
-
 
 public class LoginController {
 
@@ -20,11 +21,7 @@ public class LoginController {
     void logIn(MouseEvent event) {
         System.out.println(username_txt.getText() + " " + pas_txt.getText());
 
-        //User user = new User("name", "password", new UserRoles("test"));
-        
-        UserRoles ur = new UserRoles("title");
-        System.out.println(ur);
-        
+        //List<String> data
     }
 
 }

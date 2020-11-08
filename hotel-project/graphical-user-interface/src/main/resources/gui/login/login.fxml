@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" styleClass="bg_color" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" styleClass="bg_color" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LoginController">
    <children>
       <AnchorPane prefHeight="500.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -39,8 +39,8 @@
           <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" onMouseClicked="#logIn" prefHeight="35.0" prefWidth="362.0" styleClass="bttn" stylesheets="@style.css" text="Log in" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-            <TextField fx:id="username_txt" prefHeight="35.0" prefWidth="260.0" styleClass="txt_field" stylesheets="@style.css" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <Button mnemonicParsing="false" onMouseClicked="#logIn" prefHeight="35.0" prefWidth="362.0" styleClass="bttn" stylesheets="@../style.css" text="Log in" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <TextField fx:id="username_txt" prefHeight="35.0" prefWidth="260.0" styleClass="txt_field" stylesheets="@../style.css" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
@@ -49,17 +49,17 @@
                </opaqueInsets></TextField>
             <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <Label layoutX="62.0" layoutY="68.0" styleClass="label_login" stylesheets="@style.css" text="Welcome Back!" />
-                  <Label layoutX="136.0" layoutY="17.0" styleClass="label_login" stylesheets="@style.css" text="Hello," />
+                  <Label layoutX="62.0" layoutY="68.0" styleClass="label_login" stylesheets="@../style.css" text="Welcome Back!" />
+                  <Label layoutX="136.0" layoutY="17.0" styleClass="label_login" stylesheets="@../style.css" text="Hello," />
                </children>
             </Pane>
-            <Label styleClass="label_login_user_pas" stylesheets="@style.css" text="Username" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2">
+            <Label styleClass="label_login_user_pas" stylesheets="@../style.css" text="Username" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
-            <Label styleClass="label_login_user_pas" stylesheets="@style.css" text="Password" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5" />
-            <PasswordField fx:id="pas_txt" prefHeight="35.0" styleClass="txt_field" stylesheets="@style.css" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Label styleClass="label_login_user_pas" stylesheets="@../style.css" text="Password" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5" />
+            <PasswordField fx:id="pas_txt" prefHeight="35.0" styleClass="txt_field" stylesheets="@../style.css" GridPane.columnIndex="1" GridPane.rowIndex="6" />
          </children>
       </GridPane>
    </children>
