@@ -12,5 +12,6 @@ public enum ClientsE {
     COUNTRY_ID,
     COUNTRY_NAME,
     CHECK_IN, 
-    CHECK_OUT
+    CHECK_OUT,
+    ALL
 }

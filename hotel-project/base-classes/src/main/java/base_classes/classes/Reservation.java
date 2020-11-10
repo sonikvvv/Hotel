@@ -89,13 +89,13 @@ public class Reservation {
                 sqlString = sqlString + fields.get(0) + " = ";
                 break;
             case ROOM_ID:
-                sqlString = sqlString + fields.get(1) + " = " + this.room.search(RoomE.ID);
+                sqlString = sqlString + fields.get(1) + " = " + Room.search(RoomE.ID);
                 break;
             case ROOM_NUMBER:
-                sqlString = sqlString + fields.get(1) + " = " + this.room.search(RoomE.NUMBER);
+                sqlString = sqlString + fields.get(1) + " = " + Room.search(RoomE.NUMBER);
                 break;
             case ROOM_TYPE:
-                sqlString = sqlString + fields.get(1) + " = " + this.room.search(RoomE.ROOM_TYPE);
+                sqlString = sqlString + fields.get(1) + " = " + Room.search(RoomE.ROOM_TYPE);
                 break;
             case CLIENTS_ID:
                 sqlString = sqlString + fields.get(2) + " = from " + Clients.getTableName()
@@ -105,7 +105,9 @@ public class Reservation {
                 sqlString = sqlString + fields.get(2) + " = from " + ReservationForm.getTableName()
                     + " where " + ReservationForm.getFields().get(0) + " = ";
                 break;
-
+            case ALL:
+                sqlString = "from " + getTableName();
+                break;
             default:
                 break;
         }

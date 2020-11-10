@@ -52,7 +52,7 @@ public class UserRoles {
         return "user_roles";
     }
 
-    public String search(URE type) {
+    public static String search(URE type) {
         String sqlString = "from " + getTableName() + " where ";
         List<String> fields = getFields();
 
@@ -62,6 +62,9 @@ public class UserRoles {
                 break;
             case ROLE:
                 sqlString = sqlString + fields.get(1) + " = ";
+                break;
+            case ALL:
+                sqlString = "from " + getTableName();
                 break;
             default:
                 break;

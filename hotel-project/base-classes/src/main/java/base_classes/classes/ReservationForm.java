@@ -215,7 +215,7 @@ public class ReservationForm {
         return "r_form";
     }
 
-    public String search(RFE type) {
+    public static String search(RFE type) {
         String sqlString = "from " + getTableName() + " where ";
         List<String> fields = getFields();
 
@@ -224,13 +224,13 @@ public class ReservationForm {
                 sqlString = sqlString + fields.get(0) + " = ";
                 break;
             case TYPE:
-                sqlString = sqlString + fields.get(1) + " = " + this.reservation_type.search(RTE.TYPE);
+                sqlString = sqlString + fields.get(1) + " = " + ReservationType.search(RTE.TYPE);
                 break;
             case ROOM_TYPE:
-                sqlString = sqlString + fields.get(2) + " = " + this.room_type.search(RTE.TYPE);
+                sqlString = sqlString + fields.get(2) + " = " + RoomType.search(RTE.TYPE);
                 break;
             case CANCEL_TYPE:
-                sqlString = sqlString + fields.get(3) + " = " + this.cancel_type.search(RCTE.CANCEL_TYPE);
+                sqlString = sqlString + fields.get(3) + " = " + ReservationCancelType.search(RCTE.CANCEL_TYPE);
                 break;
             case VAUCHER:
                 sqlString = sqlString + fields.get(4) + " = ";
@@ -251,10 +251,13 @@ public class ReservationForm {
                 sqlString = sqlString + fields.get(9) + " = ";
                 break;
             case FOOD_TYPE:
-                sqlString = sqlString + fields.get(10) + " = " + this.food_type.search(FTE.TYPE);
+                sqlString = sqlString + fields.get(10) + " = " + FoodType.search(FTE.TYPE);
                 break;
             case STATUS:
-                sqlString = sqlString + fields.get(11) + " = " + this.status.search(SE.STATUS);
+                sqlString = sqlString + fields.get(11) + " = " + ReservationStatus.search(SE.STATUS);
+                break;
+            case ALL:
+                sqlString = "from " + getTableName();
                 break;
 
             default:

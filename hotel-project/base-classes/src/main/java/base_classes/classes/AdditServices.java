@@ -64,7 +64,7 @@ public class AdditServices {
         return ls;
     }
 
-    public String search(ADServicesE type) {
+    public static String search(ADServicesE type) {
         String sqlString = "from " + getTableName() + " where ";
         List<String> fields = getFields();
 
@@ -78,12 +78,22 @@ public class AdditServices {
             case PRICE:
                 sqlString = sqlString + fields.get(2) + " = ";
                 break;
-        
+            case ALL:
+                sqlString = "from " + getTableName();
+                break;
             default:
                 break;
         }
 
         return sqlString;
+    }
+
+    public List<String> toList() {
+        List<String> res = new ArrayList<>();
+        res.add(this.a_serv_id + "");
+        res.add(this.a_serv_title);
+        res.add(this.a_serv_price + "");
+        return res;
     }
 
     @Override

@@ -94,7 +94,7 @@ public class Room {
         return "room";
     }
 
-    public String search(RoomE type) {
+    public static String search(RoomE type) {
         String sqlString = "from " + getTableName() + " where ";
         List<String> fields = getFields();
 
@@ -109,12 +109,14 @@ public class Room {
                 sqlString = sqlString + fields.get(2) + " = ";
                 break;
             case ROOM_TYPE:
-                sqlString = sqlString + fields.get(3) + " = " + this.r_type.search(RTE.TYPE);
+                sqlString = sqlString + fields.get(3) + " = " + RoomType.search(RTE.TYPE);
                 break;
             case ROOM_STATUS:
-                sqlString = sqlString + fields.get(4) + " = " + this.r_status.search(SE.STATUS);
+                sqlString = sqlString + fields.get(4) + " = " + RoomStatus.search(SE.STATUS);
                 break;
-
+            case ALL:
+                sqlString = "from " + getTableName();
+                break;
             default:
                 break;
         }

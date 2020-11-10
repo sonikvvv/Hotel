@@ -1,18 +1,24 @@
 package base_classes.classes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
+import base_classes.classes.emuns.HE;
+import base_classes.classes.emuns.UE;
+
+@Entity(name = "hotel")
 public class Hotel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ads_generator")
-    @SequenceGenerator(name = "ads_generator", sequenceName = "ads_seq", allocationSize = 50)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hotel_generator")
+    @SequenceGenerator(name = "hotel_generator", sequenceName = "hotel_seq", allocationSize = 50)
     private int hotel_id;
     private String hotel_name;
     @OneToMany(cascade = CascadeType.ALL)
@@ -78,8 +84,52 @@ public class Hotel {
         this.owners.add(manager);
     }
 
-    public void addToRezept(User recept) {
+    public void addToRecept(User recept) {
         this.owners.add(recept);
+    }
+
+    public static List<String> getFields() {
+        List<String> ls = new ArrayList<>();
+        ls.add("hotel_id");
+        ls.add("hotel_name");
+        ls.add("owners");
+        ls.add("managers");
+        ls.add("receptionists");
+        return ls;
+    }
+
+    public static String getTableName() {
+        return "hotel";
+    }
+
+    public static String search(HE type) {
+        String sqlString = "from " + getTableName() + " where ";
+        List<String> fields = getFields();
+
+        switch (type) {
+            case ID:
+                sqlString = sqlString + fields.get(0) + " = ";
+                break;
+            case NAME:
+                sqlString = sqlString + fields.get(1) + " = ";
+                break;
+            case OWNER:
+                sqlString = sqlString + fields.get(2) + " = " + User.search(UE.NAME);
+                break;
+            case MANAGER:
+                sqlString = sqlString + fields.get(3) + " = " + User.search(UE.NAME);
+                break;
+            case RECEPTIONIST:
+                sqlString = sqlString + fields.get(4) + " = " + User.search(UE.NAME);
+                break;
+            case ALL:
+                sqlString = "from " + getTableName();
+                break;
+            default:
+                break;
+        }
+
+        return sqlString;
     }
 
     @Override

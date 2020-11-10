@@ -222,7 +222,7 @@ public class Clients {
         return ls;
     }
 
-    public String search(ClientsE type) {
+    public static String search(ClientsE type) {
         String sqlString = "from " + getTableName() + " where ";
         List<String> fields = getFields();
 
@@ -255,7 +255,7 @@ public class Clients {
                 sqlString = sqlString + fields.get(8) + " = ";
                 break;
             case COUNTRY_NAME:
-                sqlString = sqlString + fields.get(8) + " = " + this.client_country.search(CountryE.COUNTRY_NAME);
+                sqlString = sqlString + fields.get(8) + " = " + Country.search(CountryE.COUNTRY_NAME);
                 break;
             case CHECK_IN:
                 sqlString = sqlString + fields.get(9) + " = ";
@@ -263,7 +263,9 @@ public class Clients {
             case CHECK_OUT:
                 sqlString = sqlString + fields.get(10) + " = ";
                 break;
-
+            case ALL:
+                sqlString = "from " + getTableName();
+                break;
             default:
                 break;
         }

@@ -89,6 +89,9 @@ public class User {
             case NAME:
                 sqlString = sqlString + fields.get(1) + " = ";
                 break;
+            case ALL:
+                sqlString = "from " + getTableName();
+                break;
             default:
                 break;
         }

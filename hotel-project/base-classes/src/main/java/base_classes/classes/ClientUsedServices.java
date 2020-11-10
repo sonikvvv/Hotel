@@ -104,7 +104,7 @@ public class ClientUsedServices {
         return "c_used_serv";
     }
 
-    public String search(CUSe type) {
+    public static String search(CUSe type) {
         String sqlString = "from " + getTableName() + " where ";
         List<String> fields = getFields();
 
@@ -116,7 +116,7 @@ public class ClientUsedServices {
                 sqlString = sqlString + fields.get(1) + " = ";
                 break;
             case ADDIT_SERVICE_NAME:
-                sqlString = sqlString + fields.get(1) + " = " + this.addit_service.search(ADServicesE.TITLE);
+                sqlString = sqlString + fields.get(1) + " = " + AdditServices.search(ADServicesE.TITLE);
                 break;
             case QUANTITY:
                 sqlString = sqlString + fields.get(2) + " = ";
@@ -124,7 +124,9 @@ public class ClientUsedServices {
             case DATE:
                 sqlString = sqlString + fields.get(3) + " = ";
                 break;
-
+            case ALL:
+                sqlString = "from " + getTableName();
+                break;
             default:
                 break;
         }

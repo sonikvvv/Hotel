@@ -50,7 +50,7 @@ public class ReservationType {
         return "r_type";
     }
 
-    public String search(RTE type) {
+    public static String search(RTE type) {
         String sqlString = "from " + getTableName() + " where ";
         List<String> fields = getFields();
 
@@ -60,6 +60,9 @@ public class ReservationType {
                 break;
             case TYPE:
                 sqlString = sqlString + fields.get(1) + " = ";
+                break;
+            case ALL:
+                sqlString = "from " + getTableName();
                 break;
             default:
                 break;

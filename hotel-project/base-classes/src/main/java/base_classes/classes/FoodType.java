@@ -51,7 +51,7 @@ public class FoodType {
         return "food_type";
     }
 
-    public String search(FTE type) {
+    public static String search(FTE type) {
         String sqlString = "from " + getTableName() + " where ";
         List<String> fields = getFields();
 
@@ -61,6 +61,9 @@ public class FoodType {
                 break;
             case TYPE:
                 sqlString = sqlString + fields.get(1) + " = ";
+                break;
+            case ALL:
+                sqlString = "from " + getTableName();
                 break;
             default:
                 break;

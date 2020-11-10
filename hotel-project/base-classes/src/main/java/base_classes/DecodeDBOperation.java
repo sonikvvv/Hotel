@@ -20,7 +20,7 @@ public class DecodeDBOperation {
                 res.add("false");
                 break;
             case CHECK_USER:
-                User check_user = db.getUser(UE.NAME, data.get(0));
+                User check_user = db.getUser(UE.NAME, data.get(0)).get(0);
                 if (check_user == null)
                     res.add("false");
                 else {

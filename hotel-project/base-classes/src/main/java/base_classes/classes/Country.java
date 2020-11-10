@@ -52,7 +52,7 @@ public class Country {
         return "country";
     }
 
-    public String search(CountryE type) {
+    public static String search(CountryE type) {
         String sqlString = "from " + getTableName() + " where ";
         List<String> fields = getFields();
 
@@ -62,6 +62,9 @@ public class Country {
                 break;
             case COUNTRY_NAME:
                 sqlString = sqlString + fields.get(1) + " = ";
+                break;
+            case ALL:
+                sqlString = "from " + getTableName();
                 break;
             default:
                 break;

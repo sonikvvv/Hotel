@@ -53,7 +53,7 @@ public class RoomType {
         return "room_type";
     }
 
-    public String search(RTE type) {
+    public static String search(RTE type) {
         String sqlString = "from " + getTableName() + " where ";
         List<String> fields = getFields();
 
@@ -63,6 +63,9 @@ public class RoomType {
                 break;
             case TYPE:
                 sqlString = sqlString + fields.get(1) + " = ";
+                break;
+            case ALL:
+                sqlString = "from " + getTableName();
                 break;
             default:
                 break;

@@ -50,7 +50,7 @@ public class RoomStatus {
         return "room_status";
     }
 
-    public String search(SE type) {
+    public static String search(SE type) {
         String sqlString = "from " + getTableName() + " where ";
         List<String> fields = getFields();
 
@@ -60,6 +60,9 @@ public class RoomStatus {
                 break;
             case STATUS:
                 sqlString = sqlString + fields.get(1) + " = ";
+                break;
+            case ALL:
+                sqlString = "from " + getTableName();
                 break;
             default:
                 break;

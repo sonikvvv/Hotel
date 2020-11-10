@@ -57,9 +57,12 @@ public class AdditServicesTest {
 
     @Test
     public void searchTest() {
-        assertEquals(("from " + AdditServices.getTableName() + " where " + test.get(0)+ " = "), ad.search(ADServicesE.ID));
-        assertEquals(("from " + AdditServices.getTableName() + " where " + test.get(1)+ " = "), ad.search(ADServicesE.TITLE));
-        assertEquals(("from " + AdditServices.getTableName() + " where " + test.get(2)+ " = "), ad.search(ADServicesE.PRICE));
+        assertEquals(("from " + AdditServices.getTableName() + " where " + test.get(0)+ " = "), 
+                AdditServices.search(ADServicesE.ID));
+        assertEquals(("from " + AdditServices.getTableName() + " where " + test.get(1)+ " = "), 
+                AdditServices.search(ADServicesE.TITLE));
+        assertEquals(("from " + AdditServices.getTableName() + " where " + test.get(2)+ " = "), 
+                AdditServices.search(ADServicesE.PRICE));
     }
 
     

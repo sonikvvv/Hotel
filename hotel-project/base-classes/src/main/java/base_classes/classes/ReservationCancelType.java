@@ -53,7 +53,7 @@ public class ReservationCancelType {
         return "r_cancel_type";
     }
 
-    public String search(RCTE type) {
+    public static String search(RCTE type) {
         String sqlString = "from " + getTableName() + " where ";
         List<String> fields = getFields();
 
@@ -63,6 +63,9 @@ public class ReservationCancelType {
                 break;
             case CANCEL_TYPE:
                 sqlString = sqlString + fields.get(1) + " = ";
+                break;
+            case ALL:
+                sqlString = "from " + getTableName();
                 break;
             default:
                 break;

@@ -12,5 +12,6 @@ public enum RFE {
     KIDS,
     BABYS,
     FOOD_TYPE,
-    STATUS
+    STATUS,
+    ALL
 }

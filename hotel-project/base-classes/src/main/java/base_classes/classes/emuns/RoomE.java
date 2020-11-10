@@ -5,5 +5,6 @@ public enum RoomE {
     NUMBER,
     RAITING,
     ROOM_TYPE,
-    ROOM_STATUS
+    ROOM_STATUS,
+    ALL
 }

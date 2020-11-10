@@ -1,9 +1,10 @@
 package base_classes.classes.emuns;
 
-public enum UE {
+public enum HE {
     ID,
     NAME,
-    ROLE_ID,
-    ROLE,
+    OWNER,
+    MANAGER,
+    RECEPTIONIST,
     ALL
 }

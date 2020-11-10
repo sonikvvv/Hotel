@@ -7,5 +7,6 @@ public enum ReservE {
     ROOM_TYPE,
     CLIENTS_ID,
     CLIENTS_NAME,
-    RESERVATION_FORM_ID
+    RESERVATION_FORM_ID,
+    ALL
 }
