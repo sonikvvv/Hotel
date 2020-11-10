@@ -70,5 +70,21 @@ public class Hotel {
         this.hotel_name = hotel_name;
     }
 
-    
+    public void addTOWner(User owner) {
+        this.owners.add(owner);
+    }
+
+    public void addToManager(User manager) {
+        this.owners.add(manager);
+    }
+
+    public void addToRezept(User recept) {
+        this.owners.add(recept);
+    }
+
+    @Override
+    public String toString() {
+        return "Hotel [ id = " + this.hotel_id + " owners = " + this.owners + " managers = " + this.managers
+            + " receptionists = " + this.receptionists + " ]";
+    }
 }

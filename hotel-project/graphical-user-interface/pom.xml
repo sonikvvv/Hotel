@@ -14,7 +14,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <base.classes>base-classes\src\main\java</base.classes>
     </properties>
     <dependencies>
         <dependency>
@@ -28,8 +27,8 @@
             <version>13</version>
         </dependency>
         <dependency>
-            <groupId>base_classes</groupId>
-            <artifactId>base-classes</artifactId>
+            <groupId>logic</groupId>
+            <artifactId>bussines-logic</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

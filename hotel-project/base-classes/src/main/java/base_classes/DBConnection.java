@@ -11,38 +11,39 @@ import base_classes.util.HibernateUtil;
 
 
 public class DBConnection {
-    private Session session = HibernateUtil.getSessionFactory().openSession();
+    private Session session;
 
-    private void commit() {
-        session.getTransaction().commit();
-    }
-    
-    public void saveObject(Object object) {
+    public DBConnection(){
+        session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        session.save(object);
-        commit();
     }
 
-    public Boolean login(String name, String pas){
-
-        
-        return false;
+    public void saveObject(Object object) {
+        try {
+            //session.beginTransaction();
+            session.save(object);
+            session.getTransaction().commit();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
-
 
     public User getUser(UE type, String value) {
-        session.getTransaction();
+        //session.beginTransaction();
         Query<User> query = null;
-
-        query = session.createQuery(User.search(type) + value, User.class);
+        if (type == UE.NAME || type == UE.ROLE)
+            query = session.createQuery(User.search(type) + "'" + value + "'", User.class);
+        else 
+            query = session.createQuery(User.search(type), User.class);
 
         List<User> res = query.list(); 
 
-        System.out.println(res);
-        
-        return res.get(0);
+        if (res.isEmpty()) {
+            return null;
+        }else {
+            return res.get(0);
+        }
     }
 
-    
 
 }
