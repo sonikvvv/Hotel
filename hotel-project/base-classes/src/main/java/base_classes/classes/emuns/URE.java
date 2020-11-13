@@ -1,7 +1,8 @@
 package base_classes.classes.emuns;
 
 public enum URE {
-    ID,
-    ROLE,
-    ALL
+    ADMIN,
+    OWNER,
+    MANAGER,
+    RECEPTIONIST
 }

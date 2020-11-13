@@ -18,14 +18,16 @@ public class AdditServices {
     @SequenceGenerator(name = "ads_generator", sequenceName = "ads_seq", allocationSize = 50)
     private int a_serv_id;
     private String a_serv_title;
+    private String a_serv_type;
     private double a_serv_price;
 
     public AdditServices() {
     }
 
-    public AdditServices(String title, double price) {
+    public AdditServices(String title, String type, double price) {
         this.a_serv_title = title;
         this.a_serv_price = price;
+        this.a_serv_type = type;
     }
 
     public int getAddit_services_id() {
@@ -40,6 +42,10 @@ public class AdditServices {
         return a_serv_title;
     }
 
+    public String getA_serv_type() {
+        return a_serv_type;
+    }
+
     public void setAddit_services_id(int addit_services_id) {
         this.a_serv_id = addit_services_id;
     }
@@ -51,6 +57,10 @@ public class AdditServices {
     public void setAddit_services_title(String addit_services_title) {
         this.a_serv_title = addit_services_title;
     }
+    
+    public void setA_serv_type(String a_serv_type) {
+        this.a_serv_type = a_serv_type;
+    }
 
     public static String getTableName() {
         return "add_serv";
@@ -61,11 +71,12 @@ public class AdditServices {
         ls.add("a_serv_id");
         ls.add("a_serv_title");
         ls.add("a_serv_price");
+        ls.add("a_serv_type");
         return ls;
     }
 
     public static String search(ADServicesE type) {
-        String sqlString = "from " + getTableName() + " where ";
+        String sqlString = "from " + getTableName() + "t where t.";
         List<String> fields = getFields();
 
         switch (type) {
@@ -73,10 +84,13 @@ public class AdditServices {
                 sqlString = sqlString + fields.get(0) + " = ";
                 break;
             case TITLE:
-                sqlString = sqlString + fields.get(1) + " = ";
+                sqlString = sqlString + fields.get(1) + " = '";
                 break;
             case PRICE:
                 sqlString = sqlString + fields.get(2) + " = ";
+                break;
+            case TYPE:
+                sqlString = sqlString + fields.get(3) + " = '";
                 break;
             case ALL:
                 sqlString = "from " + getTableName();
@@ -98,7 +112,7 @@ public class AdditServices {
 
     @Override
     public String toString() {
-        return "Additional services [ id = " + this.a_serv_id + " title: " + this.a_serv_title
-                + " price: " + this.a_serv_price + " ]";
+        return "Additional services [ id = " + this.a_serv_id + " title: " + this.a_serv_title +
+                " type: " + this.a_serv_type + " price: " + this.a_serv_price + " ]";
     }
 }

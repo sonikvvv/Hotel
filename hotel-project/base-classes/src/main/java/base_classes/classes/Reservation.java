@@ -13,7 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.SequenceGenerator;
 
 import base_classes.classes.emuns.ReservE;
-import base_classes.classes.emuns.RoomE;
 
 @Entity
 public class Reservation {
@@ -21,19 +20,27 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reserv_generator")
     @SequenceGenerator(name = "reserv_generator", sequenceName = "reserv_seq", allocationSize = 50)
     private int reservation_id;
+
     @OneToOne(cascade = CascadeType.ALL)
     private Room room;
+
     @OneToMany(cascade = CascadeType.ALL)
     private List<Clients> clients;
+
     @OneToOne(cascade = CascadeType.ALL)
     private ReservationForm reservation_form;
+
+    @OneToOne
+    private User receptionist;
+    //TODO: add hotel field
 
     public Reservation() {
     }
 
-    public Reservation(Room room, List<Clients> clients) {
+    public Reservation(Room room, List<Clients> clients, User receptionist) {
         this.room = room;
         this.clients = clients;
+        this.receptionist = receptionist;
     }
 
     public List<Clients> getClients() {
@@ -49,6 +56,10 @@ public class Reservation {
         return reservation_form;
     }
 
+    public User getReceptionist() {
+        return receptionist;
+    }
+
 
     public void setReservation_form(ReservationForm reservation_form) {
         this.reservation_form = reservation_form;
@@ -62,6 +73,9 @@ public class Reservation {
     public void setRoom(Room room) {
         this.room = room;
     }
+    public void setReceptionist(User receptionist) {
+        this.receptionist = receptionist;
+    }
 
     public void addClient(Clients client) {
         this.clients.add(client);
@@ -73,6 +87,7 @@ public class Reservation {
         ls.add("room");
         ls.add("clients");
         ls.add("reservation_form");
+        ls.add("receptionist");
         return ls;
     }
 
@@ -80,8 +95,8 @@ public class Reservation {
         return "reservation";
     }
 
-    public String search(ReservE type) {
-        String sqlString = "from " + getTableName() + " where ";
+    public static String search(ReservE type) {
+        String sqlString = "from " + getTableName() + "t where t.";
         List<String> fields = getFields();
 
         switch (type) {
@@ -89,21 +104,25 @@ public class Reservation {
                 sqlString = sqlString + fields.get(0) + " = ";
                 break;
             case ROOM_ID:
-                sqlString = sqlString + fields.get(1) + " = " + Room.search(RoomE.ID);
+                sqlString = sqlString + fields.get(1) + ".r_id = " ;
                 break;
             case ROOM_NUMBER:
-                sqlString = sqlString + fields.get(1) + " = " + Room.search(RoomE.NUMBER);
+                sqlString = sqlString + fields.get(1) + ".r_number = '" ;
                 break;
             case ROOM_TYPE:
-                sqlString = sqlString + fields.get(1) + " = " + Room.search(RoomE.ROOM_TYPE);
+                sqlString = sqlString + fields.get(1) + ".r_type = '" ;
                 break;
             case CLIENTS_ID:
-                sqlString = sqlString + fields.get(2) + " = from " + Clients.getTableName()
-                    + " where " + Clients.getFields().get(0) + " = ";
+                sqlString = sqlString + fields.get(2) + ".client_id = ";
                 break;
             case RESERVATION_FORM_ID:
-                sqlString = sqlString + fields.get(2) + " = from " + ReservationForm.getTableName()
-                    + " where " + ReservationForm.getFields().get(0) + " = ";
+                sqlString = sqlString + fields.get(3) + ".reservation_form_id = ";
+                break;
+            case RECEPTIONIST_ID:
+                sqlString = sqlString + fields.get(4) + ".user_name = '";
+                break;
+            case RECEPTIONIST_NAME:
+                sqlString = sqlString + fields.get(4) + ".user_id = ";
                 break;
             case ALL:
                 sqlString = "from " + getTableName();

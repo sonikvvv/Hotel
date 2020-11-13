@@ -1,7 +1,10 @@
 package gui.references;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,7 +12,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import logic.OperationType;
 
+@SuppressWarnings("rawtypes")
 public class ReferencesHomeController {
 
     @FXML
@@ -31,10 +36,6 @@ public class ReferencesHomeController {
         recep_choice.getItems().setAll("Test1", "Test2", "Test3");
     }
 
-    private Date getDate(LocalDate date){
-        return java.sql.Date.valueOf(date);
-    }
-
     @FXML
     void comboBox(ActionEvent event) {
         setItems();
@@ -49,10 +50,19 @@ public class ReferencesHomeController {
 
     @FXML
     void clientInfoBtn(ActionEvent event) {
-        Date fromD = getDate(fromDate.getValue());
-        //Date toD = getDate(toDate.getValue());
-        System.out.println(fromD);
         
+        LocalDate fromD = fromDate.getValue();
+        LocalDate toD = toDate.getValue();
+        
+        List<String> data = new ArrayList<>();
+        data.add(fromD.toString());
+        data.add(toD.toString());
+
+        //List res = DecodeLogicOperation.decodeLogicOperation(OperationType.CLIENT_INFO, null, data);
+        
+        //TODO: parse and visialize
+        
+            
     }
 
     @FXML

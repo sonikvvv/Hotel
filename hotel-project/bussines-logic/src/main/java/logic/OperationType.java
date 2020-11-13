@@ -1,10 +1,15 @@
 package logic;
 
 public enum OperationType {
-    LOGIN,
+    SAVE,
+    GET_USER,
+    CHECK_USER,
     CLIENT_INFO,
-    HOTEL_AND_SERVICES,
-    RECEPTIONIST,
-    CREATED_RESERV,
-    ROOM_RAITING
+    USED_SERVICES,
+    CLIENT_RAITING,
+    CREATED_RESERVATIONS,
+    RECEPT,
+    ROOM_RAITING,
+    UPDATE,
+    LOGIN
 }

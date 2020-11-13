@@ -13,5 +13,6 @@ public enum RFE {
     BABYS,
     FOOD_TYPE,
     STATUS,
+    CLIENT_NAME,
     ALL
 }

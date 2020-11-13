@@ -53,7 +53,7 @@ public class Country {
     }
 
     public static String search(CountryE type) {
-        String sqlString = "from " + getTableName() + " where ";
+        String sqlString = "from " + getTableName() + "t where t.";
         List<String> fields = getFields();
 
         switch (type) {
@@ -61,7 +61,7 @@ public class Country {
                 sqlString = sqlString + fields.get(0) + " = ";
                 break;
             case COUNTRY_NAME:
-                sqlString = sqlString + fields.get(1) + " = ";
+                sqlString = sqlString + "lower(" + fields.get(1) + ") = lower('";
                 break;
             case ALL:
                 sqlString = "from " + getTableName();

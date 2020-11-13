@@ -13,6 +13,6 @@ public class LoginOperationTest {
         List<String> tes = new ArrayList<>();
         tes.add("ves");
         tes.add("test");
-        LoginOperation.authenticationOperation(tes);
+        //LoginOperations.authenticationOperation(tes);
     }
 }

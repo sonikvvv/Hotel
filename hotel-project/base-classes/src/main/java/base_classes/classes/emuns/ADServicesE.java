@@ -4,5 +4,6 @@ public enum ADServicesE {
     ID,
     TITLE,
     PRICE,
+    TYPE,
     ALL
 }

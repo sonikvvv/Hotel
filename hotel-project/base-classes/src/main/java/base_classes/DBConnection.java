@@ -1,5 +1,6 @@
 package base_classes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -9,22 +10,34 @@ import base_classes.classes.*;
 import base_classes.classes.emuns.*;
 import base_classes.util.HibernateUtil;
 
-
 public class DBConnection {
     private Session session;
 
-    public DBConnection(){
+    public DBConnection() {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
     }
 
+    public Session getSession() {
+        return session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
+    }
+
     public void saveObject(Object object) {
         try {
+            session.clear();
             session.save(object);
-            session.getTransaction().commit();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
+            session.getTransaction().rollback();
         }
+    }
+
+    public void updateObject(Object object) {
+        session.update(object);
     }
 
     public List<User> getUserList(UE type, String value) {
@@ -33,12 +46,11 @@ public class DBConnection {
 
         switch (type) {
             case ID:
-            case ROLE_ID:
                 sql_comand = User.search(type) + value;
                 break;
             case NAME:
             case ROLE:
-                sql_comand = User.search(type) + "'" + value + "'";
+                sql_comand = User.search(type) + value + "'";
                 break;
             case ALL:
                 sql_comand = User.search(type);
@@ -46,50 +58,23 @@ public class DBConnection {
             default:
                 break;
         }
-        
+
         query = session.createQuery(sql_comand, User.class);
         List<User> res = query.list(); 
 
+        // session.close(); session.transa
         if (res.isEmpty()) {
             return null;
-        }else {
+        } else {
             return res;
         }
     }
 
-    public List<UserRoles> getUserRolesList(URE type, String value) {
-        Query<UserRoles> query = null;
-        String sql_comand = "";
-
-        switch (type) {
-            case ID:
-                sql_comand = UserRoles.search(type) + value;
-                break;
-            case ROLE:
-                sql_comand = UserRoles.search(type) + "'" + value + "'";
-                break;
-            case ALL:
-                sql_comand = UserRoles.search(type);
-                break;
-            default:
-                break;
-        }
-        
-        query = session.createQuery(sql_comand, UserRoles.class);
-        List<UserRoles> res = query.list(); 
-
-        if (res.isEmpty()) {
-            return null;
-        }else {
-            return res;
-        }
-    }
-
-    public List<Clients> getClientsList(ClientsE type, String value){
+    public List<Clients> getClientsList(ClientsE type, String value) {
         Query<Clients> query = null;
         String sql_comand = "";
-        switch (type ) {
-            case ID: 
+        switch (type) {
+            case ID:
             case RATING:
             case COUNTRY_ID:
                 sql_comand = Clients.search(type) + value;
@@ -103,16 +88,16 @@ public class DBConnection {
             case COUNTRY_NAME:
             case CHECK_IN:
             case CHECK_OUT:
-                sql_comand = Clients.search(type) + "'" + value + "'";
+                sql_comand = Clients.search(type) + value + "'";
                 break;
             case ALL:
-                sql_comand = Clients.search(type);
+                sql_comand = "select t from " + Clients.getTableName() + " t";
                 break;
-        
+
             default:
                 break;
         }
-        
+
         query = session.createQuery(sql_comand, Clients.class);
         List<Clients> res = query.list();
 
@@ -162,7 +147,7 @@ public class DBConnection {
                 break;
             case ADDIT_SERVICE_NAME:
             case DATE:
-                sql_comand = ClientUsedServices.search(type) + "'" + value + "'";
+                sql_comand = ClientUsedServices.search(type) + value + "'";
                 break;
             case ALL:
                 sql_comand = ClientUsedServices.search(type);
@@ -190,7 +175,7 @@ public class DBConnection {
                 sql_comand = Country.search(type) + value;
                 break;
             case COUNTRY_NAME:
-                sql_comand = Country.search(type) + "'" + value + "'";
+                sql_comand = Country.search(type) + value + "')";
                 break;
             case ALL:
                 sql_comand = Country.search(type);
@@ -210,111 +195,30 @@ public class DBConnection {
         }
     }
 
-    public List<FoodType> getFoodTypeList(FTE type, String value) {
-        Query<FoodType> query = null;
-        String sql_comand = "";
-        switch (type) {
-            case ID:
-                sql_comand = FoodType.search(type) + value;
-                break;
-            case TYPE:
-                sql_comand = FoodType.search(type) + "'" + value + "'";
-                break;
-            case ALL:
-                sql_comand = FoodType.search(type);
-                break;
-            default:
-                break;
-        }
-
-        query = session.createQuery(sql_comand, FoodType.class);
-        List<FoodType> res = query.list();
-
-        if (res.isEmpty()) {
-            return null;
-        } else {
-            return res;
-        }
-    }
-
-    public List<RoomType> getRoomTypeList(RTE type, String value) {
-        Query<RoomType> query = null;
-        String sql_comand = "";
-        switch (type) {
-            case ID:
-                sql_comand = RoomType.search(type) + value;
-                break;
-            case TYPE:
-                sql_comand = RoomType.search(type) + "'" + value + "'";
-                break;
-            case ALL:
-                sql_comand = RoomType.search(type);
-                break;
-            default:
-                break;
-        }
-
-        query = session.createQuery(sql_comand, RoomType.class);
-        List<RoomType> res = query.list();
-
-        if (res.isEmpty()) {
-            return null;
-        } else {
-            return res;
-        }
-    }
-    
-    public List<RoomStatus> getRoomStatusList(SE type, String value) {
-        Query<RoomStatus> query = null;
-        String sql_comand = "";
-        switch (type) {
-            case ID:
-                sql_comand = RoomStatus.search(type) + value;
-                break;
-            case STATUS:
-                sql_comand = RoomStatus.search(type) + "'" + value + "'";
-                break;
-            case ALL:
-                sql_comand = RoomStatus.search(type);
-                break;
-            default:
-                break;
-        }
-
-        query = session.createQuery(sql_comand, RoomStatus.class);
-        List<RoomStatus> res = query.list();
-
-        if (res.isEmpty()) {
-            return null;
-        } else {
-            return res;
-        }
-    }
-
-    public List<Room> getRoomList(RoomE type, String value) { //? TODO: look whats the result from the combined quereis
+    public List<Room> getRoomList(RoomE type, String value) { // ? TODO: look whats the result from the combined quereis
         Query<Room> query = null;
         String sql_comand = "";
+        List<Room> res = null;
+
         switch (type) {
             case ID:
-            case NUMBER:
             case RAITING:
                 sql_comand = Room.search(type) + value;
                 break;
+            case NUMBER:
             case ROOM_TYPE:
-                sql_comand = Room.search(type) + "'" + value + "'";
-                break;
             case ROOM_STATUS:
-                sql_comand = Room.search(type) + "'" + value + "'";
+                sql_comand = Room.search(type) + value + "'";
                 break;
             case ALL:
-                sql_comand = Room.search(type);
+                sql_comand = Room.search(RoomE.ALL);
                 break;
             default:
                 break;
         }
 
         query = session.createQuery(sql_comand, Room.class);
-        List<Room> res = query.list();
+        res= query.getResultList();
 
         if (res.isEmpty()) {
             return null;
@@ -323,25 +227,16 @@ public class DBConnection {
         }
     }
 
-    public List<ReservationType> getReservationTypeList(RTE type, String value) {
-        Query<ReservationType> query = null;
+    public List<Clients> getClientFromDate(String from_date, String to_date) {
+        Query<Clients> query = null;
         String sql_comand = "";
-        switch (type) {
-            case ID:
-                sql_comand = ReservationType.search(type) + value;
-                break;
-            case TYPE:
-                sql_comand = ReservationType.search(type) + "'" + value + "'";
-                break;
-            case ALL:
-                sql_comand = ReservationType.search(type);
-                break;
-            default:
-                break;
-        }
+        List<Clients> res = null;
 
-        query = session.createQuery(sql_comand, ReservationType.class);
-        List<ReservationType> res = query.list();
+        sql_comand = "from " + Clients.getTableName() + "t where t." + Clients.getFields().get(9) + " BETWEEN to_date('"
+                + from_date + "', 'YYYY-MM-DD') AND to_date('" + to_date + "', 'YYYY-MM-DD')";
+
+        query = session.createQuery(sql_comand, Clients.class);
+        res = query.getResultList();
 
         if (res.isEmpty()) {
             return null;
@@ -350,52 +245,16 @@ public class DBConnection {
         }
     }
 
-    public List<ReservationStatus> getReservationStatusList(SE type, String value) {
-        Query<ReservationStatus> query = null;
+    public List<ClientUsedServices> getUsedServiceFromDate(String from_date, String to_date) {
+        Query<ClientUsedServices> query = null;
         String sql_comand = "";
-        switch (type) {
-            case ID:
-                sql_comand = ReservationStatus.search(type) + value;
-                break;
-            case STATUS:
-                sql_comand = ReservationStatus.search(type) + "'" + value + "'";
-                break;
-            case ALL:
-                sql_comand = ReservationStatus.search(type);
-                break;
-            default:
-                break;
-        }
+        List<ClientUsedServices> res = null;
 
-        query = session.createQuery(sql_comand, ReservationStatus.class);
-        List<ReservationStatus> res = query.list();
+        sql_comand = "from " + ClientUsedServices.getTableName() + "t where t." + ClientUsedServices.getFields().get(3) 
+                + " BETWEEN to_date('" + from_date + "', 'YYYY-MM-DD') AND to_date('" + to_date + "', 'YYYY-MM-DD')";
 
-        if (res.isEmpty()) {
-            return null;
-        } else {
-            return res;
-        }
-    }
-
-    public List<ReservationCancelType> getReservationCancelTypeList(RCTE type, String value) {
-        Query<ReservationCancelType> query = null;
-        String sql_comand = "";
-        switch (type) {
-            case ID:
-                sql_comand = ReservationCancelType.search(type) + value;
-                break;
-            case CANCEL_TYPE:
-                sql_comand = ReservationCancelType.search(type) + "'" + value + "'";
-                break;
-            case ALL:
-                sql_comand = ReservationCancelType.search(type);
-                break;
-            default:
-                break;
-        }
-
-        query = session.createQuery(sql_comand, ReservationCancelType.class);
-        List<ReservationCancelType> res = query.list();
+        query = session.createQuery(sql_comand, ClientUsedServices.class);
+        res = query.getResultList();
 
         if (res.isEmpty()) {
             return null;
@@ -405,6 +264,53 @@ public class DBConnection {
     }
 
     public void getReservationFormList() { // ? TODO: look whats the result from the combined quereis
-        
+
+    }
+
+    public void getReservationList() { // ? TODO: look whats the result from the combined quereis
+
+    }
+
+    public List<Reservation> getReservationFromDate(String from_date, String to_date) {
+        Query<Reservation> query = null;
+        String sql_comand = "";
+        List<Reservation> res = null;
+
+        sql_comand = "from " + Reservation.getTableName() + "t where t." + Reservation.getFields().get(3) + "."
+                + ReservationForm.getFields().get(4) + " BETWEEN to_date('" + from_date
+                + "', 'YYYY-MM-DD') AND to_date('" + to_date + "', 'YYYY-MM-DD')";
+
+        query = session.createQuery(sql_comand, Reservation.class);
+        res = query.getResultList();
+
+        if (res.isEmpty()) {
+            return null;
+        } else {
+            return res;
+        }
+    }
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public List getRceptionistReservations(String recept_name) {
+        Query<User> query = null;
+        String sql_comand = "";
+        List res = new ArrayList<>();
+
+        sql_comand = User.search(UE.NAME) + recept_name + "'";
+
+        query = session.createQuery(sql_comand, User.class);
+        User recept = query.getSingleResult();
+
+        sql_comand = Reservation.search(ReservE.RECEPTIONIST_ID) + recept.getUser_id();
+        query = session.createQuery(sql_comand, User.class);
+        res = query.getResultList();
+
+        res.add(recept);
+
+        if (res.isEmpty()) {
+            return null;
+        } else {
+            return res;
+        }
     }
 }

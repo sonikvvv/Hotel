@@ -24,7 +24,7 @@ public class AdditServicesTest {
         test.add("a_serv_id");
         test.add("a_serv_title");
         test.add("a_serv_price");
-        ad = new AdditServices(title, price);
+        //ad = new AdditServices(title, price);
         ad.setAddit_services_id(id);
     }
 
@@ -57,11 +57,11 @@ public class AdditServicesTest {
 
     @Test
     public void searchTest() {
-        assertEquals(("from " + AdditServices.getTableName() + " where " + test.get(0)+ " = "), 
+        assertEquals(("from " + AdditServices.getTableName() + "t where t." + test.get(0)+ " = "), 
                 AdditServices.search(ADServicesE.ID));
-        assertEquals(("from " + AdditServices.getTableName() + " where " + test.get(1)+ " = "), 
+        assertEquals(("from " + AdditServices.getTableName() + "t where t." + test.get(1)+ " = '"), 
                 AdditServices.search(ADServicesE.TITLE));
-        assertEquals(("from " + AdditServices.getTableName() + " where " + test.get(2)+ " = "), 
+        assertEquals(("from " + AdditServices.getTableName() + "t where t." + test.get(2)+ " = "), 
                 AdditServices.search(ADServicesE.PRICE));
     }
 

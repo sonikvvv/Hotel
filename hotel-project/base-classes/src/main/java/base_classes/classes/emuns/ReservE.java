@@ -8,5 +8,7 @@ public enum ReservE {
     CLIENTS_ID,
     CLIENTS_NAME,
     RESERVATION_FORM_ID,
+    RECEPTIONIST_ID,
+    RECEPTIONIST_NAME,
     ALL
 }

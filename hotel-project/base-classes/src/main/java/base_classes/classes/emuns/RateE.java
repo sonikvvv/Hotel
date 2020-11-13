@@ -1,7 +1,6 @@
 package base_classes.classes.emuns;
 
-public enum FTE {
+public enum RateE {
     ID,
-    TYPE,
-    ALL
+    DATE 
 }

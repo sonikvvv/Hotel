@@ -4,10 +4,9 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="690.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="690.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.references.Client_infoController">
    <children>
-      <TableView prefHeight="670.0" prefWidth="690.0">
+      <TableView fx:id="clients_table" prefHeight="670.0" prefWidth="690.0">
         <columns>
           <TableColumn fx:id="number_col" prefWidth="70.0" text="Number" />
           <TableColumn fx:id="name_col" prefWidth="250.0" text="Name" />

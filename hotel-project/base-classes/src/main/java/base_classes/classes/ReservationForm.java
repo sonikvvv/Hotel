@@ -4,21 +4,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import base_classes.classes.emuns.RFE;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.SequenceGenerator;
-
-import base_classes.classes.emuns.FTE;
-import base_classes.classes.emuns.RCTE;
-import base_classes.classes.emuns.RFE;
-import base_classes.classes.emuns.RTE;
-import base_classes.classes.emuns.SE;
 
 /**
  * The {@code Reservation Form} class contains the information, that the hotel
@@ -31,15 +26,10 @@ public class ReservationForm {
     @SequenceGenerator(name = "rf_generator", sequenceName = "rf_seq", allocationSize = 50)
     private int reservation_form_id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private ReservationType reservation_type;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private RoomType room_type;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private ReservationCancelType cancel_type;
-    private String vaucher;
+    private String reservation_type;
+    private String room_type;
+    private String cancel_type;
+    private String client_name;
 
     @Temporal(TemporalType.DATE)
     private Date start_date;
@@ -50,27 +40,20 @@ public class ReservationForm {
     private int adults;
     private int kids;
     private int babys;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private FoodType food_type;
-
+    private String food_type;
     private double total_price;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private ReservationStatus status;
-
+    private String status;
     private String notes;
 
     public ReservationForm() {
     }
 
-    public ReservationForm(ReservationType reservation_type, RoomType room_type, ReservationCancelType cancel_type,
-            String vaucher, Date start_date, Date end_date, int adults, int kids, int babys, FoodType food_type,
-            double total_price, ReservationStatus status, String notes) {
+    public ReservationForm(String reservation_type, String room_type, String cancel_type,
+            Date start_date, Date end_date, int adults, int kids, int babys, String food_type, double total_price,
+            String status, String notes, String client_name) {
         this.reservation_type = reservation_type;
         this.room_type = room_type;
         this.cancel_type = cancel_type;
-        this.vaucher = vaucher;
         this.start_date = start_date;
         this.end_date = end_date;
         this.adults = adults;
@@ -80,6 +63,7 @@ public class ReservationForm {
         this.total_price = total_price;
         this.status = status;
         this.notes = notes;
+        this.client_name = client_name;
     }
 
     public int getAdults() {
@@ -90,7 +74,7 @@ public class ReservationForm {
         return babys;
     }
 
-    public ReservationCancelType getCancel_type() {
+    public String getCancel_type() {
         return cancel_type;
     }
 
@@ -98,7 +82,7 @@ public class ReservationForm {
         return end_date;
     }
 
-    public FoodType getFood_type() {
+    public String getFood_type() {
         return food_type;
     }
 
@@ -114,11 +98,11 @@ public class ReservationForm {
         return reservation_form_id;
     }
 
-    public ReservationType getReservation_type() {
+    public String getReservation_type() {
         return reservation_type;
     }
 
-    public RoomType getRoom_type() {
+    public String getRoom_type() {
         return room_type;
     }
 
@@ -126,7 +110,7 @@ public class ReservationForm {
         return start_date;
     }
 
-    public ReservationStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 
@@ -134,9 +118,11 @@ public class ReservationForm {
         return total_price;
     }
 
-    public String getVaucher() {
-        return vaucher;
+    public String getClient_name() {
+        return client_name;
     }
+
+
 
     public void setAdults(int adults) {
         this.adults = adults;
@@ -146,7 +132,7 @@ public class ReservationForm {
         this.babys = babys;
     }
 
-    public void setCancel_type(ReservationCancelType cancel_type) {
+    public void setCancel_type(String cancel_type) {
         this.cancel_type = cancel_type;
     }
 
@@ -154,7 +140,7 @@ public class ReservationForm {
         this.end_date = end_date;
     }
 
-    public void setFood_type(FoodType food_type) {
+    public void setFood_type(String food_type) {
         this.food_type = food_type;
     }
 
@@ -170,11 +156,11 @@ public class ReservationForm {
         this.reservation_form_id = reservation_form_id;
     }
 
-    public void setReservation_type(ReservationType reservation_type) {
+    public void setReservation_type(String reservation_type) {
         this.reservation_type = reservation_type;
     }
 
-    public void setRoom_type(RoomType room_type) {
+    public void setRoom_type(String room_type) {
         this.room_type = room_type;
     }
 
@@ -182,7 +168,7 @@ public class ReservationForm {
         this.start_date = start_date;
     }
 
-    public void setStatus(ReservationStatus status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -190,8 +176,8 @@ public class ReservationForm {
         this.total_price = total_price;
     }
 
-    public void setVaucher(String vaucher) {
-        this.vaucher = vaucher;
+    public void setClient_name(String client_name) {
+        this.client_name = client_name;
     }
 
     public static List<String> getFields() {
@@ -200,7 +186,6 @@ public class ReservationForm {
         ls.add("reservation_type");
         ls.add("room_type");
         ls.add("cancel_type");
-        ls.add("vaucher");
         ls.add("start_date");
         ls.add("end_date");
         ls.add("adults");
@@ -208,6 +193,7 @@ public class ReservationForm {
         ls.add("babys");
         ls.add("food_type");
         ls.add("status");
+        ls.add("client_name");
         return ls;
     }
 
@@ -224,22 +210,19 @@ public class ReservationForm {
                 sqlString = sqlString + fields.get(0) + " = ";
                 break;
             case TYPE:
-                sqlString = sqlString + fields.get(1) + " = " + ReservationType.search(RTE.TYPE);
+                sqlString = sqlString + fields.get(1) + " = '";
                 break;
             case ROOM_TYPE:
-                sqlString = sqlString + fields.get(2) + " = " + RoomType.search(RTE.TYPE);
+                sqlString = sqlString + fields.get(2) + " = '";
                 break;
             case CANCEL_TYPE:
-                sqlString = sqlString + fields.get(3) + " = " + ReservationCancelType.search(RCTE.CANCEL_TYPE);
-                break;
-            case VAUCHER:
-                sqlString = sqlString + fields.get(4) + " = ";
+                sqlString = sqlString + fields.get(3) + " = '";
                 break;
             case START_DATE:
-                sqlString = sqlString + fields.get(5) + " = ";
+                sqlString = sqlString + fields.get(5) + " like to_date('";
                 break;
             case END_DATE:
-                sqlString = sqlString + fields.get(6) + " = ";
+                sqlString = sqlString + fields.get(6) + " like to_date('";
                 break;
             case ADULTS:
                 sqlString = sqlString + fields.get(7) + " = ";
@@ -251,11 +234,13 @@ public class ReservationForm {
                 sqlString = sqlString + fields.get(9) + " = ";
                 break;
             case FOOD_TYPE:
-                sqlString = sqlString + fields.get(10) + " = " + FoodType.search(FTE.TYPE);
+                sqlString = sqlString + fields.get(10) + " = '";
                 break;
             case STATUS:
-                sqlString = sqlString + fields.get(11) + " = " + ReservationStatus.search(SE.STATUS);
+                sqlString = sqlString + fields.get(11) + " = '";
                 break;
+            case CLIENT_NAME:
+                sqlString = sqlString + fields.get(12) + " = '";
             case ALL:
                 sqlString = "from " + getTableName();
                 break;
@@ -269,13 +254,11 @@ public class ReservationForm {
 
     @Override
     public String toString() {
-        return "Reservation form [ id = " + this.reservation_form_id + " reservation type: "
-                + this.reservation_type.getR_type() + " room type: " + this.room_type.getRoom_type()
-                + " cancel type: " + this.cancel_type.getReservation_cancel_type() + " vaucher: " + this.vaucher
+        return "Reservation form [ id = " + this.reservation_form_id + " reservation type: " + this.reservation_type
+                + " room type: " + this.room_type + " cancel type: " + this.cancel_type + " client name: " + this.client_name
                 + " start date: " + this.start_date + " end date: " + this.end_date + " adults: " + this.adults
-                + " kids: " + this.kids + " babys: " + this.babys + " food type: " + this.food_type.getFood_type()
-                + " total price: " + this.total_price + " status: " + this.status.getReservation_status() + " note: "
-                + this.notes + " ]";
+                + " kids: " + this.kids + " babys: " + this.babys + " food type: " + this.food_type + " total price: "
+                + this.total_price + " status: " + this.status + " note: " + this.notes + " ]";
     }
 
 }

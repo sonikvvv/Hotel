@@ -1,7 +1,9 @@
 package base_classes.classes.emuns;
 
 public enum SE {
-    ID,
-    STATUS,
-    ALL
+    DIRTY,
+    OUT_OF_ORDER,
+    RESERVED,
+    OCCUPIED,
+    FREE
 }

@@ -21,10 +21,13 @@ public class Hotel {
     @SequenceGenerator(name = "hotel_generator", sequenceName = "hotel_seq", allocationSize = 50)
     private int hotel_id;
     private String hotel_name;
+
     @OneToMany(cascade = CascadeType.ALL)
     private List<User> owners;
+
     @OneToMany(cascade = CascadeType.ALL)
     private List<User> managers;
+    
     @OneToMany(cascade = CascadeType.ALL)
     private List<User> receptionists;
 

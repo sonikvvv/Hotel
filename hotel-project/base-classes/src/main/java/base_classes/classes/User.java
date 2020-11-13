@@ -3,15 +3,16 @@ package base_classes.classes;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 import base_classes.classes.emuns.UE;
+import base_classes.classes.emuns.URE;
 
 
 @Entity(name = "app_user")
@@ -23,12 +24,12 @@ public class User {
     private String user_name;
     private String user_password;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private UserRoles user_role;
+    @Enumerated(EnumType.STRING)
+    private URE user_role;
 
     public User() {}
 
-    public User(String name, String password, UserRoles role) {
+    public User(String name, String password, URE role) {
         this.user_name = name;
         this.user_password = password;
         this.user_role = role;
@@ -46,7 +47,7 @@ public class User {
         this.user_password = user_password;
     }
 
-    public void setUser_role(UserRoles user_role) {
+    public void setUser_role(URE user_role) {
         this.user_role = user_role;
     }
 
@@ -62,7 +63,7 @@ public class User {
         return user_password;
     }
 
-    public UserRoles getUser_role() {
+    public URE getUser_role() {
         return user_role;
     }
 
@@ -71,6 +72,7 @@ public class User {
         ls.add("user_id");
         ls.add("user_name");
         ls.add("user_password");
+        ls.add("user_role");
         return ls;
     }
 
@@ -79,7 +81,7 @@ public class User {
     }
 
     public static String search(UE type) {
-        String sqlString = "from " + getTableName() + " where ";
+        String sqlString = "from " + getTableName() + " t where t.";
         List<String> fields = getFields();
 
         switch (type) {
@@ -87,7 +89,10 @@ public class User {
                 sqlString = sqlString + fields.get(0) + " = ";
                 break;
             case NAME:
-                sqlString = sqlString + fields.get(1) + " = ";
+                sqlString = sqlString + fields.get(1) + " = '";
+                break;
+            case ROLE:
+                sqlString = sqlString + fields.get(3) + " = '";
                 break;
             case ALL:
                 sqlString = "from " + getTableName();
@@ -101,7 +106,12 @@ public class User {
 
     @Override
     public String toString() {
-        return "User [ id = " + this.user_id + " username: " + this.user_name + " role: " + this.user_role.getRole_title() + " ]";
+        return "User [ id = " + this.user_id + " username: " + this.user_name + " role: " + this.user_role + " ]";
+    }
+
+    public static void main(String[] args) { // User [ id = 0 username: ves role: ADMIN ]
+        User ur = new User("ves", "test", URE.ADMIN);
+        System.out.println(ur);
     }
     
 }

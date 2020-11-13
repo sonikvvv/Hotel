@@ -14,7 +14,6 @@ import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.Type;
 
-import base_classes.classes.emuns.ADServicesE;
 import base_classes.classes.emuns.CUSe;
 
 @Entity(name = "c_used_serv")
@@ -105,7 +104,7 @@ public class ClientUsedServices {
     }
 
     public static String search(CUSe type) {
-        String sqlString = "from " + getTableName() + " where ";
+        String sqlString = "from " + getTableName() + "t where t.";
         List<String> fields = getFields();
 
         switch (type) {
@@ -113,16 +112,16 @@ public class ClientUsedServices {
                 sqlString = sqlString + fields.get(0) + " = ";
                 break;
             case ADDIT_SERVICE_ID:
-                sqlString = sqlString + fields.get(1) + " = ";
+                sqlString = sqlString + fields.get(1) + ".a_serv_id = ";
                 break;
             case ADDIT_SERVICE_NAME:
-                sqlString = sqlString + fields.get(1) + " = " + AdditServices.search(ADServicesE.TITLE);
+                sqlString = sqlString + fields.get(1) + ".a_serv_title = '";
                 break;
             case QUANTITY:
                 sqlString = sqlString + fields.get(2) + " = ";
                 break;
             case DATE:
-                sqlString = sqlString + fields.get(3) + " = ";
+                sqlString = sqlString + fields.get(3) + " like to_date('";
                 break;
             case ALL:
                 sqlString = "from " + getTableName();

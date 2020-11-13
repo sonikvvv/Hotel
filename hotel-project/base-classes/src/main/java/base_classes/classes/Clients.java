@@ -12,15 +12,16 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Type;
 
 import base_classes.classes.emuns.ClientsE;
-import base_classes.classes.emuns.CountryE;
 
-@Entity
+@Entity(name = "clients")
+@Table(name = "clients")
 public class Clients {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_generator")
@@ -38,7 +39,6 @@ public class Clients {
     @Temporal(TemporalType.DATE)
     private Date client_passport_date;
     private String client_car_number;
-    private double client_rating;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Country client_country;
@@ -49,11 +49,12 @@ public class Clients {
     private Date check_in;
     private Date check_out;
     private double total = 0;
+    private String vaucher;
 
     public Clients() {}
 
     public Clients(String name, Date birth_date, boolean sex, String passport_number, Date passport_date,
-            String car_number, double rating, Country country, String client_note) {
+            String car_number, Country country, String client_note, String vaucher) {
 
         this.client_name = name;
         this.client_birth_date = birth_date;
@@ -61,10 +62,10 @@ public class Clients {
         this.client_passport_number = passport_number;
         this.client_passport_date = passport_date;
         this.client_car_number = car_number;
-        this.client_rating = rating;
         this.client_country = country;
         this.client_note = client_note;
         this.check_in = new Date();
+        this.vaucher = vaucher;
     }
 
     public Date getClient_birth_date() {
@@ -95,10 +96,6 @@ public class Clients {
         return client_passport_number;
     }
 
-    public double getClient_rating() {
-        return client_rating;
-    }
-
     public boolean getClient_sex() {
         return client_sex;
     }
@@ -122,6 +119,11 @@ public class Clients {
     public double getTotal() {
         return total;
     }
+
+    public String getVaucher() {
+        return vaucher;
+    }
+
 
 
 
@@ -153,10 +155,6 @@ public class Clients {
         this.client_passport_number = client_passport_number;
     }
 
-    public void setClient_rating(double client_rating) {
-        this.client_rating = client_rating;
-    }
-
     public void setClient_sex(boolean client_sex) {
         this.client_sex = client_sex;
     }
@@ -184,6 +182,10 @@ public class Clients {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public void setVaucher(String vaucher) {
+        this.vaucher = vaucher;
     }
 
     public void checkOut() {
@@ -215,15 +217,15 @@ public class Clients {
         ls.add("client_passport_number");
         ls.add("client_passport_date");
         ls.add("client_car_number");
-        ls.add("client_rating");
         ls.add("client_country");
         ls.add("check_in");
         ls.add("check_out");
+        ls.add("vaucher");
         return ls;
     }
 
     public static String search(ClientsE type) {
-        String sqlString = "from " + getTableName() + " where ";
+        String sqlString = "from " + getTableName() + " t where t.";
         List<String> fields = getFields();
 
         switch (type) {
@@ -231,10 +233,10 @@ public class Clients {
                 sqlString = sqlString + fields.get(0) + " = ";
                 break;
             case NAME:
-                sqlString = sqlString + fields.get(1) + " = ";
+                sqlString = sqlString + "lower(" + fields.get(1) + ")" + " = ";
                 break;
             case BIRTH_DATE:
-                sqlString = sqlString + fields.get(2) + " = ";
+                sqlString = sqlString + fields.get(2) + " like ";
                 break;
             case SEX:
                 sqlString = sqlString + fields.get(3) + " = ";
@@ -243,25 +245,25 @@ public class Clients {
                 sqlString = sqlString + fields.get(4) + " = ";
                 break;
             case PASSPORT_DATE:
-                sqlString = sqlString + fields.get(5) + " = ";
+                sqlString = sqlString + fields.get(5) + " like ";
                 break;
             case CAR_NUMBER:
                 sqlString = sqlString + fields.get(6) + " = ";
-                break;
-            case RATING:
-                sqlString = sqlString + fields.get(7) + " = ";
                 break;
             case COUNTRY_ID:
                 sqlString = sqlString + fields.get(8) + " = ";
                 break;
             case COUNTRY_NAME:
-                sqlString = sqlString + fields.get(8) + " = " + Country.search(CountryE.COUNTRY_NAME);
+                sqlString = sqlString + "lower(" + fields.get(8) + "." + Country.getFields().get(1) + "=";
                 break;
             case CHECK_IN:
-                sqlString = sqlString + fields.get(9) + " = ";
+                sqlString = sqlString + fields.get(9) + " like ";
                 break;
             case CHECK_OUT:
-                sqlString = sqlString + fields.get(10) + " = ";
+                sqlString = sqlString + fields.get(10) + " like ";
+                break;
+            case VAUCHER:
+                sqlString = sqlString + fields.get(11) + " = '";
                 break;
             case ALL:
                 sqlString = "from " + getTableName();
@@ -279,7 +281,7 @@ public class Clients {
                 + this.client_country.getCountry_name() + " birth date: "
                 + this.client_birth_date + " sex: " + this.client_sex + " passport number: "
                 + this.client_passport_number + " passport end date: " + this.client_passport_date + " car number: "
-                + this.client_car_number + " rating: " + this.client_rating + " note: " + this.client_note 
+                + this.client_car_number + " note: " + this.client_note 
                 + " additional services: " + this.cuds + " ]";
     }
 }
