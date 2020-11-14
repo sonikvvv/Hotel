@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="room_rait_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="690.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.references.Room_RaitController">
+   <children>
+      <TableView fx:id="room_rait_table" prefHeight="670.0" prefWidth="690.0">
+         <columns>
+            <TableColumn fx:id="number_col" prefWidth="56.0" text="Number" />
+            <TableColumn fx:id="room_num_col" minWidth="0.0" prefWidth="180.0" text="Room number" />
+            <TableColumn fx:id="type_col" prefWidth="150.0" text="Type" />
+            <TableColumn fx:id="status_col" prefWidth="150.0" text="Status" />
+            <TableColumn fx:id="raiting_col" prefWidth="150.0" text="Rating" />
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>

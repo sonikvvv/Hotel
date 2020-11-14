@@ -7,15 +7,15 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="690.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.references.Client_infoController">
    <children>
       <TableView fx:id="clients_table" prefHeight="670.0" prefWidth="690.0">
-        <columns>
-          <TableColumn fx:id="number_col" prefWidth="70.0" text="Number" />
-          <TableColumn fx:id="name_col" prefWidth="250.0" text="Name" />
+         <columns>
+            <TableColumn fx:id="number_col" prefWidth="55.0" text="Number" />
+            <TableColumn fx:id="name_col" prefWidth="240.0" text="Name" />
             <TableColumn fx:id="country_col" minWidth="0.0" prefWidth="60.0" text="Country" />
-            <TableColumn fx:id="food_col" prefWidth="60.0" text="Food" />
-            <TableColumn fx:id="checkOut_col" text="Check Out" />
-            <TableColumn fx:id="checkIn_col" text="Check In" />
-            <TableColumn fx:id="vaucher_col" prefWidth="90.0" text="Vaucher" />
-        </columns>
+            <TableColumn fx:id="birth_col" prefWidth="60.0" text="Birthday" />
+            <TableColumn fx:id="passsport_number_col" prefWidth="112.80001831054688" text="Passport Number" />
+            <TableColumn fx:id="passport_date_col" prefWidth="90.39996337890625" text="Passport Date" />
+            <TableColumn fx:id="vaucher_col" prefWidth="68.7999267578125" text="Vaucher" />
+         </columns>
       </TableView>
    </children>
 </AnchorPane>

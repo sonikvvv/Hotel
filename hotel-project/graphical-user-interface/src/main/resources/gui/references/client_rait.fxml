@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane fx:id="client_rait_pane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.references.Client_RaitControlle">
+   <children>
+      <TableView fx:id="client_rait_table" prefHeight="670.0" prefWidth="690.0">
+         <columns>
+            <TableColumn fx:id="number_col" prefWidth="56.0" text="Number" />
+            <TableColumn fx:id="name_col" minWidth="0.0" prefWidth="348.00004959106445" style="-fx-alignment: center;" text="Name" />
+            <TableColumn fx:id="raiting_col" minWidth="0.0" prefWidth="284.79998779296875" text="Rating" />
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>

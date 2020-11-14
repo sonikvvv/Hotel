@@ -95,7 +95,7 @@
                         </Button>
                      </children>
                   </VBox>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
+                  <AnchorPane fx:id="reference_pane" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
                </children>
             </GridPane>
             <GridPane GridPane.columnIndex="1">
