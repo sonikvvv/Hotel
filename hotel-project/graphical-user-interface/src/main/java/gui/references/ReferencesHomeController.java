@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import base_classes.classes.ClientUsedServices;
 import base_classes.classes.Clients;
 import base_classes.classes.Reservation;
+import base_classes.classes.Room;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -55,7 +56,41 @@ public class ReferencesHomeController implements Initializable {
 
     @FXML
     void RoomRaiting(ActionEvent event) {
-        
+        TableView<Room> room_rait_table = new TableView<>();
+        TableColumn<Room, String> room_num_col = new TableColumn<>();
+        TableColumn<Room, String> type_col = new TableColumn<>();
+        TableColumn<Room, Number> raiting_col = new TableColumn<>();
+        ObservableList<Room> activ = FXCollections.observableArrayList();
+
+        room_num_col.setCellValueFactory(new PropertyValueFactory<>("r_number"));
+        type_col.setCellValueFactory(new PropertyValueFactory<>("r_type"));
+        raiting_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Room,Number>,ObservableValue<Number>>(){
+            @Override
+            public ObservableValue<Number> call(CellDataFeatures<Room, Number> param) {
+                return new SimpleDoubleProperty(param.getValue().getRait().get(0).getRait_value());
+            }
+        });
+
+        LocalDate fromD = fromDate.getValue();
+        LocalDate toD = toDate.getValue();
+
+        List<String> data = new ArrayList<>();
+        data.add(fromD.toString());
+        data.add(toD.toString());
+
+        List<?> room = DecodeOperation.decodeLogicOperation(OperationType.ROOM_RAITING, null, data);
+        for (Object object : room) {
+            Room tmp = (Room) object;
+            activ.add(tmp);
+        }
+
+        room_rait_table.getColumns().add(room_num_col);
+        room_rait_table.getColumns().add(type_col);
+        room_rait_table.getColumns().add(raiting_col);
+
+        room_rait_table.getItems().setAll(activ);
+
+        sub_grid.add(room_rait_table, 2, 0);
     }
 
     @FXML

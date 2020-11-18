@@ -4,5 +4,6 @@ public enum UE {
     ID,
     NAME,
     ROLE,
-    ALL
+    ALL,
+    HOTEL_ID
 }

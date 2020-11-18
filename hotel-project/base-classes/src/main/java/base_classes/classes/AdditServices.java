@@ -3,11 +3,15 @@ package base_classes.classes;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 import base_classes.classes.emuns.ADServicesE;
 
@@ -15,51 +19,61 @@ import base_classes.classes.emuns.ADServicesE;
 public class AdditServices {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ads_generator")
-    @SequenceGenerator(name = "ads_generator", sequenceName = "ads_seq", allocationSize = 50)
-    private int a_serv_id;
-    private String a_serv_title;
-    private String a_serv_type;
-    private double a_serv_price;
+    @SequenceGenerator(name = "ads_generator", sequenceName = "ads_seq")
+    private int serv_id;
+    private String title;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id")
+    private ServiceCategory category;
+    
+    private double price;
+    private int hotel_id;
 
     public AdditServices() {
     }
 
-    public AdditServices(String title, String type, double price) {
-        this.a_serv_title = title;
-        this.a_serv_price = price;
-        this.a_serv_type = type;
+    public AdditServices(String title, ServiceCategory category, double price) {
+        this.title = title;
+        this.category = category;
+        this.price = price;
     }
 
-    public int getAddit_services_id() {
-        return a_serv_id;
+    public AdditServices(String title, ServiceCategory category, double price, int hotel_id) {
+        this.title = title;
+        this.category = category;
+        this.price = price;
+        this.hotel_id = hotel_id;
     }
 
-    public double getAddit_services_price() {
-        return a_serv_price;
+    public ServiceCategory getCategory() {
+        return category;
+    }
+    public double getPrice() {
+        return price;
+    }
+    public int getServ_id() {
+        return serv_id;
+    }
+    public String getTitle() {
+        return title;
+    }
+    public int getHotel_id() {
+        return hotel_id;
     }
 
-    public String getAddit_services_title() {
-        return a_serv_title;
-    }
 
-    public String getA_serv_type() {
-        return a_serv_type;
+    public void setCategory(ServiceCategory category) {
+        this.category = category;
     }
-
-    public void setAddit_services_id(int addit_services_id) {
-        this.a_serv_id = addit_services_id;
+    public void setPrice(double price) {
+        this.price = price;
     }
-
-    public void setAddit_services_price(double addit_services_price) {
-        this.a_serv_price = addit_services_price;
+    public void setServ_id(int serv_id) {
+        this.serv_id = serv_id;
     }
-
-    public void setAddit_services_title(String addit_services_title) {
-        this.a_serv_title = addit_services_title;
-    }
-    
-    public void setA_serv_type(String a_serv_type) {
-        this.a_serv_type = a_serv_type;
+    public void setHotel_id(int hotel_id) {
+        this.hotel_id = hotel_id;
     }
 
     public static String getTableName() {
@@ -68,10 +82,11 @@ public class AdditServices {
 
     public static List<String> getFields() {
         List<String> ls = new ArrayList<>();
-        ls.add("a_serv_id");
-        ls.add("a_serv_title");
-        ls.add("a_serv_price");
-        ls.add("a_serv_type");
+        ls.add("serv_id");
+        ls.add("title");
+        ls.add("price");
+        ls.add("category");
+        ls.add("hotel_id");
         return ls;
     }
 
@@ -81,19 +96,22 @@ public class AdditServices {
 
         switch (type) {
             case ID:
-                sqlString = sqlString + fields.get(0) + " = ";
+                sqlString = sqlString + fields.get(0) + " = :value";
                 break;
             case TITLE:
-                sqlString = sqlString + fields.get(1) + " = '";
+                sqlString = sqlString + fields.get(1) + " = :value";
                 break;
             case PRICE:
-                sqlString = sqlString + fields.get(2) + " = ";
+                sqlString = sqlString + fields.get(2) + " = :value";
                 break;
-            case TYPE:
-                sqlString = sqlString + fields.get(3) + " = '";
+            case CATEGORY_ID:
+                sqlString = sqlString + fields.get(3) + "." + ServiceCategory.getFields().get(0) + " = :value";
                 break;
-            case ALL:
-                sqlString = "from " + getTableName();
+            case CATEGORY_NAME:
+                sqlString = sqlString + fields.get(3) + "." + ServiceCategory.getFields().get(1) + " = :value";
+                break;
+            case HOTEL_ID:
+                sqlString = sqlString + fields.get(4) + " = :value";
                 break;
             default:
                 break;
@@ -102,17 +120,11 @@ public class AdditServices {
         return sqlString;
     }
 
-    public List<String> toList() {
-        List<String> res = new ArrayList<>();
-        res.add(this.a_serv_id + "");
-        res.add(this.a_serv_title);
-        res.add(this.a_serv_price + "");
-        return res;
-    }
-
     @Override
     public String toString() {
-        return "Additional services [ id = " + this.a_serv_id + " title: " + this.a_serv_title +
-                " type: " + this.a_serv_type + " price: " + this.a_serv_price + " ]";
+        return "Additional services [ id = " + this.serv_id + " title: " + this.title +
+                " category: " + this.category.getCategory_title() + " price: " + this.price + " ]";
     }
+
+
 }

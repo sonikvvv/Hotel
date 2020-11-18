@@ -5,10 +5,15 @@ public enum ReservE {
     ROOM_ID,
     ROOM_NUMBER,
     ROOM_TYPE,
-    CLIENTS_ID,
     CLIENTS_NAME,
-    RESERVATION_FORM_ID,
     RECEPTIONIST_ID,
     RECEPTIONIST_NAME,
+    HOTEL_ID,
+    RESERV_TYPE,
+    CANCEL_TYPE, 
+    START_DATE,
+    END_DATE,
+    FOOD_TYPE,
+    STATUS,
     ALL
 }

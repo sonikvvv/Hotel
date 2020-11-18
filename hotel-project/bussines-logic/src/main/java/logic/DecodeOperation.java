@@ -37,18 +37,28 @@ public class DecodeOperation {
             case USED_SERVICES:
 
                 break;
+            case GET_RECEPT:
+                //result = 
             case RECEPT:
                 result = UserOperations.getReceptCreatedReservations(db, data);
                 break;
             case ROOM_RAITING:
                 break;
             case UPDATE:
-                db.updateObject(o);
+                db.saveOrUpdateObject(o);
                 break;
             default:
                 break;
         }
 
         return result;
+    }
+
+    public static void main(String[] args) {
+        List<String> t = new ArrayList<>();
+        t.add("2020-11-16");
+        t.add("2020-11-17");
+        t.add("1");
+        List res = DecodeOperation.decodeLogicOperation(OperationType.CLIENT_INFO, null, t);
     }
 }

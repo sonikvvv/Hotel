@@ -7,6 +7,6 @@ import base_classes.classes.Reservation;
 
 public class ReservOperations {
     public static List<Reservation> getCreatedReservations(DBConnection db, List<String> data) {
-        return db.getReservationFromDate(data.get(0), data.get(1));
+        return db.getReservationsByDate(data);
     }
 }

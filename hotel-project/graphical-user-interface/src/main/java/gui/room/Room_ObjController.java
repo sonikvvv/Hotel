@@ -21,7 +21,7 @@ public class Room_ObjController {
 
     @FXML
     void openRoomView(MouseEvent event) {
-
+        //TODO: open room view
     }
 
 }

@@ -1,7 +1,7 @@
 package base_classes.classes;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -9,8 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 
@@ -24,13 +26,16 @@ public class ClientUsedServices {
     private int cus_id;
     
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "serv_id")
     private AdditServices addit_service;
     private int quantity;
-    private Date purchase_date;
+    private LocalDateTime purchase_date;
     private String note;
 
     @Type(type = "true_false")
     private boolean paid = false;
+
+    private int hotel_id;
 
     public ClientUsedServices() {
     }
@@ -38,8 +43,16 @@ public class ClientUsedServices {
     public ClientUsedServices(AdditServices addit_service, int quantity, String note) {
         this.addit_service = addit_service;
         this.quantity = quantity;
-        this.purchase_date = new Date();
+        this.purchase_date = LocalDateTime.now();
         this.note = note;
+    }
+
+    public ClientUsedServices(AdditServices addit_service, int quantity, String note, int hotel_id) {
+        this.addit_service = addit_service;
+        this.quantity = quantity;
+        this.purchase_date = LocalDateTime.now();
+        this.note = note;
+        this.hotel_id = hotel_id;
     }
 
     public AdditServices getAddit_service() {
@@ -50,7 +63,7 @@ public class ClientUsedServices {
         return cus_id;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return purchase_date;
     }
 
@@ -65,6 +78,10 @@ public class ClientUsedServices {
     public boolean getPaid() {
         return paid;
     }
+    
+    public int getHotel_id() {
+        return hotel_id;
+    }
 
     public void setAddit_service(AdditServices addit_service) {
         this.addit_service = addit_service;
@@ -74,7 +91,7 @@ public class ClientUsedServices {
         this.cus_id = cus_id;
     }
 
-    public void setDate(Date purchase_date) {
+    public void setDate(LocalDateTime purchase_date) {
         this.purchase_date = purchase_date;
     }
 
@@ -88,6 +105,10 @@ public class ClientUsedServices {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public void setHotel_id(int hotel_id) {
+        this.hotel_id = hotel_id;
     }
 
     public static List<String> getFields() {
@@ -104,7 +125,7 @@ public class ClientUsedServices {
     }
 
     public static String search(CUSe type) {
-        String sqlString = "from " + getTableName() + "t where t.";
+        String sqlString = "from " + getTableName() + " t where t.";
         List<String> fields = getFields();
 
         switch (type) {
@@ -112,19 +133,16 @@ public class ClientUsedServices {
                 sqlString = sqlString + fields.get(0) + " = ";
                 break;
             case ADDIT_SERVICE_ID:
-                sqlString = sqlString + fields.get(1) + ".a_serv_id = ";
+                sqlString = sqlString + fields.get(1) + "." + AdditServices.getFields().get(0) + " = ";
                 break;
-            case ADDIT_SERVICE_NAME:
-                sqlString = sqlString + fields.get(1) + ".a_serv_title = '";
+            case ADDIT_SERVICE_TITLE:
+                sqlString = sqlString + fields.get(1) + "." + AdditServices.getFields().get(1) + " = '";
                 break;
             case QUANTITY:
                 sqlString = sqlString + fields.get(2) + " = ";
                 break;
             case DATE:
                 sqlString = sqlString + fields.get(3) + " like to_date('";
-                break;
-            case ALL:
-                sqlString = "from " + getTableName();
                 break;
             default:
                 break;
@@ -136,8 +154,8 @@ public class ClientUsedServices {
     @Override
     public String toString() {
         return "Used additional services [ id = " + this.cus_id + " additional service: "
-                + this.addit_service.getAddit_services_title() + " price: "
-                + this.addit_service.getAddit_services_price() + " purchase_date: " + this.purchase_date + " quantity: " + this.quantity
+                + this.addit_service.getTitle() + " price: "
+                + this.addit_service.getPrice() + " purchase_date: " + this.purchase_date + " quantity: " + this.quantity
                 + " paid: " + this.paid + " note: " + this.note + " ]";
     }
 

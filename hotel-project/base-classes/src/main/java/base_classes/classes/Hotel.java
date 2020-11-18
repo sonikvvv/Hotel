@@ -8,11 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 import base_classes.classes.emuns.HE;
-import base_classes.classes.emuns.UE;
 
 @Entity(name = "hotel")
 public class Hotel {
@@ -23,20 +23,30 @@ public class Hotel {
     private String hotel_name;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<User> owners;
+    @JoinColumn(unique = false)
+    private List<User> users = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<User> managers;
-    
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<User> receptionists;
+    @JoinColumn(unique = false)
+    private List<Room> rooms = new ArrayList<>();
 
-    public Hotel(int hotel_id, String hotel_name, List<User> owners, List<User> managers, List<User> receptionists) {
-        this.hotel_id = hotel_id;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(unique = false)
+    private List<Clients> clients = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(unique = false)
+    private List<Reservation> reservations = new ArrayList<>();
+
+    public Hotel() {}
+
+    public Hotel(String name) {
+        this.hotel_name = name;
+    }
+
+    public Hotel(String hotel_name, List<User> users) {
         this.setHotel_name(hotel_name);
-        this.setOwners(owners);
-        this.setManagers(managers);
-        this.setReceptionists(receptionists);
+        this.users = users;
     }
 
     public int getHotel_id() {
@@ -47,28 +57,20 @@ public class Hotel {
         this.hotel_id = hotel_id;
     }
 
-    public List<User> getReceptionists() {
-        return receptionists;
+    public List<Clients> getClients() {
+        return clients;
     }
 
-    public void setReceptionists(List<User> receptionists) {
-        this.receptionists = receptionists;
+    public List<Reservation> getReservations() {
+        return reservations;
     }
 
-    public List<User> getManagers() {
-        return managers;
+    public List<Room> getRooms() {
+        return rooms;
     }
 
-    public void setManagers(List<User> managers) {
-        this.managers = managers;
-    }
-
-    public List<User> getOwners() {
-        return owners;
-    }
-
-    public void setOwners(List<User> owners) {
-        this.owners = owners;
+    public List<User> getUsers() {
+        return users;
     }
 
     public String getHotel_name() {
@@ -79,25 +81,52 @@ public class Hotel {
         this.hotel_name = hotel_name;
     }
 
-    public void addTOWner(User owner) {
-        this.owners.add(owner);
+    public void setClients(List<Clients> clients) {
+        this.clients = clients;
     }
 
-    public void addToManager(User manager) {
-        this.owners.add(manager);
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
     }
 
-    public void addToRecept(User recept) {
-        this.owners.add(recept);
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+
+    public void addToUsers(User u) {
+        u.setHotel_id(this.hotel_id);
+        this.users.add(u);
+    }
+    
+    public void addToRooms(Room room) {
+        room.setHotel_id(this.hotel_id);
+        this.rooms.add(room);
+    }
+
+    public void addToClients(Clients clients) {
+        clients.setHotel_id(this.hotel_id);
+        this.clients.add(clients);
+    }
+
+    public void addToReservations(Reservation reservations) {
+        reservations.setHotel_id(this.hotel_id);
+        reservations.setHotel_name(this.hotel_name);
+        this.reservations.add(reservations);
     }
 
     public static List<String> getFields() {
         List<String> ls = new ArrayList<>();
         ls.add("hotel_id");
         ls.add("hotel_name");
-        ls.add("owners");
-        ls.add("managers");
-        ls.add("receptionists");
+        ls.add("users");
+        ls.add("rooms");
+        ls.add("clients");
+        ls.add("reservations");
         return ls;
     }
 
@@ -106,7 +135,7 @@ public class Hotel {
     }
 
     public static String search(HE type) {
-        String sqlString = "from " + getTableName() + " where ";
+        String sqlString = "from " + getTableName() + " t where t.";
         List<String> fields = getFields();
 
         switch (type) {
@@ -114,19 +143,11 @@ public class Hotel {
                 sqlString = sqlString + fields.get(0) + " = ";
                 break;
             case NAME:
-                sqlString = sqlString + fields.get(1) + " = ";
+                sqlString = sqlString + fields.get(1) + " = '";
                 break;
-            case OWNER:
-                sqlString = sqlString + fields.get(2) + " = " + User.search(UE.NAME);
-                break;
-            case MANAGER:
-                sqlString = sqlString + fields.get(3) + " = " + User.search(UE.NAME);
-                break;
-            case RECEPTIONIST:
-                sqlString = sqlString + fields.get(4) + " = " + User.search(UE.NAME);
-                break;
-            case ALL:
-                sqlString = "from " + getTableName();
+            case USER:
+                sqlString = "select u from " + Hotel.getTableName() + " t join t." + Hotel.getFields().get(5)
+                        + " u where u." + Reservation.getFields().get(3) + " = ";
                 break;
             default:
                 break;
@@ -137,7 +158,7 @@ public class Hotel {
 
     @Override
     public String toString() {
-        return "Hotel [ id = " + this.hotel_id + " owners = " + this.owners + " managers = " + this.managers
-            + " receptionists = " + this.receptionists + " ]";
+        return "Hotel [ id = " + this.hotel_id + " users = " + this.users + " reservations: " + this.reservations
+                + " clients: " + this.clients + " rooms: " +this.rooms + " ]";
     }
 }

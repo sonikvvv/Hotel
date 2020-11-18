@@ -14,5 +14,6 @@ public enum ClientsE {
     CHECK_IN, 
     CHECK_OUT,
     VAUCHER,
-    ALL
+    ALL,
+    HOTEL_ID
 }

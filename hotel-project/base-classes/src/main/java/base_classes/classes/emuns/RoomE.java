@@ -6,5 +6,6 @@ public enum RoomE {
     RAITING,
     ROOM_TYPE,
     ROOM_STATUS,
-    ALL
+    ALL,
+    HOTEL_ID
 }

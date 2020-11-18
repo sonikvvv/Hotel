@@ -11,5 +11,6 @@ public enum OperationType {
     RECEPT,
     ROOM_RAITING,
     UPDATE,
+    GET_RECEPT,
     LOGIN
 }

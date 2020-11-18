@@ -9,11 +9,11 @@ import base_classes.classes.Clients;
 
 public class ClientOperations {
     public static List<Clients> getClientsInfo(DBConnection db, List<String> data) {
-        return db.getClientFromDate(data.get(0), data.get(1));
+        return db.getClientByDateList(data);
     }
 
     public static List<ClientUsedServices> getUsedServices(DBConnection db, List<String> data) {
-        return db.getUsedServiceFromDate(data.get(0), data.get(1));
+        return null; //db.getUsedServiceFromDate(data.get(0), data.get(1));
     }
     
     @SuppressWarnings("rawtypes")

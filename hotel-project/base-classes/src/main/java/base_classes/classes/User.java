@@ -23,9 +23,14 @@ public class User {
     private int user_id;
     private String user_name;
     private String user_password;
+    private String name;
+    private String phone;
+    private String email;
 
     @Enumerated(EnumType.STRING)
     private URE user_role;
+
+    private int hotel_id;
 
     public User() {}
 
@@ -33,6 +38,22 @@ public class User {
         this.user_name = name;
         this.user_password = password;
         this.user_role = role;
+    }
+    
+    public User(String name, String password, URE role, int hotel) {
+        this.user_name = name;
+        this.user_password = password;
+        this.user_role = role;
+        this.hotel_id = hotel;
+    }
+
+    public User(String user_name, String user_password, String name, String phone, URE user_role, int hotel_id) {
+        this.user_name = user_name;
+        this.user_password = user_password;
+        this.name = name;
+        this.phone = phone;
+        this.user_role = user_role;
+        this.hotel_id = hotel_id;
     }
     
     public void setUser_id(int user_id) {
@@ -51,6 +72,21 @@ public class User {
         this.user_role = user_role;
     }
 
+    public void setHotel_id(int hotel_id) {
+        this.hotel_id = hotel_id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+    public String getName() {
+        return name;
+    }
+    public String getPhone() {
+        return phone;
+    }
+
+
     public int getUser_id() {
         return user_id;
     }
@@ -67,12 +103,27 @@ public class User {
         return user_role;
     }
 
+    public int getHotel_id() {
+        return hotel_id;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public static List<String> getFields() {
         List<String> ls = new ArrayList<>();
         ls.add("user_id");
         ls.add("user_name");
         ls.add("user_password");
         ls.add("user_role");
+        ls.add("hotel_id");
         return ls;
     }
 
@@ -86,16 +137,16 @@ public class User {
 
         switch (type) {
             case ID:
-                sqlString = sqlString + fields.get(0) + " = ";
+                sqlString = sqlString + fields.get(0) + " = :value";
                 break;
             case NAME:
-                sqlString = sqlString + fields.get(1) + " = '";
+                sqlString = sqlString + fields.get(1) + " = :value";
                 break;
             case ROLE:
-                sqlString = sqlString + fields.get(3) + " = '";
+                sqlString = sqlString + fields.get(3) + " = :value";
                 break;
-            case ALL:
-                sqlString = "from " + getTableName();
+            case HOTEL_ID:
+                sqlString = sqlString + fields.get(4) + " = :value";
                 break;
             default:
                 break;
@@ -109,9 +160,11 @@ public class User {
         return "User [ id = " + this.user_id + " username: " + this.user_name + " role: " + this.user_role + " ]";
     }
 
-    public static void main(String[] args) { // User [ id = 0 username: ves role: ADMIN ]
-        User ur = new User("ves", "test", URE.ADMIN);
-        System.out.println(ur);
-    }
+    
+
+    // public static void main(String[] args) { // User [ id = 0 username: ves role: ADMIN ]
+    //     User ur = new User("ves", "test", URE.ADMIN);
+    //     System.out.println(ur);
+    // }
     
 }
