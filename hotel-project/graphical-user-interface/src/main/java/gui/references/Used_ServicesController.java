@@ -5,6 +5,8 @@ import java.util.ResourceBundle;
 
 import base_classes.classes.AdditServices;
 import base_classes.classes.ClientUsedServices;
+import base_classes.classes.ServiceCategory;
+import base_classes.classes.emuns.ServiceType;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -47,10 +49,11 @@ public class Used_ServicesController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        AdditServices as1 = new AdditServices("safe 14D", "safe", 10);
-        as1.setA_serv_id(1);
-        AdditServices as2 = new AdditServices("safe 15D", "safe", 15);
-        as2.setA_serv_id(2);
+        ServiceCategory sc = new ServiceCategory("safe", ServiceType.PROSITIVE);
+        AdditServices as1 = new AdditServices("safe 14D", sc, 10);
+        as1.setServ_id(1);
+        AdditServices as2 = new AdditServices("safe 15D", sc, 15);
+        as2.setServ_id(2);
 
         ClientUsedServices cus1 = new ClientUsedServices(as1, 2, "note");
         ClientUsedServices cus2 = new ClientUsedServices(as2, 3, "note");
@@ -65,7 +68,7 @@ public class Used_ServicesController implements Initializable {
 
             @Override
             public ObservableValue<Number> call(CellDataFeatures<ClientUsedServices, Number> param) {
-                return new SimpleIntegerProperty(param.getValue().getAddit_service().getA_serv_id());
+                return new SimpleIntegerProperty(param.getValue().getAddit_service().getServ_id());
             }
             
         });
@@ -74,7 +77,7 @@ public class Used_ServicesController implements Initializable {
 
             @Override
             public ObservableValue<Number> call(CellDataFeatures<ClientUsedServices,Number> param) {
-                return new SimpleDoubleProperty(param.getValue().getAddit_service().getA_serv_price());
+                return new SimpleDoubleProperty(param.getValue().getAddit_service().getPrice());
             }
             
         });
@@ -83,7 +86,7 @@ public class Used_ServicesController implements Initializable {
 
             @Override
             public ObservableValue<String> call(CellDataFeatures<ClientUsedServices, String> param) {
-                return new SimpleStringProperty(param.getValue().getAddit_service().getA_serv_type());
+                return new SimpleStringProperty(param.getValue().getAddit_service().getCategory().getCategory_title());
             }
             
         });
@@ -92,7 +95,7 @@ public class Used_ServicesController implements Initializable {
 
             @Override
             public ObservableValue<String> call(CellDataFeatures<ClientUsedServices, String> param) {
-                return new SimpleStringProperty(param.getValue().getAddit_service().getA_serv_title());
+                return new SimpleStringProperty(param.getValue().getAddit_service().getTitle());
             }
             
         });

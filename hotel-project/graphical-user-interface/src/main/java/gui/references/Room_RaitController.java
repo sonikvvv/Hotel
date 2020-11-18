@@ -45,13 +45,13 @@ public class Room_RaitController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Room r1 = new Room("103", "meh", SE.FREE);
-        r1.setR_id(1);
-        Room r2 = new Room("106", "MEH2", SE.OCCUPIED);
-        r2.setR_id(3);
+        // Room r1 = new Room("103", "meh", SE.FREE);
+        // r1.setR_id(1);
+        // Room r2 = new Room("106", "MEH2", SE.OCCUPIED);
+        // r2.setR_id(3);
 
-        activ.add(r1);
-        activ.add(r2);
+        // activ.add(r1);
+        // activ.add(r2);
 
         number_col.setCellValueFactory(new PropertyValueFactory<>("r_id"));
         room_num_col.setCellValueFactory(new PropertyValueFactory<>("r_number"));

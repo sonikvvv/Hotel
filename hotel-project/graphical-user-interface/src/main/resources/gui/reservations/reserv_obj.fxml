@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<Pane fx:id="reserv_obj" onMouseClicked="#openReservation" prefHeight="50.0" prefWidth="1008.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.reservations.Reserv_ObjController">
+   <children>
+      <GridPane prefHeight="50.0" prefWidth="1008.0">
+         <columnConstraints>
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="80.0" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="40.0" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="40.0" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="40.0" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="40.0" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="80.0" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="80.0" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="80.0" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="40.0" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Label fx:id="nimber_l" text="Number" />
+            <Label fx:id="client_name_l" text="Client Name" GridPane.columnIndex="1" />
+            <Label fx:id="start_date_l" text="Start Date" GridPane.columnIndex="2" />
+            <Label fx:id="end_date_l" text="End Date" GridPane.columnIndex="3" />
+            <Label fx:id="adults" text="A" GridPane.columnIndex="4" />
+            <Label fx:id="kids_l" text="K" GridPane.columnIndex="5" />
+            <Label fx:id="baybies" text="B" GridPane.columnIndex="6" />
+            <Label fx:id="ft_l" text="FT" GridPane.columnIndex="7" />
+            <Label fx:id="rt_l" text="Room Type" GridPane.columnIndex="8" />
+            <Label fx:id="rn_l" text="Room N" GridPane.columnIndex="9" />
+            <Label fx:id="price_l" text="Price" GridPane.columnIndex="10" />
+            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="23.0" GridPane.columnIndex="11">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </Button>
+         </children>
+      </GridPane>
+   </children>
+</Pane>

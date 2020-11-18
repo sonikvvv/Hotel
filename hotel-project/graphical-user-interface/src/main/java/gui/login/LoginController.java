@@ -18,19 +18,20 @@ public class LoginController {
     private PasswordField pas_txt;
 
     @FXML
+    @SuppressWarnings("all")
     void logIn(MouseEvent event) {
         System.out.println(username_txt.getText() + " " + pas_txt.getText());
 
-        List<String> data = new ArrayList<>();
-        data.add(username_txt.getText());
-        data.add(pas_txt.getText());
+        // List<String> data = new ArrayList<>();
+        // data.add(username_txt.getText());
+        // data.add(pas_txt.getText());
 
-        List result = DecodeOperation.decodeLogicOperation(OperationType.LOGIN, null, data);
-        Boolean flag = Boolean.valueOf( (String) result.get(0));
+        // List result = DecodeOperation.decodeLogicOperation(OperationType.LOGIN, null, data);
+        // Boolean flag = Boolean.valueOf( (String) result.get(0));
 
-        if (flag == false) {
-            username_txt.setStyle("-fx-border-color: #ff0000");
-        }
+        // if (flag == false) {
+        //     username_txt.setStyle("-fx-border-color: #ff0000");
+        // }
     }
 
 }
