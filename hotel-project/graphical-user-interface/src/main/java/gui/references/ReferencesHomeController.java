@@ -6,10 +6,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import base_classes.classes.AdditServices;
 import base_classes.classes.ClientUsedServices;
 import base_classes.classes.Clients;
+import base_classes.classes.Country;
+import base_classes.classes.Raiting;
 import base_classes.classes.Reservation;
+import base_classes.classes.ReservationForm;
 import base_classes.classes.Room;
+import base_classes.classes.ServiceCategory;
+import base_classes.classes.User;
+import base_classes.classes.emuns.SE;
+import base_classes.classes.emuns.ServiceType;
+import base_classes.classes.emuns.URE;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -57,9 +66,9 @@ public class ReferencesHomeController implements Initializable {
     @FXML
     void RoomRaiting(ActionEvent event) {
         TableView<Room> room_rait_table = new TableView<>();
-        TableColumn<Room, String> room_num_col = new TableColumn<>();
-        TableColumn<Room, String> type_col = new TableColumn<>();
-        TableColumn<Room, Number> raiting_col = new TableColumn<>();
+        TableColumn<Room, String> room_num_col = new TableColumn<>("Number");
+        TableColumn<Room, String> type_col = new TableColumn<>("Type");
+        TableColumn<Room, Number> raiting_col = new TableColumn<>("Rating");
         ObservableList<Room> activ = FXCollections.observableArrayList();
 
         room_num_col.setCellValueFactory(new PropertyValueFactory<>("r_number"));
@@ -78,11 +87,15 @@ public class ReferencesHomeController implements Initializable {
         data.add(fromD.toString());
         data.add(toD.toString());
 
-        List<?> room = DecodeOperation.decodeLogicOperation(OperationType.ROOM_RAITING, null, data);
-        for (Object object : room) {
-            Room tmp = (Room) object;
-            activ.add(tmp);
-        }
+        // List<?> room = DecodeOperation.decodeLogicOperation(OperationType.ROOM_RAITING, null, data);
+        // for (Object object : room) {
+        //     Room tmp = (Room) object;
+        //     activ.add(tmp);
+        // }
+
+        Room r = new Room("r_number", "Double", 153, SE.DIRTY);
+        r.addToRait(new Raiting(5));
+        activ.add(r);
 
         room_rait_table.getColumns().add(room_num_col);
         room_rait_table.getColumns().add(type_col);
@@ -140,11 +153,16 @@ public class ReferencesHomeController implements Initializable {
         data.add(toD.toString());
         data.add("1"); //TODO: figure how to add the hotel id
 
-        List<?> res = DecodeOperation.decodeLogicOperation(OperationType.CLIENT_INFO, null, data);
+        // List<?> res = DecodeOperation.decodeLogicOperation(OperationType.CLIENT_INFO, null, data);
         
-        for (Object object : res) {
-            activ.add((Clients) object);
-        }
+        // for (Object object : res) {
+        //     activ.add((Clients) object);
+        // }
+
+        Clients c = new Clients("name", LocalDate.now(), false, "passport_number", LocalDate.now(), "car_number", new Country("Testivile"),
+                "client_note", "vaucher");
+        
+        activ.add(c);
 
         tv.getColumns().add(number_col);
         tv.getColumns().add(name_col);
@@ -199,16 +217,25 @@ public class ReferencesHomeController implements Initializable {
         data.add(toD.toString());
         data.add("1");
 
-        List<?> res = DecodeOperation.decodeLogicOperation(OperationType.CLIENT_INFO, null, data);
+        Clients c = new Clients("name", LocalDate.now(), false, "passport_number", LocalDate.now(), "car_number", null, "client_note", "vaucher");
+        Raiting r = new Raiting(6.1);
+        List<Raiting> rl = new ArrayList<>();
+        rl.add(r);
+        c.setRait(rl);
 
-        for (Object object : res) {
-            activ.add((Clients) object);
-        }
+
+        // List<?> res = DecodeOperation.decodeLogicOperation(OperationType.CLIENT_INFO, null, data);
+
+        // for (Object object : res) {
+        //     activ.add((Clients) object);
+        // }
 
         tv.getColumns().add(number_col);
         tv.getColumns().add(name_col);
         tv.getColumns().add(sex_col);
         tv.getColumns().add(rait_col);
+
+        activ.add(c);
 
         tv.getItems().setAll(activ);
 
@@ -324,11 +351,18 @@ public class ReferencesHomeController implements Initializable {
         data.add(toD.toString());
         data.add("1");
 
-        List<?> res = DecodeOperation.decodeLogicOperation(OperationType.CREATED_RESERVATIONS, null, data);
+        // List<?> res = DecodeOperation.decodeLogicOperation(OperationType.CREATED_RESERVATIONS, null, data);
 
-        for (Object object : res) {
-            activ.add((Reservation) object);
-        }
+        // for (Object object : res) {
+        //     activ.add((Reservation) object);
+        // }
+
+        ReservationForm fr = new ReservationForm("reservation_type", "room_type", "cancel_type", LocalDate.of(2020, 11, 15),
+                LocalDate.of(2020, 12, 15), 1, 1, 0, "food_type", 1000, "status", "notes", "client_name");
+
+        Reservation r = new Reservation(new User("mej", "fedlslf", URE.ADMIN), fr, null);
+
+        activ.add(r);
 
         reserv_table.getColumns().add(number_col);
         reserv_table.getColumns().add(status_col);
@@ -387,14 +421,21 @@ public class ReferencesHomeController implements Initializable {
         data.add(toD.toString());
         data.add("1");
 
-        List<?> res = DecodeOperation.decodeLogicOperation(OperationType.CLIENT_INFO, null, data);
+        ServiceCategory sc = new ServiceCategory("category_title", ServiceType.NEGATIVE);
+        AdditServices ads = new AdditServices("title", sc, 20);
+        ClientUsedServices cus = new ClientUsedServices(ads, 5, "note");
+        activ.add(cus);
 
-        for (Object object : res) {
-            activ.add((ClientUsedServices) object);
-        }
+        // List<?> res = DecodeOperation.decodeLogicOperation(OperationType.CLIENT_INFO, null, data);
+
+        // for (Object object : res) {
+        //     activ.add((ClientUsedServices) object);
+        // }
 
 
         tv.getColumns().add(name_col);
+        tv.getColumns().add(category_col);
+        tv.getColumns().add(quantity_col);
 
 
         tv.getItems().setAll(activ);
@@ -406,7 +447,9 @@ public class ReferencesHomeController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         recep_choice.getItems().setAll("Test1", "Test2", "Test3");
         //List<?> res = DecodeOperation.decodeLogicOperation(OperationType., o, data)
-
+        fromDate.setValue(LocalDate.now());
+        toDate.setValue(LocalDate.now());
+        
     }
 
 }

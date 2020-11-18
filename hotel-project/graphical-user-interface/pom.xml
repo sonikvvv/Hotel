@@ -90,7 +90,7 @@
                                 <options>
                                     <option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:8000</option>
                                 </options>
-                                <mainClass>gui.references.testAPP</mainClass>
+                                <mainClass>gui.App</mainClass>
                             </configuration>
                         </execution>
                     </executions>
