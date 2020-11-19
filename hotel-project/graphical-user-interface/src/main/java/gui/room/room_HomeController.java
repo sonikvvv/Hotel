@@ -1,22 +1,27 @@
 package gui.room;
 
-import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import base_classes.classes.Raiting;
 import base_classes.classes.Room;
 import base_classes.classes.emuns.SE;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.shape.Circle;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 
 public class room_HomeController implements Initializable {
 
@@ -27,53 +32,58 @@ public class room_HomeController implements Initializable {
     private DatePicker toDate;
 
     @FXML
-    private VBox vbox_room;
+    private TableView<Room> room_table;
 
     @FXML
-    private Circle occupied_crl;
+    private TableColumn<Room, String> status_col;
 
     @FXML
-    private Circle out_of_order_crl;
+    private TableColumn<Room, Integer> number_col;
 
     @FXML
-    private Circle free_crl;
+    private TableColumn<Room, String> client_name_col;
 
     @FXML
-    private Circle dirty_crl;
+    private TableColumn<Room, String> room_type_col;
 
-    @FXML
-    private Circle check_out_crl;
+    private ObservableList<Room> activ = FXCollections.observableArrayList();
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     void add_btn(ActionEvent event) {
-        // TODO: get user role
+
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        List<Room> roomList = new ArrayList<>();
-        roomList.add(new Room("r_number", "r_type", 203, SE.DIRTY));
-        roomList.add(new Room("r_number1", "r_type1", 49, SE.DIRTY));
-        roomList.add(new Room("r_number2", "r_type2", 89, SE.DIRTY));
-        roomList.add(new Room("r_number3", "r_type3", 15, SE.DIRTY));
+        fromDate.setValue(LocalDate.now());
+        toDate.setValue(LocalDate.now());
+        number_col.setCellValueFactory(new PropertyValueFactory<>("r_number"));
+        room_type_col.setCellValueFactory(new PropertyValueFactory<>("r_type"));
+        status_col.setCellValueFactory(
+            new Callback<TableColumn.CellDataFeatures<Room, String>, ObservableValue<String>>() {
+                @Override
+                public ObservableValue<String> call(CellDataFeatures<Room, String> param) {
+                    return new SimpleStringProperty(param.getValue().getR_status().toString());
+                }
+        });
         
-        for (Room room : roomList) {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            Pane p = null;
-            try {
-                p = fxmlLoader.load(getClass().getResource("room_obj.fxml").openStream());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Label l = (Label) p.lookup("#number_label");
-            if(l != null) l.setText(room.getR_number());
-            Label l1 = (Label) p.lookup("#type_l");
-            if(l1 != null)l1.setText(room.getR_type());
-            Label l2 = (Label) p.lookup("#client_name_l");
-            if(l2 != null)l2.setText("value");
-            
-            vbox_room.getChildren().add(p);
-        }
+        LocalDate fromD = fromDate.getValue();
+        LocalDate toD = toDate.getValue();
+
+        List<String> data = new ArrayList<>();
+        data.add(fromD.toString());
+        data.add(toD.toString());
+
+        Room r = new Room("r_number", "Double", 153, SE.DIRTY);
+        r.addToRait(new Raiting(5));
+
+        activ.add(r);
+        room_table.getItems().setAll(activ);
+
     }
 
 }

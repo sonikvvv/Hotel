@@ -39,7 +39,6 @@ import javafx.util.Callback;
 import logic.DecodeOperation;
 import logic.OperationType;
 
-@SuppressWarnings("rawtypes")
 public class ReferencesHomeController implements Initializable {
 
     @FXML
@@ -445,7 +444,7 @@ public class ReferencesHomeController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        recep_choice.getItems().setAll("Test1", "Test2", "Test3");
+        recep_choice.getItems().setAll("Test1", "Test2", "Test3"); //TODO: get users from db
         //List<?> res = DecodeOperation.decodeLogicOperation(OperationType., o, data)
         fromDate.setValue(LocalDate.now());
         toDate.setValue(LocalDate.now());

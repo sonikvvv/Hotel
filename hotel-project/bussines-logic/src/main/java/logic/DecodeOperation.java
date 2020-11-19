@@ -6,7 +6,7 @@ import java.util.List;
 import base_classes.DBConnection;
 import logic.operations.*;
 
-public class DecodeOperation {
+public class DecodeOperation { //TODO: some how save temporali objects
     private static DBConnection db = new DBConnection();
 
     public static DBConnection getDb() {
