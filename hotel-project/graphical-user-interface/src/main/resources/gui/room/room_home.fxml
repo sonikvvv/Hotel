@@ -60,7 +60,7 @@
                   </Button>
                </children>
             </GridPane>
-            <TableView fx:id="room_table" prefHeight="200.0" prefWidth="200.0" styleClass="table_view" stylesheets="@../style.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <TableView fx:id="room_table" onMouseClicked="#openRoomView" prefHeight="200.0" prefWidth="200.0" styleClass="table_view" stylesheets="@../style.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
               <columns>
                 <TableColumn fx:id="status_col" styleClass="column-header-background" text="Status" />
                 <TableColumn fx:id="number_col" prefWidth="100.0" styleClass="column-header-background" text="Number" />

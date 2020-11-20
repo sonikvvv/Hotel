@@ -12,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 
@@ -31,6 +30,7 @@ public class ClientUsedServices {
     private int quantity;
     private LocalDateTime purchase_date;
     private String note;
+    private double total;
 
     @Type(type = "true_false")
     private boolean paid = false;
@@ -45,6 +45,7 @@ public class ClientUsedServices {
         this.quantity = quantity;
         this.purchase_date = LocalDateTime.now();
         this.note = note;
+        calcTotal();
     }
 
     public ClientUsedServices(AdditServices addit_service, int quantity, String note, int hotel_id) {
@@ -53,6 +54,7 @@ public class ClientUsedServices {
         this.purchase_date = LocalDateTime.now();
         this.note = note;
         this.hotel_id = hotel_id;
+        calcTotal();
     }
 
     public AdditServices getAddit_service() {
@@ -83,6 +85,15 @@ public class ClientUsedServices {
         return hotel_id;
     }
 
+    public LocalDateTime getPurchase_date() {
+        return purchase_date;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+
     public void setAddit_service(AdditServices addit_service) {
         this.addit_service = addit_service;
     }
@@ -107,8 +118,21 @@ public class ClientUsedServices {
         this.quantity = quantity;
     }
 
+    public void setPurchase_date(LocalDateTime purchase_date) {
+        this.purchase_date = purchase_date;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
     public void setHotel_id(int hotel_id) {
         this.hotel_id = hotel_id;
+    }
+
+    private void calcTotal() {
+        double total = this.quantity * this.addit_service.getPrice();
+        this.total = total;
     }
 
     public static List<String> getFields() {

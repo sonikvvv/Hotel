@@ -28,13 +28,17 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import logic.DecodeOperation;
 import logic.OperationType;
@@ -125,21 +129,17 @@ public class ReferencesHomeController implements Initializable {
         passport_date_col.setCellValueFactory(new PropertyValueFactory<Clients, LocalDate>("c_passport_date"));
         vaucher_col.setCellValueFactory(new PropertyValueFactory<Clients, String>("vaucher"));
         country_col.setCellValueFactory(
-                new Callback<TableColumn.CellDataFeatures<Clients, String>, ObservableValue<String>>() {
-
-                    @Override
-                    public ObservableValue<String> call(CellDataFeatures<Clients, String> param) {
-                        return new SimpleStringProperty(param.getValue().getCountry().getCountry_name());
-                    }
-
-                });
+            new Callback<TableColumn.CellDataFeatures<Clients, String>, ObservableValue<String>>() {
+                @Override
+                public ObservableValue<String> call(CellDataFeatures<Clients, String> param) {
+                    return new SimpleStringProperty(param.getValue().getCountry().getCountry_name());
+                }
+            });
         sex_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Clients,String>,ObservableValue<String>>(){
-
             @Override
             public ObservableValue<String> call(CellDataFeatures<Clients, String> param) {
                 return new SimpleStringProperty(param.getValue().getC_sex());
             }
-            
         });
 
         name_col.setMinWidth(250);
@@ -383,8 +383,64 @@ public class ReferencesHomeController implements Initializable {
         sub_grid.add(reserv_table, 2, 0);
     }
 
+    public void removeNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
+        ObservableList<Node> childrens = gridPane.getChildren();
+        for (Node node : childrens) {
+            if (node instanceof TableView && GridPane.getRowIndex(node) == row
+                    && GridPane.getColumnIndex(node) == column) {
+                TableView<?> imageView = (TableView<?>)node;
+                gridPane.getChildren().remove(imageView);
+                break;
+            }
+        }
+    }
+
     @FXML
-    void createdReservationsRecep(ActionEvent event) {
+    void createdReservationsRecep(ActionEvent event) { // TODO
+        removeNodeByRowColumnIndex(0, 2, sub_grid);
+
+        String res = recep_choice.getSelectionModel().getSelectedItem();
+        VBox vb = new VBox();
+        HBox hb = new HBox(2);
+        List<Label> labelList = new ArrayList<>();
+        labelList.add(new Label("user name: " + res));
+        labelList.add(new Label("text"));
+        hb.getChildren().setAll(labelList);
+
+        TableView<Reservation> reserv_table = new TableView<>();
+        TableColumn<Reservation, Integer> number_col = new TableColumn<>("ID");
+        TableColumn<Reservation, String> client_name_col = new TableColumn<>("Client Name");
+        TableColumn<Reservation, LocalDate> date_col = new TableColumn<>("Date");
+        ObservableList<Reservation> activ = FXCollections.observableArrayList();
+        reserv_table.setPrefHeight(660);
+
+        number_col.setCellValueFactory(new PropertyValueFactory<>("reservation_id"));
+        date_col.setCellValueFactory(new PropertyValueFactory<>("date_made"));
+        client_name_col.setCellValueFactory(
+            new Callback<TableColumn.CellDataFeatures<Reservation, String>, ObservableValue<String>>() {
+                @Override
+                public ObservableValue<String> call(CellDataFeatures<Reservation, String> param) {
+                    return new SimpleStringProperty(param.getValue().getReservation_form().getClient_name());
+                }
+            });
+        
+        ReservationForm fr = new ReservationForm("reservation_type", "room_type", "cancel_type",
+                LocalDate.of(2020, 11, 15), LocalDate.of(2020, 12, 15), 1, 1, 0, "food_type", 1000, "status", "notes",
+                "client_name");
+
+        Reservation r = new Reservation(new User("mej", "fedlslf", URE.ADMIN), fr, null);
+
+        activ.add(r);
+
+        reserv_table.getColumns().add(number_col);
+        reserv_table.getColumns().add(client_name_col);
+        reserv_table.getColumns().add(date_col);
+
+        reserv_table.getItems().setAll(activ);
+        vb.getChildren().add(hb);
+        vb.getChildren().add(reserv_table);
+
+        sub_grid.add(vb, 2, 0);
 
     }
 
