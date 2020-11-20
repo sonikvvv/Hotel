@@ -202,7 +202,7 @@ public class Clients {
         for (ClientUsedServices clientUsedServices : cuds) {
             if (clientUsedServices.getPaid() == false) {
                 sum = sum + 
-                    (clientUsedServices.getQuantity() + clientUsedServices.getAddit_service().getPrice());
+                    (clientUsedServices.getQuantity() * clientUsedServices.getAddit_service().getPrice());
             }
         }
 

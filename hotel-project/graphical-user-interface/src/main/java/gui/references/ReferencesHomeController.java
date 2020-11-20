@@ -40,8 +40,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
-import logic.DecodeOperation;
-import logic.OperationType;
+// import logic.DecodeOperation;
+// import logic.OperationType;
 
 public class ReferencesHomeController implements Initializable {
 

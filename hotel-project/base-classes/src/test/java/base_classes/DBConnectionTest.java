@@ -14,7 +14,6 @@ import org.junit.Test;
 import base_classes.classes.*;
 import base_classes.classes.emuns.*;
 
-@SuppressWarnings("rawtypes")
 public class DBConnectionTest {
     private DBConnection db = null;
     private Hotel h1 = null;
@@ -459,13 +458,13 @@ public class DBConnectionTest {
         // db.saveOrUpdateObject(c2);
         // db.saveOrUpdateObject(c1);
 
-        LocalDate ld = LocalDate.of(2020, 11, 16);
+        //LocalDate ld = LocalDate.of(2020, 11, 16);
         Query<Clients> q = db.getSession().createQuery("from clients t where t.hotel_id = :id and t.check_in between :start and :end", Clients.class);
         q.setParameter("id", 1);
         q.setParameter("start", LocalDateTime.of(2020, 11, 15, 0, 0, 0));
         q.setParameter("end", LocalDateTime.of(2020, 11, 18, 0, 0, 0));
 
-        List<Clients> t = q.list();
+        //List<Clients> t = q.list();
 
         List<?> res = db.getSession().createQuery("from clients t where t.check_in between to_date('14.11.2020', 'DD.MM.YYYY') and to_date('17.11.2020', 'DD.MM.YYYY')").list();
         for (Object object : res) {
