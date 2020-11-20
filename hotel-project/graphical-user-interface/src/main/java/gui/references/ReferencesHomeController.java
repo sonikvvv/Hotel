@@ -396,7 +396,7 @@ public class ReferencesHomeController implements Initializable {
     }
 
     @FXML
-    void createdReservationsRecep(ActionEvent event) { // TODO
+    void createdReservationsRecep(ActionEvent event) {
         removeNodeByRowColumnIndex(0, 2, sub_grid);
 
         String res = recep_choice.getSelectionModel().getSelectedItem();

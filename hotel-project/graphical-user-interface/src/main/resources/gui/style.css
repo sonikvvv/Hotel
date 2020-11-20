@@ -49,10 +49,12 @@ th {
 
 .table_view {
     -fx-background-color: transparent;
+    -fx-text-aligment: center;
 }
 
 .table-view .column-header-background .filler {
     -fx-background-color: transparent;
+    -fx-text-alig: center;
 }
 
 .table-view .corner {
@@ -61,11 +63,13 @@ th {
 
 .table-view .column-header-background{
     -fx-background-color: transparent;
+    -fx-text-aligment: center;
 }
 
 .table-view .table-cell{
     -fx-border-color: transparent;
     -fx-padding: 2 0 2 10px;
+    -fx-text-aligment: center;
 }
 .table-row-cell:hover {
     -fx-background-color: #93f9b911;

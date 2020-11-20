@@ -23,7 +23,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
@@ -31,9 +30,9 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Callback;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 public class room_HomeController implements Initializable {
 
@@ -95,7 +94,6 @@ public class room_HomeController implements Initializable {
         if (event.getClickCount() == 1){
             System.out.println(room_table.getSelectionModel().getSelectedItem());
         
-
             try{            
                 Stage st = new Stage();
                 Scene sc = new Scene(FXMLLoader.load(getClass().getResource("room_view.fxml")));
