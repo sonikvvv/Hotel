@@ -1,22 +1,27 @@
 package gui.user;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import base_classes.classes.User;
-import base_classes.classes.emuns.URE;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import javafx.util.Callback;
+import logic.DecodeOperation;
+import logic.OperationType;
 
 public class User_HomeController implements Initializable {
 
@@ -41,8 +46,15 @@ public class User_HomeController implements Initializable {
     private ObservableList<User> activ = FXCollections.observableArrayList();
 
     @FXML
-    void add_btn(ActionEvent event) {
-        // TODO: get role
+    void add_btn(ActionEvent event) { // TODO: get role from decode operation
+        try {
+            Stage st = new Stage();
+            Scene sc = new Scene(FXMLLoader.load(getClass().getResource("add_user.fxml")));
+            st.setScene(sc);
+            st.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -59,15 +71,13 @@ public class User_HomeController implements Initializable {
         name_col.setCellValueFactory(new PropertyValueFactory<>("name"));
         phone_n_col.setCellValueFactory(new PropertyValueFactory<>("phone"));
 
-        User u = new User("Loraine75", "autiTYkKRO1S2g2", URE.OWNER);
-        User u1 = new User("Hans.Lakin83", "jwr_6HCmF6EdMjr", URE.OWNER);
-        User u2 = new User("Dejon_Casper34", "ECWnGq01UOj_5Mm", URE.OWNER);
-        User u3 = new User("Nadia.Goldner", "jMcKKo_JBPGdWPD", URE.MANAGER);
-        
-        activ.add(u);
-        activ.add(u1);
-        activ.add(u2);
-        activ.add(u3);
+        List<?> result = DecodeOperation.decodeLogicOperation(OperationType.GET_USERS, null, null);
+        if (result != null && result.size() != 0){
+            for (Object object : result) {
+                User tmp = (User) object;
+                activ.add(tmp);
+            }
+        }
 
         user_table.getItems().setAll(activ);
     }

@@ -30,7 +30,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private URE user_role;
 
-    private int hotel_id;
+    private String hotel_ids;
 
     public User() {}
 
@@ -40,20 +40,12 @@ public class User {
         this.user_role = role;
     }
     
-    public User(String name, String password, URE role, int hotel) {
-        this.user_name = name;
-        this.user_password = password;
-        this.user_role = role;
-        this.hotel_id = hotel;
-    }
-
-    public User(String user_name, String user_password, String name, String phone, URE user_role, int hotel_id) {
+    public User(String user_name, String user_password, String name, String phone, URE user_role) {
         this.user_name = user_name;
         this.user_password = user_password;
         this.name = name;
         this.phone = phone;
         this.user_role = user_role;
-        this.hotel_id = hotel_id;
     }
     
     public void setUser_id(int user_id) {
@@ -72,8 +64,8 @@ public class User {
         this.user_role = user_role;
     }
 
-    public void setHotel_id(int hotel_id) {
-        this.hotel_id = hotel_id;
+    public void setHotel_ids(String hotel_ids) {
+        this.hotel_ids = hotel_ids;
     }
 
     public String getEmail() {
@@ -103,8 +95,12 @@ public class User {
         return user_role;
     }
 
-    public int getHotel_id() {
-        return hotel_id;
+    public String getHotel_ids() {
+        return hotel_ids;
+    }
+
+    public void addToID(String id) {
+        this.hotel_ids += " " + id;
     }
 
     public void setEmail(String email) {

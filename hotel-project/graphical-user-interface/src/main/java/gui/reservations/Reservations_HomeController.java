@@ -7,9 +7,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import base_classes.classes.Reservation;
-import base_classes.classes.ReservationForm;
-import base_classes.classes.User;
-import base_classes.classes.emuns.URE;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -21,18 +18,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
+import logic.DecodeOperation;
+import logic.OperationType;
 
 public class Reservations_HomeController implements Initializable {
 
     @FXML
-    private DatePicker fromDate;
-
-    @FXML
-    private DatePicker toDate;
+    private DatePicker date_picker;
 
     @FXML
     private TableView<Reservation> reserv_table = new TableView<>();
@@ -77,10 +73,22 @@ public class Reservations_HomeController implements Initializable {
 
     }
 
+    @FXML
+    void datePickerChanged(ActionEvent event) {
+        List<String> data = new ArrayList<>();
+        data.add(date_picker.getValue().toString());
+
+        List<?> res = DecodeOperation.decodeLogicOperation(OperationType.GET_RESERVATIONS, null, null); //TODO: search by date
+        if (res != null && res.size() != 0) {
+            for (Object object : res) {
+                activ.add((Reservation) object);
+            }
+        }
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        fromDate.setValue(LocalDate.now());
-        toDate.setValue(LocalDate.now());
+        date_picker.setValue(LocalDate.now());
 
         number_col.setCellValueFactory(new PropertyValueFactory<>("reservation_id"));
 
@@ -140,34 +148,21 @@ public class Reservations_HomeController implements Initializable {
                     }
                 });
 
-        LocalDate fromD = fromDate.getValue();
-        LocalDate toD = toDate.getValue();
+        
 
         List<String> data = new ArrayList<>();
-        data.add(fromD.toString());
-        data.add(toD.toString());
-        data.add("1");
+        data.add(date_picker.getValue().toString());
 
-        // List<?> res = TODO: get rooms
-        // DecodeOperation.decodeLogicOperation(OperationType.CREATED_RESERVATIONS,
-        // null, data);
-
-        // for (Object object : res) {
-        // activ.add((Reservation) object);
-        // }
-
-        ReservationForm fr = new ReservationForm("reservation_type", "room_type", "cancel_type",
-                LocalDate.of(2020, 11, 15), LocalDate.of(2020, 12, 15), 1, 1, 0, "food_type", 1000, "status", "notes",
-                "client_name");
-
-        Reservation r = new Reservation(new User("mej", "fedlslf", URE.ADMIN), fr, null);
-        Reservation r1 = new Reservation(new User("mej", "fedlslf", URE.ADMIN), fr, null);
-
-        activ.add(r);
-        activ.add(r1);
+        List<?> res = DecodeOperation.decodeLogicOperation(OperationType.GET_RESERVATIONS, null, null);
+        if (res != null && res.size() != 0) {
+            for (Object object : res) {
+                activ.add((Reservation) object);
+            }
+        }
 
         reserv_table.getItems().setAll(activ);
 
     }
 
 }
+

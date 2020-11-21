@@ -1,13 +1,10 @@
 package gui.additional_services;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import base_classes.classes.AdditServices;
-import base_classes.classes.ServiceCategory;
-import base_classes.classes.emuns.ServiceType;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -20,6 +17,8 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
+import logic.DecodeOperation;
+import logic.OperationType;
 
 public class ADS_HomeController implements Initializable {
 
@@ -56,15 +55,13 @@ public class ADS_HomeController implements Initializable {
             
         });
 
-        AdditServices as = new AdditServices("title", new ServiceCategory("category_title", ServiceType.PROSITIVE), 13);
-        AdditServices as1 = new AdditServices("title", new ServiceCategory("category_title", ServiceType.PROSITIVE), 15);
-        AdditServices as2 = new AdditServices("title", new ServiceCategory("category_title", ServiceType.PROSITIVE), 16);
-        List<AdditServices> adsl = new ArrayList<>();
-        adsl.add(as);
-        adsl.add(as1);
-        adsl.add(as2);
-
-        activ.addAll(adsl);
+        List<?> adsl = DecodeOperation.decodeLogicOperation(OperationType.GET_ADS, null, null);
+        if (adsl != null && adsl.size() != 0){
+            for (Object o : adsl) {
+                AdditServices tmp = (AdditServices) o;
+                activ.add(tmp);
+            }
+        }
 
         ads_table.getItems().setAll(activ);
     }

@@ -6,19 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import base_classes.classes.AdditServices;
 import base_classes.classes.ClientUsedServices;
 import base_classes.classes.Clients;
-import base_classes.classes.Country;
-import base_classes.classes.Raiting;
 import base_classes.classes.Reservation;
-import base_classes.classes.ReservationForm;
 import base_classes.classes.Room;
-import base_classes.classes.ServiceCategory;
 import base_classes.classes.User;
-import base_classes.classes.emuns.SE;
-import base_classes.classes.emuns.ServiceType;
-import base_classes.classes.emuns.URE;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -40,8 +32,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
-// import logic.DecodeOperation;
-// import logic.OperationType;
+import logic.DecodeOperation;
+import logic.OperationType;
 
 public class ReferencesHomeController implements Initializable {
 
@@ -68,6 +60,7 @@ public class ReferencesHomeController implements Initializable {
 
     @FXML
     void RoomRaiting(ActionEvent event) {
+        removeNodeByRowColumnIndex(0, 2, sub_grid);
         TableView<Room> room_rait_table = new TableView<>();
         TableColumn<Room, String> room_num_col = new TableColumn<>("Number");
         TableColumn<Room, String> type_col = new TableColumn<>("Type");
@@ -90,15 +83,13 @@ public class ReferencesHomeController implements Initializable {
         data.add(fromD.toString());
         data.add(toD.toString());
 
-        // List<?> room = DecodeOperation.decodeLogicOperation(OperationType.ROOM_RAITING, null, data);
-        // for (Object object : room) {
-        //     Room tmp = (Room) object;
-        //     activ.add(tmp);
-        // }
-
-        Room r = new Room("r_number", "Double", 153, SE.DIRTY);
-        r.addToRait(new Raiting(5));
-        activ.add(r);
+        List<?> room = DecodeOperation.decodeLogicOperation(OperationType.ROOM_RAITING, null, data);
+        if (room != null && room.size() != 0) {
+            for (Object object : room) {
+                Room tmp = (Room) object;
+                activ.add(tmp);
+            }
+        }
 
         room_rait_table.getColumns().add(room_num_col);
         room_rait_table.getColumns().add(type_col);
@@ -111,6 +102,7 @@ public class ReferencesHomeController implements Initializable {
 
     @FXML
     void clientInfoBtn(ActionEvent event) {
+        removeNodeByRowColumnIndex(0, 2, sub_grid);
         TableColumn<Clients, Integer> number_col = new TableColumn<>("ID");
         TableColumn<Clients, String> name_col = new TableColumn<>("Name");
         TableColumn<Clients, String> country_col = new TableColumn<>("Coutry");
@@ -152,16 +144,12 @@ public class ReferencesHomeController implements Initializable {
         data.add(toD.toString());
         data.add("1"); //TODO: figure how to add the hotel id
 
-        // List<?> res = DecodeOperation.decodeLogicOperation(OperationType.CLIENT_INFO, null, data);
-        
-        // for (Object object : res) {
-        //     activ.add((Clients) object);
-        // }
-
-        Clients c = new Clients("name", LocalDate.now(), false, "passport_number", LocalDate.now(), "car_number", new Country("Testivile"),
-                "client_note", "vaucher");
-        
-        activ.add(c);
+        List<?> result = DecodeOperation.decodeLogicOperation(OperationType.CLIENT_INFO, null, data);
+        if (result != null && result.size() != 0) {
+            for (Object object : result) {
+                activ.add((Clients) object);
+            }
+        }      
 
         tv.getColumns().add(number_col);
         tv.getColumns().add(name_col);
@@ -179,6 +167,7 @@ public class ReferencesHomeController implements Initializable {
 
     @FXML
     void clientRaiting(ActionEvent event) {
+        removeNodeByRowColumnIndex(0, 2, sub_grid);
         TableColumn<Clients, Integer> number_col = new TableColumn<>("ID");
         TableColumn<Clients, String> name_col = new TableColumn<>("Name");
         TableColumn<Clients, Number> rait_col = new TableColumn<>("Rating");
@@ -214,35 +203,27 @@ public class ReferencesHomeController implements Initializable {
         List<String> data = new ArrayList<>();
         data.add(fromD.toString());
         data.add(toD.toString());
-        data.add("1");
 
-        Clients c = new Clients("name", LocalDate.now(), false, "passport_number", LocalDate.now(), "car_number", null, "client_note", "vaucher");
-        Raiting r = new Raiting(6.1);
-        List<Raiting> rl = new ArrayList<>();
-        rl.add(r);
-        c.setRait(rl);
-
-
-        // List<?> res = DecodeOperation.decodeLogicOperation(OperationType.CLIENT_INFO, null, data);
-
-        // for (Object object : res) {
-        //     activ.add((Clients) object);
-        // }
+        List<?> res = DecodeOperation.decodeLogicOperation(OperationType.CLIENT_RAITING, null, data);
+        if (res != null && res.size() != 0) {
+            for (Object object : res) {
+                activ.add((Clients) object);
+            }
+        }
 
         tv.getColumns().add(number_col);
         tv.getColumns().add(name_col);
         tv.getColumns().add(sex_col);
         tv.getColumns().add(rait_col);
 
-        activ.add(c);
-
         tv.getItems().setAll(activ);
 
-        sub_grid.add(tv, 2, 0); // If returns null Write something
+        sub_grid.add(tv, 2, 0);
     }
 
     @FXML
     void createdReservations(ActionEvent event) { //TODO: problem with getting data
+        removeNodeByRowColumnIndex(0, 2, sub_grid);
         TableView<Reservation> reserv_table = new TableView<>();
         TableColumn<Reservation, Integer> number_col = new TableColumn<>("ID");
         TableColumn<Reservation, String> status_col = new TableColumn<>("Status");
@@ -348,20 +329,13 @@ public class ReferencesHomeController implements Initializable {
         List<String> data = new ArrayList<>();
         data.add(fromD.toString());
         data.add(toD.toString());
-        data.add("1");
 
-        // List<?> res = DecodeOperation.decodeLogicOperation(OperationType.CREATED_RESERVATIONS, null, data);
-
-        // for (Object object : res) {
-        //     activ.add((Reservation) object);
-        // }
-
-        ReservationForm fr = new ReservationForm("reservation_type", "room_type", "cancel_type", LocalDate.of(2020, 11, 15),
-                LocalDate.of(2020, 12, 15), 1, 1, 0, "food_type", 1000, "status", "notes", "client_name");
-
-        Reservation r = new Reservation(new User("mej", "fedlslf", URE.ADMIN), fr, null);
-
-        activ.add(r);
+        List<?> res = DecodeOperation.decodeLogicOperation(OperationType.CREATED_RESERVATIONS, null, data);
+        if (res != null && res.size() != 0) {
+            for (Object object : res) {
+                activ.add((Reservation) object);
+            }
+        }
 
         reserv_table.getColumns().add(number_col);
         reserv_table.getColumns().add(status_col);
@@ -395,16 +369,32 @@ public class ReferencesHomeController implements Initializable {
         }
     }
 
+    public void removeVbox(final int row, final int column, GridPane gridPane) {
+        ObservableList<Node> childrens = gridPane.getChildren();
+        boolean flag = false;
+        if (childrens.size() > 1) {
+            for (Node node : childrens) {
+                if (node instanceof VBox) {
+                    VBox imageView = (VBox) node;
+                    if (flag == true) gridPane.getChildren().remove(imageView);
+                    else flag = true;
+                    break;
+                }
+            }
+        }
+    }
+
     @FXML
     void createdReservationsRecep(ActionEvent event) {
         removeNodeByRowColumnIndex(0, 2, sub_grid);
+        removeVbox(0, 2, sub_grid);
 
         String res = recep_choice.getSelectionModel().getSelectedItem();
         VBox vb = new VBox();
         HBox hb = new HBox(2);
         List<Label> labelList = new ArrayList<>();
         labelList.add(new Label("user name: " + res));
-        labelList.add(new Label("text"));
+        labelList.add(new Label(", text"));
         hb.getChildren().setAll(labelList);
 
         TableView<Reservation> reserv_table = new TableView<>();
@@ -423,14 +413,18 @@ public class ReferencesHomeController implements Initializable {
                     return new SimpleStringProperty(param.getValue().getReservation_form().getClient_name());
                 }
             });
-        
-        ReservationForm fr = new ReservationForm("reservation_type", "room_type", "cancel_type",
-                LocalDate.of(2020, 11, 15), LocalDate.of(2020, 12, 15), 1, 1, 0, "food_type", 1000, "status", "notes",
-                "client_name");
 
-        Reservation r = new Reservation(new User("mej", "fedlslf", URE.ADMIN), fr, null);
+        List<String> data = new ArrayList<>();
+        data.add(fromDate.getValue().toString());
+        data.add(toDate.getValue().toString());
 
-        activ.add(r);
+        List<?> result = DecodeOperation.decodeLogicOperation(OperationType.RECEPT_CREATED_RESERVATIONS, null, data);
+
+        if (result != null && result.size() != 0) {
+            for (Object object : result) {
+                activ.add((Reservation) object);
+            }
+        }
 
         reserv_table.getColumns().add(number_col);
         reserv_table.getColumns().add(client_name_col);
@@ -446,6 +440,7 @@ public class ReferencesHomeController implements Initializable {
 
     @FXML
     void usedServices(ActionEvent event) {
+        removeNodeByRowColumnIndex(0, 2, sub_grid);
         TableColumn<ClientUsedServices, String> name_col = new TableColumn<>("Name");
         TableColumn<ClientUsedServices, String> category_col = new TableColumn<>("Category");
         TableColumn<ClientUsedServices, Integer> quantity_col = new TableColumn<>("Quantity");
@@ -474,34 +469,32 @@ public class ReferencesHomeController implements Initializable {
         List<String> data = new ArrayList<>();
         data.add(fromD.toString());
         data.add(toD.toString());
-        data.add("1");
 
-        ServiceCategory sc = new ServiceCategory("category_title", ServiceType.NEGATIVE);
-        AdditServices ads = new AdditServices("title", sc, 20);
-        ClientUsedServices cus = new ClientUsedServices(ads, 5, "note");
-        activ.add(cus);
-
-        // List<?> res = DecodeOperation.decodeLogicOperation(OperationType.CLIENT_INFO, null, data);
-
-        // for (Object object : res) {
-        //     activ.add((ClientUsedServices) object);
-        // }
-
+        List<?> res = DecodeOperation.decodeLogicOperation(OperationType.USED_SERVICES, null, data);
+        if (res != null && res.size() != 0) {
+            for (Object object : res) {
+                activ.add((ClientUsedServices) object);
+            }
+        }
 
         tv.getColumns().add(name_col);
         tv.getColumns().add(category_col);
         tv.getColumns().add(quantity_col);
 
-
         tv.getItems().setAll(activ);
 
-        sub_grid.add(tv, 2, 0); // If returns null Write something
+        sub_grid.add(tv, 2, 0);
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        recep_choice.getItems().setAll("Test1", "Test2", "Test3"); //TODO: get users from db
-        //List<?> res = DecodeOperation.decodeLogicOperation(OperationType., o, data)
+        List<?> receptionists = DecodeOperation.decodeLogicOperation(OperationType.GET_RECEPTIONIST, null, null);
+        if (receptionists != null && receptionists.size() != 0) {
+            for (Object object : receptionists) {
+                User tmp = (User) object;
+                recep_choice.getItems().add(tmp.getUser_name());
+            }
+        }
         fromDate.setValue(LocalDate.now());
         toDate.setValue(LocalDate.now());
         
