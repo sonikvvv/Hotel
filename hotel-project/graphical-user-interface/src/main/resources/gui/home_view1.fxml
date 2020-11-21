@@ -12,7 +12,7 @@
    <children>
       <AnchorPane layoutY="750.0" prefHeight="50.0" prefWidth="1300.0" style="-fx-background-color: #845EC2;">
          <children>
-            <Button fx:id="see_all_notif_btn" layoutX="1240.0" layoutY="14.0" mnemonicParsing="false" text="See all" />
+            <Button fx:id="see_all_notif_btn" layoutX="1226.0" layoutY="7.0" mnemonicParsing="false" styleClass="bttn" stylesheets="@style.css" text="See all" />
          </children></AnchorPane>
       <AnchorPane prefHeight="750.0" prefWidth="250.0" style="-fx-background-color: #87898b;">
          <children>
@@ -27,27 +27,27 @@
                <children>
                   <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
                      <children>
-                        <Button fx:id="reservation_btn" mnemonicParsing="false" onAction="#reservations" prefHeight="50.0" prefWidth="250.0" text="Reservations">
+                        <Button fx:id="reservation_btn" mnemonicParsing="false" onAction="#reservations" prefHeight="50.0" prefWidth="250.0" styleClass="bttn" stylesheets="@style.css" text="Reservations">
                            <VBox.margin>
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </Button>
-                        <Button fx:id="room_btn" mnemonicParsing="false" onAction="#rooms" prefHeight="50.0" prefWidth="250.0" text="Rooms">
+                        <Button fx:id="room_btn" mnemonicParsing="false" onAction="#rooms" prefHeight="50.0" prefWidth="250.0" styleClass="bttn" stylesheets="@style.css" text="Rooms">
                            <VBox.margin>
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </Button>
-                        <Button fx:id="ads_btn" mnemonicParsing="false" onAction="#ads" prefHeight="50.0" prefWidth="250.0" text="Additional Services">
+                        <Button fx:id="ads_btn" mnemonicParsing="false" onAction="#ads" prefHeight="50.0" prefWidth="250.0" styleClass="bttn" stylesheets="@style.css" text="Additional Services">
                            <VBox.margin>
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </Button>
-                        <Button fx:id="ref_btn" mnemonicParsing="false" onAction="#ref" prefHeight="50.0" prefWidth="250.0" text="References">
+                        <Button fx:id="ref_btn" mnemonicParsing="false" onAction="#ref" prefHeight="50.0" prefWidth="250.0" styleClass="bttn" stylesheets="@style.css" text="References">
                            <VBox.margin>
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </Button>
-                        <Button fx:id="users_btn" mnemonicParsing="false" onAction="#users" prefHeight="50.0" prefWidth="250.0" text="Users">
+                        <Button fx:id="users_btn" mnemonicParsing="false" onAction="#users" prefHeight="50.0" prefWidth="250.0" styleClass="bttn" stylesheets="@style.css" text="Users">
                            <VBox.margin>
                               <Insets bottom="10.0" />
                            </VBox.margin>

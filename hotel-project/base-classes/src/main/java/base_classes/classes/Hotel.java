@@ -99,7 +99,7 @@ public class Hotel {
 
 
     public void addToUsers(User u) {
-        u.setHotel_id(this.hotel_id);
+        u.addToID(this.hotel_id + "");
         this.users.add(u);
     }
     

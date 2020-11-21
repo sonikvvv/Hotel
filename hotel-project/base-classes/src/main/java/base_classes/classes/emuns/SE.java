@@ -5,5 +5,6 @@ public enum SE {
     OUT_OF_ORDER,
     RESERVED,
     OCCUPIED,
+    CHECCK_OUT,
     FREE
 }

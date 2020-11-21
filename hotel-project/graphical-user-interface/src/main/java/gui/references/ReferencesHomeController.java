@@ -10,6 +10,7 @@ import base_classes.classes.ClientUsedServices;
 import base_classes.classes.Clients;
 import base_classes.classes.Reservation;
 import base_classes.classes.Room;
+import base_classes.classes.User;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -19,18 +20,21 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import logic.DecodeOperation;
 import logic.OperationType;
 
-@SuppressWarnings("rawtypes")
 public class ReferencesHomeController implements Initializable {
 
     @FXML
@@ -56,10 +60,11 @@ public class ReferencesHomeController implements Initializable {
 
     @FXML
     void RoomRaiting(ActionEvent event) {
+        removeNodeByRowColumnIndex(0, 2, sub_grid);
         TableView<Room> room_rait_table = new TableView<>();
-        TableColumn<Room, String> room_num_col = new TableColumn<>();
-        TableColumn<Room, String> type_col = new TableColumn<>();
-        TableColumn<Room, Number> raiting_col = new TableColumn<>();
+        TableColumn<Room, String> room_num_col = new TableColumn<>("Number");
+        TableColumn<Room, String> type_col = new TableColumn<>("Type");
+        TableColumn<Room, Number> raiting_col = new TableColumn<>("Rating");
         ObservableList<Room> activ = FXCollections.observableArrayList();
 
         room_num_col.setCellValueFactory(new PropertyValueFactory<>("r_number"));
@@ -79,9 +84,11 @@ public class ReferencesHomeController implements Initializable {
         data.add(toD.toString());
 
         List<?> room = DecodeOperation.decodeLogicOperation(OperationType.ROOM_RAITING, null, data);
-        for (Object object : room) {
-            Room tmp = (Room) object;
-            activ.add(tmp);
+        if (room != null && room.size() != 0) {
+            for (Object object : room) {
+                Room tmp = (Room) object;
+                activ.add(tmp);
+            }
         }
 
         room_rait_table.getColumns().add(room_num_col);
@@ -95,6 +102,7 @@ public class ReferencesHomeController implements Initializable {
 
     @FXML
     void clientInfoBtn(ActionEvent event) {
+        removeNodeByRowColumnIndex(0, 2, sub_grid);
         TableColumn<Clients, Integer> number_col = new TableColumn<>("ID");
         TableColumn<Clients, String> name_col = new TableColumn<>("Name");
         TableColumn<Clients, String> country_col = new TableColumn<>("Coutry");
@@ -113,21 +121,17 @@ public class ReferencesHomeController implements Initializable {
         passport_date_col.setCellValueFactory(new PropertyValueFactory<Clients, LocalDate>("c_passport_date"));
         vaucher_col.setCellValueFactory(new PropertyValueFactory<Clients, String>("vaucher"));
         country_col.setCellValueFactory(
-                new Callback<TableColumn.CellDataFeatures<Clients, String>, ObservableValue<String>>() {
-
-                    @Override
-                    public ObservableValue<String> call(CellDataFeatures<Clients, String> param) {
-                        return new SimpleStringProperty(param.getValue().getCountry().getCountry_name());
-                    }
-
-                });
+            new Callback<TableColumn.CellDataFeatures<Clients, String>, ObservableValue<String>>() {
+                @Override
+                public ObservableValue<String> call(CellDataFeatures<Clients, String> param) {
+                    return new SimpleStringProperty(param.getValue().getCountry().getCountry_name());
+                }
+            });
         sex_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Clients,String>,ObservableValue<String>>(){
-
             @Override
             public ObservableValue<String> call(CellDataFeatures<Clients, String> param) {
                 return new SimpleStringProperty(param.getValue().getC_sex());
             }
-            
         });
 
         name_col.setMinWidth(250);
@@ -140,11 +144,12 @@ public class ReferencesHomeController implements Initializable {
         data.add(toD.toString());
         data.add("1"); //TODO: figure how to add the hotel id
 
-        List<?> res = DecodeOperation.decodeLogicOperation(OperationType.CLIENT_INFO, null, data);
-        
-        for (Object object : res) {
-            activ.add((Clients) object);
-        }
+        List<?> result = DecodeOperation.decodeLogicOperation(OperationType.CLIENT_INFO, null, data);
+        if (result != null && result.size() != 0) {
+            for (Object object : result) {
+                activ.add((Clients) object);
+            }
+        }      
 
         tv.getColumns().add(number_col);
         tv.getColumns().add(name_col);
@@ -162,6 +167,7 @@ public class ReferencesHomeController implements Initializable {
 
     @FXML
     void clientRaiting(ActionEvent event) {
+        removeNodeByRowColumnIndex(0, 2, sub_grid);
         TableColumn<Clients, Integer> number_col = new TableColumn<>("ID");
         TableColumn<Clients, String> name_col = new TableColumn<>("Name");
         TableColumn<Clients, Number> rait_col = new TableColumn<>("Rating");
@@ -197,12 +203,12 @@ public class ReferencesHomeController implements Initializable {
         List<String> data = new ArrayList<>();
         data.add(fromD.toString());
         data.add(toD.toString());
-        data.add("1");
 
-        List<?> res = DecodeOperation.decodeLogicOperation(OperationType.CLIENT_INFO, null, data);
-
-        for (Object object : res) {
-            activ.add((Clients) object);
+        List<?> res = DecodeOperation.decodeLogicOperation(OperationType.CLIENT_RAITING, null, data);
+        if (res != null && res.size() != 0) {
+            for (Object object : res) {
+                activ.add((Clients) object);
+            }
         }
 
         tv.getColumns().add(number_col);
@@ -212,11 +218,12 @@ public class ReferencesHomeController implements Initializable {
 
         tv.getItems().setAll(activ);
 
-        sub_grid.add(tv, 2, 0); // If returns null Write something
+        sub_grid.add(tv, 2, 0);
     }
 
     @FXML
     void createdReservations(ActionEvent event) { //TODO: problem with getting data
+        removeNodeByRowColumnIndex(0, 2, sub_grid);
         TableView<Reservation> reserv_table = new TableView<>();
         TableColumn<Reservation, Integer> number_col = new TableColumn<>("ID");
         TableColumn<Reservation, String> status_col = new TableColumn<>("Status");
@@ -322,12 +329,12 @@ public class ReferencesHomeController implements Initializable {
         List<String> data = new ArrayList<>();
         data.add(fromD.toString());
         data.add(toD.toString());
-        data.add("1");
 
         List<?> res = DecodeOperation.decodeLogicOperation(OperationType.CREATED_RESERVATIONS, null, data);
-
-        for (Object object : res) {
-            activ.add((Reservation) object);
+        if (res != null && res.size() != 0) {
+            for (Object object : res) {
+                activ.add((Reservation) object);
+            }
         }
 
         reserv_table.getColumns().add(number_col);
@@ -350,13 +357,90 @@ public class ReferencesHomeController implements Initializable {
         sub_grid.add(reserv_table, 2, 0);
     }
 
+    public void removeNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
+        ObservableList<Node> childrens = gridPane.getChildren();
+        for (Node node : childrens) {
+            if (node instanceof TableView && GridPane.getRowIndex(node) == row
+                    && GridPane.getColumnIndex(node) == column) {
+                TableView<?> imageView = (TableView<?>)node;
+                gridPane.getChildren().remove(imageView);
+                break;
+            }
+        }
+    }
+
+    public void removeVbox(final int row, final int column, GridPane gridPane) {
+        ObservableList<Node> childrens = gridPane.getChildren();
+        boolean flag = false;
+        if (childrens.size() > 1) {
+            for (Node node : childrens) {
+                if (node instanceof VBox) {
+                    VBox imageView = (VBox) node;
+                    if (flag == true) gridPane.getChildren().remove(imageView);
+                    else flag = true;
+                    break;
+                }
+            }
+        }
+    }
+
     @FXML
     void createdReservationsRecep(ActionEvent event) {
+        removeNodeByRowColumnIndex(0, 2, sub_grid);
+        removeVbox(0, 2, sub_grid);
+
+        String res = recep_choice.getSelectionModel().getSelectedItem();
+        VBox vb = new VBox();
+        HBox hb = new HBox(2);
+        List<Label> labelList = new ArrayList<>();
+        labelList.add(new Label("user name: " + res));
+        labelList.add(new Label(", text"));
+        hb.getChildren().setAll(labelList);
+
+        TableView<Reservation> reserv_table = new TableView<>();
+        TableColumn<Reservation, Integer> number_col = new TableColumn<>("ID");
+        TableColumn<Reservation, String> client_name_col = new TableColumn<>("Client Name");
+        TableColumn<Reservation, LocalDate> date_col = new TableColumn<>("Date");
+        ObservableList<Reservation> activ = FXCollections.observableArrayList();
+        reserv_table.setPrefHeight(660);
+
+        number_col.setCellValueFactory(new PropertyValueFactory<>("reservation_id"));
+        date_col.setCellValueFactory(new PropertyValueFactory<>("date_made"));
+        client_name_col.setCellValueFactory(
+            new Callback<TableColumn.CellDataFeatures<Reservation, String>, ObservableValue<String>>() {
+                @Override
+                public ObservableValue<String> call(CellDataFeatures<Reservation, String> param) {
+                    return new SimpleStringProperty(param.getValue().getReservation_form().getClient_name());
+                }
+            });
+
+        List<String> data = new ArrayList<>();
+        data.add(fromDate.getValue().toString());
+        data.add(toDate.getValue().toString());
+
+        List<?> result = DecodeOperation.decodeLogicOperation(OperationType.RECEPT_CREATED_RESERVATIONS, null, data);
+
+        if (result != null && result.size() != 0) {
+            for (Object object : result) {
+                activ.add((Reservation) object);
+            }
+        }
+
+        reserv_table.getColumns().add(number_col);
+        reserv_table.getColumns().add(client_name_col);
+        reserv_table.getColumns().add(date_col);
+
+        reserv_table.getItems().setAll(activ);
+        vb.getChildren().add(hb);
+        vb.getChildren().add(reserv_table);
+
+        sub_grid.add(vb, 2, 0);
 
     }
 
     @FXML
     void usedServices(ActionEvent event) {
+        removeNodeByRowColumnIndex(0, 2, sub_grid);
         TableColumn<ClientUsedServices, String> name_col = new TableColumn<>("Name");
         TableColumn<ClientUsedServices, String> category_col = new TableColumn<>("Category");
         TableColumn<ClientUsedServices, Integer> quantity_col = new TableColumn<>("Quantity");
@@ -385,28 +469,35 @@ public class ReferencesHomeController implements Initializable {
         List<String> data = new ArrayList<>();
         data.add(fromD.toString());
         data.add(toD.toString());
-        data.add("1");
 
-        List<?> res = DecodeOperation.decodeLogicOperation(OperationType.CLIENT_INFO, null, data);
-
-        for (Object object : res) {
-            activ.add((ClientUsedServices) object);
+        List<?> res = DecodeOperation.decodeLogicOperation(OperationType.USED_SERVICES, null, data);
+        if (res != null && res.size() != 0) {
+            for (Object object : res) {
+                activ.add((ClientUsedServices) object);
+            }
         }
 
-
         tv.getColumns().add(name_col);
-
+        tv.getColumns().add(category_col);
+        tv.getColumns().add(quantity_col);
 
         tv.getItems().setAll(activ);
 
-        sub_grid.add(tv, 2, 0); // If returns null Write something
+        sub_grid.add(tv, 2, 0);
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        recep_choice.getItems().setAll("Test1", "Test2", "Test3");
-        //List<?> res = DecodeOperation.decodeLogicOperation(OperationType., o, data)
-
+        List<?> receptionists = DecodeOperation.decodeLogicOperation(OperationType.GET_RECEPTIONIST, null, null);
+        if (receptionists != null && receptionists.size() != 0) {
+            for (Object object : receptionists) {
+                User tmp = (User) object;
+                recep_choice.getItems().add(tmp.getUser_name());
+            }
+        }
+        fromDate.setValue(LocalDate.now());
+        toDate.setValue(LocalDate.now());
+        
     }
 
 }
