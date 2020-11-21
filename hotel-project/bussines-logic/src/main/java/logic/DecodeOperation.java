@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import base_classes.DBConnection;
+import base_classes.classes.Clients;
+import base_classes.classes.Country;
 import logic.operations.*;
+import java.time.LocalDate;
 
 public class DecodeOperation {
     private static DBConnection db = new DBConnection();
@@ -59,6 +62,7 @@ public class DecodeOperation {
         t.add("2020-11-16");
         t.add("2020-11-17");
         t.add("1");
-        List res = DecodeOperation.decodeLogicOperation(OperationType.CLIENT_INFO, null, t);
+        Clients purvi = new Clients("Kaloyan", LocalDate.of(1999, 9, 24), true, "1369", LocalDate.of(2023, 1, 5) , "AV1552A", new Country("Bulgaria"), "No note", "42194Xd");
+        List res = DecodeOperation.decodeLogicOperation(OperationType.UPDATE, purvi, null);
     }
 }

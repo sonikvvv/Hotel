@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.clients.AddCust_Controller">
+   <children>
+      <GridPane prefHeight="600.0" prefWidth="500.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="40.0" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="40.0" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="225.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="20.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="20.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <TextField fx:id="addcust_name" prefHeight="40.0" promptText="Name" stylesheets="@../style.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <styleClass>
+                  <String fx:value="txt_field" />
+                  <String fx:value="small_label" />
+               </styleClass></TextField>
+            <TextArea fx:id="addcust_note" prefHeight="40.0" prefWidth="200.0" promptText="Note" stylesheets="@../style.css" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <styleClass>
+                  <String fx:value="txt_field" />
+                  <String fx:value="small_label" />
+               </styleClass></TextArea>
+            <TextField prefHeight="40.0" prefWidth="420.0" promptText="Voucher" stylesheets="@../style.css" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <styleClass>
+                  <String fx:value="txt_field" />
+                  <String fx:value="small_label" />
+               </styleClass>
+            </TextField>
+            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="180.0" styleClass="bttn" stylesheets="@../style.css" text="Save" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6">
+               <GridPane.margin>
+                  <Insets left="20.0" />
+               </GridPane.margin>
+            </Button>
+            <Label styleClass="big_label" stylesheets="@../style.css" text="Customer Info" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+            <GridPane GridPane.columnIndex="1" GridPane.rowIndex="2">
+              <columnConstraints>
+                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ComboBox fx:id="addcust_sex" prefHeight="35.0" prefWidth="210.0" promptText="Sex" stylesheets="@../style.css" visibleRowCount="2" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
+                     <styleClass>
+                        <String fx:value="txt_field" />
+                        <String fx:value="small_label" />
+                     </styleClass>
+                  </ComboBox>
+                  <DatePicker fx:id="addcust_passportdate" prefHeight="35.0" prefWidth="210.0" promptText="Passport Date" styleClass="date_picker" stylesheets="@../style.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
+                  </DatePicker>
+                  <TextField fx:id="addcust_passportnumber" prefHeight="40.0" prefWidth="200.0" promptText="Passport number" stylesheets="@../style.css" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets right="10.0" />
+                     </GridPane.margin>
+                     <styleClass>
+                        <String fx:value="txt_field" />
+                        <String fx:value="small_label" />
+                     </styleClass>
+                  </TextField>
+                  <TextField fx:id="addcust_carnumber" prefHeight="40.0" prefWidth="200.0" promptText="Car Number" stylesheets="@../style.css" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets right="10.0" />
+                     </GridPane.margin>
+                     <styleClass>
+                        <String fx:value="txt_field" />
+                        <String fx:value="small_label" />
+                     </styleClass>
+                  </TextField>
+                  <DatePicker fx:id="addcust_dateofbirth" prefHeight="35.0" prefWidth="210.0" promptText="Date Of Birth" styleClass="date_picker" stylesheets="@../style.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
+                  </DatePicker>
+                  <TextField fx:id="addcust_country" prefHeight="40.0" prefWidth="91.0" promptText="Country" stylesheets="@../style.css">
+                     <GridPane.margin>
+                        <Insets right="10.0" />
+                     </GridPane.margin>
+                     <styleClass>
+                        <String fx:value="txt_field" />
+                        <String fx:value="small_label" />
+                     </styleClass>
+                  </TextField>
+               </children>
+            </GridPane>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>

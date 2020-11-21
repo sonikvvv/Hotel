@@ -57,6 +57,21 @@ public class Clients {
     public Clients() {}
 
     public Clients(String name, LocalDate birth_date, boolean sex, String passport_number, LocalDate passport_date,
+            String car_number, Country country, String client_note) {
+
+        this.c_name = name;
+        this.c_bd = birth_date;
+        this.c_sex = sex;
+        this.c_passport_number = passport_number;
+        this.c_passport_date = passport_date;
+        this.c_car_number = car_number;
+        this.country = country;
+        this.c_note = client_note;
+        this.check_in = LocalDateTime.now();
+        
+    }
+
+    public Clients(String name, LocalDate birth_date, boolean sex, String passport_number, LocalDate passport_date,
             String car_number, Country country, String client_note, String vaucher) {
 
         this.c_name = name;
