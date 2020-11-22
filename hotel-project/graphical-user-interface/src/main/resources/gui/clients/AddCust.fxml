@@ -43,7 +43,7 @@
                   <String fx:value="txt_field" />
                   <String fx:value="small_label" />
                </styleClass></TextArea>
-            <TextField prefHeight="40.0" prefWidth="420.0" promptText="Voucher" stylesheets="@../style.css" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <TextField fx:id="addcust_voucher" prefHeight="40.0" prefWidth="420.0" promptText="Voucher" stylesheets="@../style.css" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <styleClass>
                   <String fx:value="txt_field" />
                   <String fx:value="small_label" />

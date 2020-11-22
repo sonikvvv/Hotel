@@ -21,7 +21,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -33,6 +35,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class Room_ViewController implements Initializable {
@@ -73,7 +76,20 @@ public class Room_ViewController implements Initializable {
 
     @FXML
     void clients_add(ActionEvent event) {
-        // TODO:
+        try
+        {
+        Stage stage = new Stage();
+        Scene scene = new Scene(FXMLLoader.load(getClass().getResource("../clients/AddCust.fxml")));
+        stage.setScene(scene);
+        stage.show();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        // TODO:da zaredi nova scena i fxml fail
+        
     }
 
     @FXML

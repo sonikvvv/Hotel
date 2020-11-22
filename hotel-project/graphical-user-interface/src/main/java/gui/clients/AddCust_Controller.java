@@ -63,7 +63,7 @@ public void initialize()
 
 
 
-    
+    @FXML
 public void AddCustomer()
 {
     LocalDate DateOfBirth = addcust_dateofbirth.getValue();
@@ -96,7 +96,7 @@ public void AddCustomer()
 
             Clients klient = new Clients(Name, DateOfBirth, sex, PassportNumber, PassportDate, CarNumber, new Country(Country),Note);
             //TODO Save object
-            List res = DecodeOperation.decodeLogicOperation(OperationType.UPDATE, klient, null);
+            List res = DecodeOperation.decodeLogicOperation(OperationType.SAVE_OR_UPDATE, klient, null);
         }
 
    
