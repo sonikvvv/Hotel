@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import base_classes.classes.emuns.UE;
 import base_classes.classes.emuns.URE;
 
 public class UserTest {
@@ -29,7 +28,7 @@ public class UserTest {
         fieldsTest.add("user_name");
         fieldsTest.add("user_password");
         fieldsTest.add("user_role");
-        fieldsTest.add("hotel_id");
+        fieldsTest.add("hotel");
         u = new User(name, pass, role);
         u.setUser_id(id);
     }
@@ -43,14 +42,5 @@ public class UserTest {
     public void fieldsTest() {
         assertEquals("fields test", fieldsTest, User.getFields());
     }
-
-    @Test
-    public void searchTest() {
-        assertEquals("from " + table_name + " t where t." + fieldsTest.get(0) + " = :value", User.search(UE.ID));
-        assertEquals("from " + table_name + " t where t." + fieldsTest.get(1) + " = :value", User.search(UE.NAME));
-        assertEquals("from " + table_name + " t where t." + fieldsTest.get(3) + " = :value", User.search(UE.ROLE));
-    }
-
-
-    
+       
 }

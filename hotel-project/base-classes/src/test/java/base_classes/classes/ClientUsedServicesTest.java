@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import base_classes.classes.emuns.CUSe;
 import base_classes.classes.emuns.ServiceType;
 
 public class ClientUsedServicesTest {
@@ -56,16 +55,6 @@ public class ClientUsedServicesTest {
         assertEquals(test.get(1), ClientUsedServices.getFields().get(1));
         assertEquals(test.get(2), ClientUsedServices.getFields().get(2));
         assertEquals(test.get(3), ClientUsedServices.getFields().get(3));
-    }
-
-    @Test
-    public void searchTest() {
-        String sql = "from " + table_name + " t where t.";
-        assertEquals(sql + test.get(0) + " = ", ClientUsedServices.search(CUSe.ID));
-        assertEquals(sql + test.get(1) + "." + AdditServices.getFields().get(0) + " = ", ClientUsedServices.search(CUSe.ADDIT_SERVICE_ID));
-        assertEquals(sql + test.get(1) + "." + AdditServices.getFields().get(1) + " = '", ClientUsedServices.search(CUSe.ADDIT_SERVICE_TITLE));
-        assertEquals(sql + test.get(2) + " = ", ClientUsedServices.search(CUSe.QUANTITY));
-        assertEquals(sql + test.get(3) + " like to_date('", ClientUsedServices.search(CUSe.DATE));
     }
 
     @Test

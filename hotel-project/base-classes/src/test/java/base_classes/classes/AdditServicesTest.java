@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import base_classes.classes.emuns.ADServicesE;
 import base_classes.classes.emuns.ServiceType;
 
 
@@ -33,7 +32,7 @@ public class AdditServicesTest {
         test.add("title");
         test.add("price");
         test.add("category");
-        test.add("hotel_id");
+        test.add("hotel");
         test.add("rait");
         sc = new ServiceCategory(category_title, type);
         ad = new AdditServices(title, sc, price);
@@ -68,27 +67,6 @@ public class AdditServicesTest {
     @Test
     public void getID() {
         assertEquals("get id", id, ad.getServ_id());
-    }
-
-    @Test
-    public void searchTest() {
-        assertEquals(("from " + AdditServices.getTableName() + "t where t." + test.get(0)+ " = :value"),
-            AdditServices.search(ADServicesE.ID));
-
-        assertEquals(("from " + AdditServices.getTableName() + "t where t." + test.get(1)+ " = :value"), 
-            AdditServices.search(ADServicesE.TITLE));
-
-        assertEquals(("from " + AdditServices.getTableName() + "t where t." + test.get(2)+ " = :value"), 
-            AdditServices.search(ADServicesE.PRICE));
-
-        assertEquals(("from " + AdditServices.getTableName() + "t where t." + test.get(3)+ "."
-            + ServiceCategory.getFields().get(0) + " = :value"), AdditServices.search(ADServicesE.CATEGORY_ID));
-
-        assertEquals(("from " + AdditServices.getTableName() + "t where t." + test.get(3)+ "."
-            + ServiceCategory.getFields().get(1) + " = :value"), AdditServices.search(ADServicesE.CATEGORY_NAME));
-
-        assertEquals(("from " + AdditServices.getTableName() + "t where t." + test.get(4)+  " = :value"),
-        AdditServices.search(ADServicesE.HOTEL_ID));
     }
 
     @Test

@@ -15,7 +15,7 @@ public class Raiting {
     
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rait_generator")
-    @SequenceGenerator(name = "rait_generator", sequenceName = "rait_seq", allocationSize = 50)
+    @SequenceGenerator(name = "rait_generator", sequenceName = "rait_seq", allocationSize = 1)
     private int rait_id;
     private double rait_value;
     private LocalDateTime date_made;

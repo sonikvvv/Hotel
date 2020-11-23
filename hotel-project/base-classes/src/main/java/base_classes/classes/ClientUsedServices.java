@@ -1,6 +1,6 @@
 package base_classes.classes;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,32 +10,33 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.Type;
 
-import base_classes.classes.emuns.CUSe;
-
 @Entity(name = "c_used_serv")
 public class ClientUsedServices {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cus_generator")
-    @SequenceGenerator(name = "cus_generator", sequenceName = "cus_seq", allocationSize = 50)
+    @SequenceGenerator(name = "cus_generator", sequenceName = "cus_seq", allocationSize = 1)
     private int cus_id;
     
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "serv_id")
     private AdditServices addit_service;
     private int quantity;
-    private LocalDateTime purchase_date;
+    private LocalDate purchase_date;
     private String note;
     private double total;
 
     @Type(type = "true_false")
     private boolean paid = false;
 
-    private int hotel_id;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "hotel_id")
+    private Hotel hotel;
 
     public ClientUsedServices() {
     }
@@ -43,18 +44,20 @@ public class ClientUsedServices {
     public ClientUsedServices(AdditServices addit_service, int quantity, String note) {
         this.addit_service = addit_service;
         this.quantity = quantity;
-        this.purchase_date = LocalDateTime.now();
+        this.purchase_date = LocalDate.now();
         this.note = note;
         calcTotal();
     }
 
-    public ClientUsedServices(AdditServices addit_service, int quantity, String note, int hotel_id) {
+    public ClientUsedServices(AdditServices addit_service, int quantity, LocalDate purchase_date, String note,
+            double total, boolean paid, Hotel hotel) {
         this.addit_service = addit_service;
         this.quantity = quantity;
-        this.purchase_date = LocalDateTime.now();
+        this.purchase_date = purchase_date;
         this.note = note;
-        this.hotel_id = hotel_id;
-        calcTotal();
+        this.total = total;
+        this.paid = paid;
+        this.hotel = hotel;
     }
 
     public AdditServices getAddit_service() {
@@ -65,7 +68,7 @@ public class ClientUsedServices {
         return cus_id;
     }
 
-    public LocalDateTime getDate() {
+    public LocalDate getDate() {
         return purchase_date;
     }
 
@@ -81,11 +84,11 @@ public class ClientUsedServices {
         return paid;
     }
     
-    public int getHotel_id() {
-        return hotel_id;
+    public Hotel getHotel() {
+        return hotel;
     }
 
-    public LocalDateTime getPurchase_date() {
+    public LocalDate getPurchase_date() {
         return purchase_date;
     }
 
@@ -102,7 +105,7 @@ public class ClientUsedServices {
         this.cus_id = cus_id;
     }
 
-    public void setDate(LocalDateTime purchase_date) {
+    public void setDate(LocalDate purchase_date) {
         this.purchase_date = purchase_date;
     }
 
@@ -118,7 +121,7 @@ public class ClientUsedServices {
         this.quantity = quantity;
     }
 
-    public void setPurchase_date(LocalDateTime purchase_date) {
+    public void setPurchase_date(LocalDate purchase_date) {
         this.purchase_date = purchase_date;
     }
 
@@ -126,8 +129,8 @@ public class ClientUsedServices {
         this.total = total;
     }
 
-    public void setHotel_id(int hotel_id) {
-        this.hotel_id = hotel_id;
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
     }
 
     private void calcTotal() {
@@ -146,33 +149,6 @@ public class ClientUsedServices {
 
     public static String getTableName() {
         return "c_used_serv";
-    }
-
-    public static String search(CUSe type) {
-        String sqlString = "from " + getTableName() + " t where t.";
-        List<String> fields = getFields();
-
-        switch (type) {
-            case ID:
-                sqlString = sqlString + fields.get(0) + " = ";
-                break;
-            case ADDIT_SERVICE_ID:
-                sqlString = sqlString + fields.get(1) + "." + AdditServices.getFields().get(0) + " = ";
-                break;
-            case ADDIT_SERVICE_TITLE:
-                sqlString = sqlString + fields.get(1) + "." + AdditServices.getFields().get(1) + " = '";
-                break;
-            case QUANTITY:
-                sqlString = sqlString + fields.get(2) + " = ";
-                break;
-            case DATE:
-                sqlString = sqlString + fields.get(3) + " like to_date('";
-                break;
-            default:
-                break;
-        }
-
-        return sqlString;
     }
 
     @Override

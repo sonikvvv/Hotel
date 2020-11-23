@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import base_classes.classes.emuns.RoomE;
 import base_classes.classes.emuns.SE;
 
 public class RoomTest {
@@ -31,7 +30,8 @@ public class RoomTest {
         fieldsTest.add("r_number");
         fieldsTest.add("r_type");
         fieldsTest.add("r_status");
-        fieldsTest.add("hotel_id");
+        fieldsTest.add("hotel");
+        fieldsTest.add("rait");
         r = new Room(number, type, price, status);
         r.setR_id(id);
     }
@@ -44,13 +44,5 @@ public class RoomTest {
     @Test
     public void fieldsTest() {
         assertEquals(fieldsTest, Room.getFields());
-    }
-
-    @Test
-    public void searchTest() {
-        assertEquals("from " + table_name + " t where t." + fieldsTest.get(0) + " = ", Room.search(RoomE.ID));
-        assertEquals("from " + table_name + " t where t." + fieldsTest.get(1) + " = '", Room.search(RoomE.NUMBER));
-        assertEquals("from " + table_name + " t where t." + fieldsTest.get(2) + " = '", Room.search(RoomE.ROOM_TYPE));
-        assertEquals("from " + table_name + " t where t." + fieldsTest.get(3) + " = '", Room.search(RoomE.ROOM_STATUS));
     }
 }

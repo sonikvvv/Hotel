@@ -15,7 +15,7 @@ import base_classes.classes.emuns.CountryE;
 public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "country_generator")
-    @SequenceGenerator(name = "country_generator", sequenceName = "country_seq", allocationSize = 50)
+    @SequenceGenerator(name = "country_generator", sequenceName = "country_seq", allocationSize = 1)
     private int country_id;
     private String country_name;
 

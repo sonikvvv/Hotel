@@ -18,7 +18,7 @@ import base_classes.classes.emuns.ServiceType;
 public class ServiceCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "s_cat_generator")
-    @SequenceGenerator(name = "s_cat_generator", sequenceName = "s_cat_seq", allocationSize = 50)
+    @SequenceGenerator(name = "s_cat_generator", sequenceName = "s_cat_seq", allocationSize = 1)
     private int category_id;
     private String category_title;
 

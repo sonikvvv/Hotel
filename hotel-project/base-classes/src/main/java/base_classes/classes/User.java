@@ -9,9 +9,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
-import base_classes.classes.emuns.UE;
 import base_classes.classes.emuns.URE;
 
 
@@ -19,7 +19,7 @@ import base_classes.classes.emuns.URE;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_generator")
-    @SequenceGenerator(name = "user_generator", sequenceName = "user_seq", allocationSize = 50)
+    @SequenceGenerator(name = "user_generator", sequenceName = "user_seq", allocationSize = 1)
     private int user_id;
     private String user_name;
     private String user_password;
@@ -30,7 +30,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private URE user_role;
 
-    private String hotel_ids;
+    @OneToMany
+    private List<Hotel> hotel = new ArrayList<>();
 
     public User() {}
 
@@ -64,8 +65,8 @@ public class User {
         this.user_role = user_role;
     }
 
-    public void setHotel_ids(String hotel_ids) {
-        this.hotel_ids = hotel_ids;
+    public void setHotel(List<Hotel> hotel) {
+        this.hotel = hotel;
     }
 
     public String getEmail() {
@@ -95,12 +96,8 @@ public class User {
         return user_role;
     }
 
-    public String getHotel_ids() {
-        return hotel_ids;
-    }
-
-    public void addToID(String id) {
-        this.hotel_ids += " " + id;
+    public List<Hotel> getHotel() {
+        return hotel;
     }
 
     public void setEmail(String email) {
@@ -113,13 +110,17 @@ public class User {
         this.phone = phone;
     }
 
+    public void addToHotel(Hotel h) {
+        this.hotel.add(h);
+    }
+
     public static List<String> getFields() {
         List<String> ls = new ArrayList<>();
         ls.add("user_id");
         ls.add("user_name");
         ls.add("user_password");
         ls.add("user_role");
-        ls.add("hotel_id");
+        ls.add("hotel");
         return ls;
     }
 
@@ -127,40 +128,8 @@ public class User {
         return "app_user";
     }
 
-    public static String search(UE type) {
-        String sqlString = "from " + getTableName() + " t where t.";
-        List<String> fields = getFields();
-
-        switch (type) {
-            case ID:
-                sqlString = sqlString + fields.get(0) + " = :value";
-                break;
-            case NAME:
-                sqlString = sqlString + fields.get(1) + " = :value";
-                break;
-            case ROLE:
-                sqlString = sqlString + fields.get(3) + " = :value";
-                break;
-            case HOTEL_ID:
-                sqlString = sqlString + fields.get(4) + " = :value";
-                break;
-            default:
-                break;
-        }
-
-        return sqlString;
-    }
-
     @Override
     public String toString() {
         return "User [ id = " + this.user_id + " username: " + this.user_name + " role: " + this.user_role + " ]";
-    }
-
-    
-
-    // public static void main(String[] args) { // User [ id = 0 username: ves role: ADMIN ]
-    //     User ur = new User("ves", "test", URE.ADMIN);
-    //     System.out.println(ur);
-    // }
-    
+    }    
 }

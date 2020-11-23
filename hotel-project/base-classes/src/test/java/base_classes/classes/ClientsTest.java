@@ -105,7 +105,7 @@ public class ClientsTest {
         ls.add("check_in");
         ls.add("check_out");
         ls.add("vaucher");
-        ls.add("hotel_id");
+        ls.add("hotel");
 
         ls.add("rait");
         

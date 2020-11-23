@@ -11,19 +11,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.Type;
 
-import base_classes.classes.emuns.ClientsE;
+import base_classes.classes.emuns.ServiceType;
 
 @Entity(name = "clients")
 public class Clients {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_generator")
-    @SequenceGenerator(name = "client_generator", sequenceName = "client_seq", allocationSize = 50)
+    @SequenceGenerator(name = "client_generator", sequenceName = "client_seq", allocationSize = 1)
     private int c_id;
     private String c_name;
     private LocalDate c_bd;
@@ -47,7 +48,11 @@ public class Clients {
     private LocalDateTime check_out;
     private double total = 0;
     private String vaucher;
-    private int hotel_id;
+    
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "hotel_id")
+    private Hotel hotel;
+    
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(unique = false)
@@ -68,7 +73,7 @@ public class Clients {
         this.country = country;
         this.c_note = client_note;
         this.check_in = LocalDateTime.now();
-        
+        this.rait.add(new Raiting());
     }
 
     public Clients(String name, LocalDate birth_date, boolean sex, String passport_number, LocalDate passport_date,
@@ -84,10 +89,11 @@ public class Clients {
         this.c_note = client_note;
         this.check_in = LocalDateTime.now();
         this.vaucher = vaucher;
+        this.rait.add(new Raiting());
     }
 
     public Clients(String name, LocalDate birth_date, boolean sex, String passport_number, LocalDate passport_date,
-            String car_number, Country country, String client_note, String vaucher, int hotel_id) {
+            String car_number, Country country, String client_note, String vaucher, Hotel hotel) {
 
         this.c_name = name;
         this.c_bd = birth_date;
@@ -99,7 +105,7 @@ public class Clients {
         this.c_note = client_note;
         this.check_in = LocalDateTime.now();
         this.vaucher = vaucher;
-        this.hotel_id = hotel_id;
+        this.hotel = hotel;
     }
 
     public LocalDate getC_bd() {
@@ -144,8 +150,8 @@ public class Clients {
     public String getVaucher() {
         return vaucher;
     }
-    public int getHotel_id() {
-        return hotel_id;
+    public Hotel getHotel() {
+        return hotel;
     }
     public String getC_sex() {
         return this.c_sex == true? "M":"F";
@@ -198,8 +204,8 @@ public class Clients {
     public void setVaucher(String vaucher) {
         this.vaucher = vaucher;
     }
-    public void setHotel_id(int hotel_id) {
-        this.hotel_id = hotel_id;
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
     }
 
     public void checkOut() {
@@ -218,9 +224,15 @@ public class Clients {
             if (clientUsedServices.getPaid() == false) {
                 sum = sum + 
                     (clientUsedServices.getQuantity() * clientUsedServices.getAddit_service().getPrice());
+                if(clientUsedServices.getAddit_service().getCategory().getType() == ServiceType.PROSITIVE){
+                    Raiting last = this.rait.get(this.rait.size() - 1);
+                    this.rait.add(new Raiting(last.getRait_value() + 0.1));
+                }else {
+                    Raiting last = this.rait.get(this.rait.size() - 1);
+                    this.rait.add(new Raiting(last.getRait_value() - 0.1));
+                }
             }
         }
-
         this.setTotal(sum);
     }
 
@@ -241,61 +253,9 @@ public class Clients {
         ls.add("check_in");
         ls.add("check_out");
         ls.add("vaucher");
-        ls.add("hotel_id");
+        ls.add("hotel");
         ls.add("rait");
         return ls;
-    }
-
-    public static String search(ClientsE type) {
-        String sqlString = "from " + getTableName() + " t where t.";
-        List<String> fields = getFields();
-
-        switch (type) {
-            case ID:
-                sqlString = sqlString + fields.get(0) + " = ";
-                break;
-            case NAME:
-                sqlString = sqlString + "lower(" + fields.get(1) + ")" + " = ";
-                break;
-            case BIRTH_DATE:
-                sqlString = sqlString + fields.get(2) + " like to_date('";
-                break;
-            case SEX:
-                sqlString = sqlString + fields.get(3) + " = ";
-                break;
-            case PASSPORT_NUMBER:
-                sqlString = sqlString + fields.get(4) + " = ";
-                break;
-            case PASSPORT_DATE:
-                sqlString = sqlString + fields.get(5) + " like to_date('";
-                break;
-            case CAR_NUMBER:
-                sqlString = sqlString + fields.get(6) + " = ";
-                break;
-            case COUNTRY_ID:
-                sqlString = sqlString + fields.get(8) + " = ";
-                break;
-            case COUNTRY_NAME:
-                sqlString =  "from " + getTableName() + " t where lower(t." 
-                    + fields.get(8) + "." + Country.getFields().get(1) + ") = '";
-                break;
-            case CHECK_IN:
-                sqlString = sqlString + fields.get(9) + " like to_date('";
-                break;
-            case CHECK_OUT:
-                sqlString = sqlString + fields.get(10) + " like to_date('";
-                break;
-            case VAUCHER:
-                sqlString = sqlString + fields.get(11) + " = '";
-                break;
-            case HOTEL_ID:
-                sqlString = sqlString + fields.get(12) + " = ";
-                break;
-            default:
-                break;
-        }
-
-        return sqlString;
     }
 
     @Override
