@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import base_classes.DBConnection;
+import base_classes.classes.Hotel;
 import base_classes.classes.User;
-import base_classes.classes.emuns.UE;
 import base_classes.classes.emuns.URE;
 
 public class UserOperations {
-    private static User user_now;
-    private static List<User> result = new ArrayList<>();
+    private static User user_now = new User("name", "password", URE.OWNER);
 
     public static List<User> getUser_now() {
         List<User> tmp = new ArrayList<>();
@@ -22,50 +21,41 @@ public class UserOperations {
         UserOperations.user_now = user_now;
     }
 
-    public static List<?> authenticationOperation(DBConnection db, List<String> data) {
-        List<User> res = db.getUserList(UE.NAME, data.get(0));
+    public UserOperations() {
+        Hotel h = new Hotel("Testivile");
+        h.setHotel_id(1);
+        user_now.addToHotel(h);
+    }
+
+    public static List<String> authenticationOperation(DBConnection db, List<String> data) {
+        User user = db.getUserByUsername(data.get(0));
         List <String> result = new ArrayList<>();
-        for (Object object : res) {
-            User u = (User) object;
-            if (u.getUser_password().equals(data.get(1)));
-                result.add("true"); result.add(u.getUser_role().toString());
+        if (user == null) result.add("false");
+        else {
+            if (user.getUser_password().equals(data.get(1)))
+                result.add("true");
+                setUser_now(user);
         }
-        if (result.size() == 0 || result == null) result.add("false");
         return result;
     }
 
     public static List<User> getUsers(DBConnection db, List<String> data) {
-        if( result.size() != 0) {
-            return result;
-        }else {
-            User u = new User("Loraine75", "autiTYkKRO1S2g2", URE.OWNER);
-            User u1 = new User("Hans.Lakin83", "jwr_6HCmF6EdMjr", URE.OWNER);
-            User u2 = new User("Dejon_Casper34", "ECWnGq01UOj_5Mm", URE.OWNER);
-            User u3 = new User("Nadia.Goldner", "jMcKKo_JBPGdWPD", URE.MANAGER);
-            result.add(u);
-            result.add(u1);
-            result.add(u2);
-            result.add(u3);
-            
-            return result;
-        }
+        List<User> result = new ArrayList<>();
+        // if (user_now.getUser_role() == URE.ADMIN)
+            result = db.getAllUsers();
+        // else if (user_now.getUser_role() == URE.OWNER){
+            // List<Hotel> hotels = UserOperations.user_now.getHotel();
+            // for (Hotel hotel : hotels) {
+                // result.addAll(db.getUserByHotel(hotel.getHotel_id()));
+            // }
+        // }
+        return result;
     }
 
     public static List<User> getReceptionists(DBConnection db, List<String> data) {
-        if( result.size() != 0) {
-            return result;
-        }else {
-            User u = new User("Loraine75", "autiTYkKRO1S2g2", URE.OWNER);
-            User u1 = new User("Hans.Lakin83", "jwr_6HCmF6EdMjr", URE.OWNER);
-            User u2 = new User("Dejon_Casper34", "ECWnGq01UOj_5Mm", URE.OWNER);
-            User u3 = new User("Nadia.Goldner", "jMcKKo_JBPGdWPD", URE.MANAGER);
-            result.add(u);
-            result.add(u1);
-            result.add(u2);
-            result.add(u3);
-            
-            return result;
-        }
+        List<User> result = 
+        db.getUserByRole(URE.RECEPTIONIST);
+        return result;
     }
 
     public static void addUser(DBConnection db, List<String> data) {
@@ -82,7 +72,7 @@ public class UserOperations {
                 break;
             case MANAGER:
                 newUser.setUser_role(URE.RECEPTIONIST);
-                newUser.setHotel_ids(user_now.getHotel_ids());
+                newUser.addToHotel(user_now.getHotel().get(0));
                 break;
             case OWNER:
                 newUser.setUser_role(URE.MANAGER);
@@ -96,6 +86,4 @@ public class UserOperations {
         
 
     }
-
-
 }
