@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import logic.DecodeOperation;
 import logic.OperationType;
+import logic.operations.RoomOperations;
 
 public class room_HomeController implements Initializable {
 
@@ -54,40 +55,26 @@ public class room_HomeController implements Initializable {
 
     @FXML
     void openRoomView(MouseEvent event) {
-        // AdditServices as = new AdditServices("title", new ServiceCategory("category_title", ServiceType.PROSITIVE), 13);
-        // AdditServices as1 = new AdditServices("title", new ServiceCategory("category_title", ServiceType.PROSITIVE), 15);
-        // AdditServices as2 = new AdditServices("title", new ServiceCategory("category_title", ServiceType.PROSITIVE), 16);
-
-        // ClientUsedServices cus = new ClientUsedServices(as, 1, "note");
-        // ClientUsedServices cus1 = new ClientUsedServices(as1, 1, "note");
-        // ClientUsedServices cus2 = new ClientUsedServices(as2, 1, "note");
-
-        // Clients c = new Clients("Amina Jakubowski", LocalDate.now(), false, "30506", LocalDate.of(2020, 11, 10), "car_number",
-        //         new Country("Testivile"), "client_note", "vaucher", 1);
-        // Clients c1 = new Clients("Annamarie Haag", LocalDate.now(), true, "67547", LocalDate.of(2020, 11, 15), "car_number",
-        //         new Country("Falkland Islands (Malvinas)"), "client_note", "vaucher", 2);
-
-        // c.addToUsedServices(cus);
-        // c.addToUsedServices(cus1);
-        // c1.addToUsedServices(cus);
-        // c1.addToUsedServices(cus2);
-
-        // Room r = new Room("r_number", "r_type", 300, SE.OCCUPIED);
-        // r.addToClients(c);
-        // r.addToClients(c1);
-
-        if (event.getClickCount() == 1){
-            System.out.println(room_table.getSelectionModel().getSelectedItem()); //Send to DecodeOperation to save it
-        
-            try{            
-                Stage st = new Stage();
-                Scene sc = new Scene(FXMLLoader.load(getClass().getResource("room_view.fxml")));
-                st.setScene(sc);
-                st.show();
-            }
-            catch(Exception e){ 
+        if (event.getClickCount() == 2 && activ.size() != 0){
+            try {
+                Room tmp = room_table.getSelectionModel().getSelectedItem();
+                RoomOperations.addToTemporal((tmp != null)? tmp : null);
+                
+                if (tmp != null) { 
+                    try{
+                        Stage st = new Stage();
+                        Scene sc = new Scene(FXMLLoader.load(getClass().getResource("room_view.fxml")));
+                        st.setScene(sc);
+                        st.show();
+                    }
+                    catch(Exception e){ 
+                        e.printStackTrace();
+                    }
+                }
+            } catch (Exception e) {
                 e.printStackTrace();
             }
+            
         }
     }
 

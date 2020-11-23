@@ -40,10 +40,10 @@ public class Reservations_HomeController implements Initializable {
     private TableColumn<Reservation, String> client_name_col;
 
     @FXML
-    private TableColumn<Reservation, LocalDate> start_date_col;
+    private TableColumn<Reservation, String> start_date_col;
 
     @FXML
-    private TableColumn<Reservation, LocalDate> end_date_col;
+    private TableColumn<Reservation, String> end_date_col;
 
     @FXML
     private TableColumn<Reservation, Number> adult_col;
@@ -148,12 +148,37 @@ public class Reservations_HomeController implements Initializable {
                     }
                 });
 
-        
+        start_date_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Reservation,String>,ObservableValue<String>>(){
+
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<Reservation, String> param) {
+                return new SimpleStringProperty(param.getValue().getReservation_form().getStart_date().toString());
+            }
+            
+        });
+
+        end_date_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Reservation,String>,ObservableValue<String>>(){
+
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<Reservation, String> param) {
+                return new SimpleStringProperty(param.getValue().getReservation_form().getEnd_date().toString());
+            }
+            
+        });
+
+        room_number_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Reservation,String>,ObservableValue<String>>(){
+
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<Reservation, String> param) {
+                return new SimpleStringProperty(param.getValue().getRoom().getR_number());
+            }
+            
+        });
 
         List<String> data = new ArrayList<>();
         data.add(date_picker.getValue().toString());
 
-        List<?> res = DecodeOperation.decodeLogicOperation(OperationType.GET_RESERVATIONS, null, null);
+        List<?> res = DecodeOperation.decodeLogicOperation(OperationType.GET_RESERVATIONS, null, data);
         if (res != null && res.size() != 0) {
             for (Object object : res) {
                 activ.add((Reservation) object);

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import base_classes.classes.User;
+import base_classes.classes.emuns.URE;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -22,6 +23,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import logic.DecodeOperation;
 import logic.OperationType;
+import logic.operations.UserOperations;
 
 public class User_HomeController implements Initializable {
 
@@ -46,10 +48,14 @@ public class User_HomeController implements Initializable {
     private ObservableList<User> activ = FXCollections.observableArrayList();
 
     @FXML
-    void add_btn(ActionEvent event) { // TODO: get role from decode operation
+    void add_btn(ActionEvent event) { 
         try {
             Stage st = new Stage();
-            Scene sc = new Scene(FXMLLoader.load(getClass().getResource("add_user.fxml")));
+            Scene sc;
+            if (UserOperations.getUser_now().get(0).getUser_role() == URE.ADMIN ||
+                UserOperations.getUser_now().get(0).getUser_role() == URE.OWNER) {
+            sc = new Scene(FXMLLoader.load(getClass().getResource("add_to_hotel.fxml")));
+            } else sc = new Scene(FXMLLoader.load(getClass().getResource("add_user.fxml")));
             st.setScene(sc);
             st.show();
         } catch (Exception e) {

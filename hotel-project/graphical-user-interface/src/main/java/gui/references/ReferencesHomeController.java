@@ -21,12 +21,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -49,13 +51,9 @@ public class ReferencesHomeController implements Initializable {
     @FXML
     private DatePicker fromDate;
 
-    public void setItems() {
-        
-    }
-
     @FXML
     void comboBox(ActionEvent event) {
-        setItems();
+        
     }
 
     @FXML
@@ -142,7 +140,6 @@ public class ReferencesHomeController implements Initializable {
         List<String> data = new ArrayList<>();
         data.add(fromD.toString());
         data.add(toD.toString());
-        data.add("1"); //TODO: figure how to add the hotel id
 
         List<?> result = DecodeOperation.decodeLogicOperation(OperationType.CLIENT_INFO, null, data);
         if (result != null && result.size() != 0) {
@@ -321,7 +318,14 @@ public class ReferencesHomeController implements Initializable {
             }
         });
 
-        hotel_col.setCellValueFactory(new PropertyValueFactory<>("hotel_name"));
+        hotel_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Reservation,String>,ObservableValue<String>>(){
+
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<Reservation, String> param) {
+                return new SimpleStringProperty(param.getValue().getHotel().getHotel_name());
+            }
+            
+        });
 
         LocalDate fromD = fromDate.getValue();
         LocalDate toD = toDate.getValue();
@@ -329,6 +333,7 @@ public class ReferencesHomeController implements Initializable {
         List<String> data = new ArrayList<>();
         data.add(fromD.toString());
         data.add(toD.toString());
+        
 
         List<?> res = DecodeOperation.decodeLogicOperation(OperationType.CREATED_RESERVATIONS, null, data);
         if (res != null && res.size() != 0) {
@@ -385,10 +390,10 @@ public class ReferencesHomeController implements Initializable {
     }
 
     @FXML
-    void createdReservationsRecep(ActionEvent event) {
+    void createdReservationsRecep(ActionEvent event) { //TODO: show more info for user 
         removeNodeByRowColumnIndex(0, 2, sub_grid);
         removeVbox(0, 2, sub_grid);
-
+        
         String res = recep_choice.getSelectionModel().getSelectedItem();
         VBox vb = new VBox();
         HBox hb = new HBox(2);
@@ -398,39 +403,147 @@ public class ReferencesHomeController implements Initializable {
         hb.getChildren().setAll(labelList);
 
         TableView<Reservation> reserv_table = new TableView<>();
-        TableColumn<Reservation, Integer> number_col = new TableColumn<>("ID");
-        TableColumn<Reservation, String> client_name_col = new TableColumn<>("Client Name");
-        TableColumn<Reservation, LocalDate> date_col = new TableColumn<>("Date");
-        ObservableList<Reservation> activ = FXCollections.observableArrayList();
         reserv_table.setPrefHeight(660);
+        TableColumn<Reservation, Integer> number_col = new TableColumn<>("ID");
+        TableColumn<Reservation, String> status_col = new TableColumn<>("Status");
+        TableColumn<Reservation, String> hotel_col = new TableColumn<>("Hotel");
+        TableColumn<Reservation, String> client_name_col = new TableColumn<>("Client Name");
+        TableColumn<Reservation, String> reserv_type_col = new TableColumn<>("Reserv. Type");
+        TableColumn<Reservation, String> room_type_col = new TableColumn<>("Room Type");
+        TableColumn<Reservation, String> cancel_type_col = new TableColumn<>("Cancel Type");
+        TableColumn<Reservation, String> food_type_col = new TableColumn<>("Food Type");
+        TableColumn<Reservation, LocalDate> date_col = new TableColumn<>("Date");
+        TableColumn<Reservation, Number> adults_col = new TableColumn<>("Adults");
+        TableColumn<Reservation, Number> kids_col = new TableColumn<>("Kids");
+        TableColumn<Reservation, Number> babies_col = new TableColumn<>("Babies");
+        TableColumn<Reservation, Number> price_col = new TableColumn<>("Price");
+        TableColumn<Reservation, String> notes_col = new TableColumn<>("Note");
+        ObservableList<Reservation> activ = FXCollections.observableArrayList();
 
         number_col.setCellValueFactory(new PropertyValueFactory<>("reservation_id"));
         date_col.setCellValueFactory(new PropertyValueFactory<>("date_made"));
-        client_name_col.setCellValueFactory(
-            new Callback<TableColumn.CellDataFeatures<Reservation, String>, ObservableValue<String>>() {
-                @Override
-                public ObservableValue<String> call(CellDataFeatures<Reservation, String> param) {
-                    return new SimpleStringProperty(param.getValue().getReservation_form().getClient_name());
-                }
-            });
+        
+        status_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Reservation,String>,ObservableValue<String>>(){
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<Reservation, String> param) {
+                return new SimpleStringProperty(param.getValue().getReservation_form().getStatus());
+            }
+        });
+        
+        client_name_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Reservation,String>,ObservableValue<String>>(){
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<Reservation, String> param) {
+                return new SimpleStringProperty(param.getValue().getReservation_form().getClient_name());
+            }
+        });
+        
+        reserv_type_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Reservation,String>,ObservableValue<String>>(){
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<Reservation, String> param) {
+                return new SimpleStringProperty(param.getValue().getReservation_form().getReservation_type());
+            }
+        });
+        
+        room_type_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Reservation,String>,ObservableValue<String>>(){
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<Reservation, String> param) {
+                return new SimpleStringProperty(param.getValue().getReservation_form().getRoom_type());
+            }
+        });
+        
+        cancel_type_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Reservation,String>,ObservableValue<String>>(){
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<Reservation, String> param) {
+                return new SimpleStringProperty(param.getValue().getReservation_form().getCancel_type());
+            }
+        });
+        
+        food_type_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Reservation,String>,ObservableValue<String>>(){
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<Reservation, String> param) {
+                return new SimpleStringProperty(param.getValue().getReservation_form().getFood_type());
+            }
+        });
+        
+        adults_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Reservation,Number>,ObservableValue<Number>>(){
+            @Override
+            public ObservableValue<Number> call(CellDataFeatures<Reservation, Number> param) {
+                return new SimpleIntegerProperty(param.getValue().getReservation_form().getAdults());
+            }
+        });
+
+        kids_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Reservation,Number>,ObservableValue<Number>>(){
+            @Override
+            public ObservableValue<Number> call(CellDataFeatures<Reservation, Number> param) {
+                return new SimpleIntegerProperty(param.getValue().getReservation_form().getKids());
+            }
+        });
+
+        babies_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Reservation,Number>,ObservableValue<Number>>(){
+            @Override
+            public ObservableValue<Number> call(CellDataFeatures<Reservation, Number> param) {
+                return new SimpleIntegerProperty(param.getValue().getReservation_form().getBabys());
+            }
+        });
+
+        price_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Reservation,Number>,ObservableValue<Number>>(){
+            @Override
+            public ObservableValue<Number> call(CellDataFeatures<Reservation, Number> param) {
+                return new SimpleDoubleProperty(param.getValue().getReservation_form().getTotal_price());
+            }
+        });
+
+        notes_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Reservation,String>,ObservableValue<String>>(){
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<Reservation, String> param) {
+                return new SimpleStringProperty(param.getValue().getReservation_form().getNotes());
+            }
+        });
+
+        hotel_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Reservation,String>,ObservableValue<String>>(){
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<Reservation, String> param) {
+                return new SimpleStringProperty(param.getValue().getHotel().getHotel_name());
+            }
+        });
 
         List<String> data = new ArrayList<>();
         data.add(fromDate.getValue().toString());
         data.add(toDate.getValue().toString());
+        String receptionist = recep_choice.getSelectionModel().getSelectedItem();
+        if (receptionist == null || receptionist == "") {
+            Alert al = new Alert(AlertType.WARNING, "Don't leave drop-down menu empty!");
+            al.showAndWait();
+        } else {
 
-        List<?> result = DecodeOperation.decodeLogicOperation(OperationType.RECEPT_CREATED_RESERVATIONS, null, data);
+            data.add(receptionist);
+            
+            List<?> result = DecodeOperation.decodeLogicOperation(OperationType.RECEPT_CREATED_RESERVATIONS, null, data);
 
-        if (result != null && result.size() != 0) {
-            for (Object object : result) {
-                activ.add((Reservation) object);
+            if (result != null && result.size() != 0) {
+                for (Object object : result) {
+                    activ.add((Reservation) object);
+                }
             }
         }
 
         reserv_table.getColumns().add(number_col);
+        reserv_table.getColumns().add(status_col);
+        reserv_table.getColumns().add(hotel_col);
         reserv_table.getColumns().add(client_name_col);
+        reserv_table.getColumns().add(reserv_type_col);
+        reserv_table.getColumns().add(room_type_col);
+        reserv_table.getColumns().add(cancel_type_col);
+        reserv_table.getColumns().add(food_type_col);
         reserv_table.getColumns().add(date_col);
+        reserv_table.getColumns().add(adults_col);
+        reserv_table.getColumns().add(kids_col);
+        reserv_table.getColumns().add(babies_col);
+        reserv_table.getColumns().add(price_col);
+        reserv_table.getColumns().add(notes_col);
 
         reserv_table.getItems().setAll(activ);
+
         vb.getChildren().add(hb);
         vb.getChildren().add(reserv_table);
 
