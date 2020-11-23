@@ -50,7 +50,7 @@ public void initialize()
 
 
 
-    
+    @FXML
 public void AddCustomer()
 {
     LocalDate DateOfBirth = addcust_dateofbirth.getValue();

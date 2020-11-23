@@ -82,4 +82,13 @@ public class DecodeOperation { //TODO: some how save temporali objects
 
         return result;
     }
+
+    public static void main(String[] args) {
+        List<String> t = new ArrayList<>();
+        t.add("2020-11-16");
+        t.add("2020-11-17");
+        t.add("1");
+        //Clients purvi = new Clients("Kaloyan", LocalDate.of(1999, 9, 24), true, "1369", LocalDate.of(2023, 1, 5) , "AV1552A", new Country("Bulgaria"), "No note", "42194Xd");
+        //List res = DecodeOperation.decodeLogicOperation(OperationType.SAVE_OR_UPDATE, purvi, null);
+    }
 }
