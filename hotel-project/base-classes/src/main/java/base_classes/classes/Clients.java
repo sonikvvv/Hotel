@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -46,6 +47,8 @@ public class Clients {
 
     private LocalDateTime check_in;
     private LocalDateTime check_out;
+
+    @Column(columnDefinition = "Number(10,2)")
     private double total = 0;
     private String vaucher;
     
@@ -220,16 +223,24 @@ public class Clients {
 
     private void calcTotal() {
         double sum = 0;
+        Raiting last = this.rait.get(this.rait.size() - 1);
         for (ClientUsedServices clientUsedServices : cuds) {
             if (clientUsedServices.getPaid() == false) {
                 sum = sum + 
                     (clientUsedServices.getQuantity() * clientUsedServices.getAddit_service().getPrice());
                 if(clientUsedServices.getAddit_service().getCategory().getType() == ServiceType.PROSITIVE){
-                    Raiting last = this.rait.get(this.rait.size() - 1);
-                    this.rait.add(new Raiting(last.getRait_value() + 0.1));
+                    
+                    if (last.getRait_value() < 10) {
+                        this.rait.add(new Raiting(last.getRait_value() + 1));
+                    }else {
+                        this.rait.add(new Raiting(10));
+                    }
                 }else {
-                    Raiting last = this.rait.get(this.rait.size() - 1);
-                    this.rait.add(new Raiting(last.getRait_value() - 0.1));
+                    if (last.getRait_value() > 0) {
+                        this.rait.add(new Raiting(last.getRait_value() - 1));
+                    } else {
+                        this.rait.add(new Raiting(0));
+                    }
                 }
             }
         }

@@ -70,6 +70,20 @@ public class DBConnection {
         return result;
     }
 
+    public List<User> getAllUsers(){
+        Query<User> query = null;
+        String sql_comand = "from " + User.getTableName();
+
+        query = session.createQuery(sql_comand, User.class);
+        List<User> res = query.list();
+
+        if (res.isEmpty()) {
+            return null;
+        } else {
+            return res;
+        }
+    }
+
     public List<User> getUserByRole(URE type) {
         Query<User> query = null;
         String sql_comand = "from " + User.getTableName() + " where " + User.getFields().get(3) + " = :role";

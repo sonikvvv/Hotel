@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
@@ -18,6 +19,8 @@ public class ReservationForm {
     private int kids;
     private int babys;
     private String food_type;
+    
+    @Column(columnDefinition = "Number(10,2)")
     private double total_price;
     private String status;
     private String notes;

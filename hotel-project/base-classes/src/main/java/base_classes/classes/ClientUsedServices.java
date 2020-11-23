@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,6 +30,8 @@ public class ClientUsedServices {
     private int quantity;
     private LocalDate purchase_date;
     private String note;
+
+    @Column(columnDefinition = "Number(10,2)")
     private double total;
 
     @Type(type = "true_false")

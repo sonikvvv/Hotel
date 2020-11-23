@@ -17,12 +17,15 @@ public class Raiting {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rait_generator")
     @SequenceGenerator(name = "rait_generator", sequenceName = "rait_seq", allocationSize = 1)
     private int rait_id;
-    private double rait_value;
+    private int rait_value;
     private LocalDateTime date_made;
 
-    public Raiting() {}
+    public Raiting() {
+        this.rait_value = 5;
+        date_made = LocalDateTime.now();
+    }
 
-    public Raiting(double rait_value) {
+    public Raiting(int rait_value) {
         this.rait_value = rait_value;
         this.date_made = LocalDateTime.now();
     }
@@ -34,7 +37,7 @@ public class Raiting {
     public int getRait_id() {
         return rait_id;
     }
-    public double getRait_value() {
+    public int getRait_value() {
         return rait_value;
     }
 
@@ -44,7 +47,7 @@ public class Raiting {
     public void setRait_id(int rait_id) {
         this.rait_id = rait_id;
     }
-    public void setRait_value(double rait_value) {
+    public void setRait_value(int rait_value) {
         this.rait_value = rait_value;
     }
 

@@ -1,18 +1,30 @@
 package base_classes;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.query.Query;
+import org.junit.Before;
 import org.junit.Test;
 
-import base_classes.classes.*;
-import base_classes.classes.emuns.*;
+import base_classes.classes.AdditServices;
+import base_classes.classes.ClientUsedServices;
+import base_classes.classes.Clients;
+import base_classes.classes.Country;
+import base_classes.classes.Hotel;
+import base_classes.classes.Reservation;
+import base_classes.classes.ReservationForm;
+import base_classes.classes.Room;
+import base_classes.classes.ServiceCategory;
+import base_classes.classes.User;
+import base_classes.classes.emuns.SE;
+import base_classes.classes.emuns.ServiceType;
+import base_classes.classes.emuns.URE;
 
 public class DBConnectionTest {
     private DBConnection db = null;
@@ -61,10 +73,10 @@ public class DBConnectionTest {
     private ClientUsedServices cus5 = null;
     private ClientUsedServices cus6 = null;
     private ClientUsedServices cus7 = null;
-    private ClientUsedServices cus8  = null;
-    private ClientUsedServices cus9  = null;
-    private ClientUsedServices cus10  = null;
-    private ClientUsedServices cus11  = null;
+    private ClientUsedServices cus8 = null;
+    private ClientUsedServices cus9 = null;
+    private ClientUsedServices cus10 = null;
+    private ClientUsedServices cus11 = null;
     private ClientUsedServices cus12 = null;
     private ClientUsedServices cus13 = null;
     private ClientUsedServices cus14 = null;
@@ -91,23 +103,16 @@ public class DBConnectionTest {
     private Room ro15 = null;
     private Room ro16 = null;
     private Room ro17 = null;
-    private List<Room> rr = null;
-    private List<Room> rr1 = null;
-    private List<Room> rr2 = null;
-    private List<Room> rr3 = null;
     private Reservation r = null;
     private Reservation r1 = null;
     private Reservation r2 = null;
     private Reservation r3 = null;
-    
+
     public DBConnectionTest() {
         db = new DBConnection();
 
         h1 = new Hotel("Testivile");
         h2 = new Hotel("Mehvile");
-
-        db.saveOrUpdateObject(h1);
-        db.saveOrUpdateObject(h2);
 
         u = new User("Loraine75", "autiTYkKRO1S2g2", URE.OWNER);
         u1 = new User("Hans.Lakin83", "jwr_6HCmF6EdMjr", URE.OWNER);
@@ -120,18 +125,6 @@ public class DBConnectionTest {
         u8 = new User("Bernhard_Braun", "2NqBCSTWpt5vIYh", URE.RECEPTIONIST);
         u9 = new User("Brenna.Dietrich88", "YrjsuzduxyV81ya", URE.RECEPTIONIST);
 
-        h1.addToUsers(u);
-        h1.addToUsers(u1);
-        h1.addToUsers(u3);
-        h1.addToUsers(u6);
-        h1.addToUsers(u7);
-
-        h2.addToUsers(u);
-        h2.addToUsers(u4);
-        h2.addToUsers(u5);
-        h2.addToUsers(u8);
-        h2.addToUsers(u9);
-
         sc = new ServiceCategory("Clothing", ServiceType.PROSITIVE);
         sc1 = new ServiceCategory("Automotive", ServiceType.PROSITIVE);
         sc2 = new ServiceCategory("Music", ServiceType.PROSITIVE);
@@ -140,7 +133,6 @@ public class DBConnectionTest {
         sc5 = new ServiceCategory("Toys", ServiceType.NEGATIVE);
         sc6 = new ServiceCategory("Outdoors", ServiceType.NEGATIVE);
         sc7 = new ServiceCategory("Health", ServiceType.NEGATIVE);
-
 
         as = new AdditServices("Awesome Frozen Mouse", sc, 75.00);
         as1 = new AdditServices("Incredible Frozen Shirt", sc4, 892.00);
@@ -154,26 +146,24 @@ public class DBConnectionTest {
         as9 = new AdditServices("Sleek Granite Chicken", sc7, 770.00);
         as10 = new AdditServices("Rustic Granite Shoes", sc3, 535.00);
 
-        c = new Clients("Amina Jakubowski", LocalDate.now(), false, "30506", LocalDate.of(2020, 11, 10),
-                "car_number", new Country("Testivile"), "client_note", "vaucher", 1);
-        c1 = new Clients("Annamarie Haag", LocalDate.now(), true, "67547", LocalDate.of(2020, 11, 15),
-                "car_number", new Country("Falkland Islands (Malvinas)"), "client_note", "vaucher", 2);
-        c2 = new Clients("Bud McClure II", LocalDate.now(), true, "48931", LocalDate.of(2020, 11, 16),
-                "car_number", new Country("Anguilla"), "client_note", "vaucher", 1);
+        c = new Clients("Amina Jakubowski", LocalDate.now(), false, "30506", LocalDate.of(2020, 11, 10), "car_number",
+                new Country("Testivile"), "client_note", "vaucher");
+        c1 = new Clients("Annamarie Haag", LocalDate.now(), true, "67547", LocalDate.of(2020, 11, 15), "car_number",
+                new Country("Falkland Islands (Malvinas)"), "client_note", "vaucher");
+        c2 = new Clients("Bud McClure II", LocalDate.now(), true, "48931", LocalDate.of(2020, 11, 16), "car_number",
+                new Country("Anguilla"), "client_note", "vaucher");
 
-        c3 = new Clients("Marley Brakus", LocalDate.now(), true, "14411", LocalDate.of(2020, 11, 17),
-                "car_number", new Country("Virgin Islands, U.S."), "client_note", "vaucher", 2);
+        c3 = new Clients("Marley Brakus", LocalDate.now(), true, "14411", LocalDate.of(2020, 11, 17), "car_number",
+                new Country("Virgin Islands, U.S."), "client_note", "vaucher");
         c4 = new Clients("Amie Moen", LocalDate.now(), true, "81962", LocalDate.of(2020, 11, 17), "car_number",
-                new Country("Argentina"), "client_note", "vaucher", 3);
-        c5 = new Clients("Wendell Volkman I", LocalDate.now(), true, "5330", LocalDate.of(2020, 11, 18),
-                "car_number", new Country("Iraq"), "client_note", "vaucher", 1);
-
+                new Country("Argentina"), "client_note", "vaucher");
+        c5 = new Clients("Wendell Volkman I", LocalDate.now(), true, "5330", LocalDate.of(2020, 11, 18), "car_number",
+                new Country("Iraq"), "client_note", "vaucher");
 
         cus = new ClientUsedServices(as1, 1, "note");
         cus1 = new ClientUsedServices(as9, 2, "note");
         cus2 = new ClientUsedServices(as1, 3, "note");
         cus3 = new ClientUsedServices(as6, 1, "note");
-
 
         c.addToUsedServices(cus);
         c.addToUsedServices(cus1);
@@ -211,14 +201,15 @@ public class DBConnectionTest {
 
         c4.addToUsedServices(cus14);
         c4.addToUsedServices(cus15);
-        fr = new ReservationForm("test", "Double", "t", LocalDate.of(2020, 11, 8),
-                LocalDate.of(2020, 11, 13), 2, 0, 0, "fb", 1000, "expired", "notes", "Marlon Kunde");
-        fr1 = new ReservationForm("test", "Double", "t", LocalDate.of(2020, 11, 6),
-                LocalDate.of(2020, 11, 10), 4, 2, 0, "fb", 957, "expired", "notes", "Paula Funk");
-        fr2 = new ReservationForm("test", "single", "t", LocalDate.of(2020, 11, 7),
-                LocalDate.of(2020, 11, 17), 4, 4, 0, "fb", 453, "expired", "notes", "Ryleigh Hilpert");
-        fr3 = new ReservationForm("test", "single", "t", LocalDate.of(2020, 12, 12),
-                LocalDate.of(2020, 11, 17), 2, 2, 0, "fb", 732, "expired", "notes", "Ruben Rice");
+
+        fr = new ReservationForm("test", "Double", "t", LocalDate.of(2020, 11, 8), LocalDate.of(2020, 11, 13), 2, 0, 0,
+                "fb", 1000, "expired", "notes", "Marlon Kunde");
+        fr1 = new ReservationForm("test", "Double", "t", LocalDate.of(2020, 11, 6), LocalDate.of(2020, 11, 10), 4, 2, 0,
+                "fb", 957, "expired", "notes", "Paula Funk");
+        fr2 = new ReservationForm("test", "single", "t", LocalDate.of(2020, 11, 7), LocalDate.of(2020, 11, 17), 4, 4, 0,
+                "fb", 453, "expired", "notes", "Ryleigh Hilpert");
+        fr3 = new ReservationForm("test", "single", "t", LocalDate.of(2020, 12, 12), LocalDate.of(2020, 11, 17), 2, 2,
+                0, "fb", 732, "expired", "notes", "Ruben Rice");
 
         ro = new Room("20", "double", 447.21, SE.FREE);
         ro1 = new Room("79", "single", 274.22, SE.OCCUPIED);
@@ -251,53 +242,39 @@ public class DBConnectionTest {
         ro4.addToClients(c4);
         ro13.addToClients(c5);
 
-        rr = new ArrayList<>();
-        rr.add(ro1);
+        r = new Reservation(u, fr, ro);
+        r1 = new Reservation(u2, fr3, ro2);
+        r2 = new Reservation(u8, fr2, ro1);
+        r3 = new Reservation(u8, fr1, ro3);
 
-        rr1 = new ArrayList<>();
-        rr1.add(ro17);
-        rr1.add(ro2);
+    }
 
-        rr2 = new ArrayList<>();
-        rr2.add(ro10);
+    @Before
+    public void batch() {
+        db.saveOrUpdateObject(h1);
+        db.saveOrUpdateObject(h2);
 
-        rr3 = new ArrayList<>();
-        rr3.add(ro8);
-        rr3.add(ro8);
-        rr3.add(ro4);
+        u.addToHotel(h1);
+        u1.addToHotel(h2);
+        u2.addToHotel(h2);
+        u3.addToHotel(h1);
+        u4.addToHotel(h2);
+        u5.addToHotel(h1);
+        u6.addToHotel(h2);
+        u7.addToHotel(h1);
+        u8.addToHotel(h1);
+        u9.addToHotel(h2);
 
-        r = new Reservation(u, fr, rr);
-        r1 = new Reservation(u2, fr3, rr2);
-        r2 = new Reservation(u8, fr2, rr1);
-        r3 = new Reservation(u8, fr1, rr3);
-
-        h1.addToRooms(ro);
-        h1.addToRooms(ro1);
-        h1.addToRooms(ro2);
-
-        h1.addToRooms(ro3);
-        h1.addToRooms(ro4);
-        h1.addToRooms(ro5);
-
-        h1.addToRooms(ro6);
-        h1.addToRooms(ro7);
-        h1.addToRooms(ro8);
-
-        h2.addToRooms(ro9);
-        h2.addToRooms(ro10);
-        h2.addToRooms(ro11);
-        h2.addToRooms(ro12);
-        h2.addToRooms(ro13);
-        h2.addToRooms(ro14);
-        h2.addToRooms(ro15);
-        h2.addToRooms(ro16);
-        h2.addToRooms(ro17);
-
-        h1.addToReservations(r);
-        h2.addToReservations(r1);
-        h2.addToReservations(r2);
-        h1.addToReservations(r3);
-
+        db.saveOrUpdateObject(u);
+        db.saveOrUpdateObject(u1);
+        db.saveOrUpdateObject(u2);
+        db.saveOrUpdateObject(u3);
+        db.saveOrUpdateObject(u4);
+        db.saveOrUpdateObject(u5);
+        db.saveOrUpdateObject(u6);
+        db.saveOrUpdateObject(u7);
+        db.saveOrUpdateObject(u8);
+        db.saveOrUpdateObject(u9);
 
         db.saveOrUpdateObject(sc);
         db.saveOrUpdateObject(sc1);
@@ -320,12 +297,12 @@ public class DBConnectionTest {
         db.saveOrUpdateObject(as9);
         db.saveOrUpdateObject(as10);
 
-        db.saveOrUpdateObject(c);
-        db.saveOrUpdateObject(c1);
-        db.saveOrUpdateObject(c2);
-        db.saveOrUpdateObject(c3);
-        db.saveOrUpdateObject(c4);
-        db.saveOrUpdateObject(c5);
+        c.setHotel(h1);
+        c1.setHotel(h2);
+        c2.setHotel(h2);
+        c3.setHotel(h2);
+        c4.setHotel(h1);
+        c5.setHotel(h2);
 
         db.saveOrUpdateObject(c);
         db.saveOrUpdateObject(c1);
@@ -334,205 +311,175 @@ public class DBConnectionTest {
         db.saveOrUpdateObject(c4);
         db.saveOrUpdateObject(c5);
 
-        db.saveOrUpdateObject(h1);
-        db.saveOrUpdateObject(h2);
+        ro.setHotel(h2);
+        ro1.setHotel(h2);
+        ro2.setHotel(h1);
+        ro3.setHotel(h1);
+        ro4.setHotel(h2);
+        ro5.setHotel(h1);
+        ro6.setHotel(h1);
+        ro7.setHotel(h1);
+        ro8.setHotel(h2);
+        ro9.setHotel(h2);
+        ro10.setHotel(h2);
+        ro11.setHotel(h2);
+        ro12.setHotel(h1);
+        ro13.setHotel(h2);
+        ro14.setHotel(h1);
+        ro15.setHotel(h1);
+        ro16.setHotel(h1);
+        ro17.setHotel(h1);
+
+        db.saveOrUpdateObject(ro);
+        db.saveOrUpdateObject(ro1);
+        db.saveOrUpdateObject(ro2);
+        db.saveOrUpdateObject(ro3);
+        db.saveOrUpdateObject(ro4);
+        db.saveOrUpdateObject(ro5);
+        db.saveOrUpdateObject(ro6);
+        db.saveOrUpdateObject(ro7);
+        db.saveOrUpdateObject(ro8);
+        db.saveOrUpdateObject(ro9);
+        db.saveOrUpdateObject(ro10);
+        db.saveOrUpdateObject(ro11);
+        db.saveOrUpdateObject(ro12);
+        db.saveOrUpdateObject(ro13);
+        db.saveOrUpdateObject(ro14);
+        db.saveOrUpdateObject(ro15);
+        db.saveOrUpdateObject(ro16);
+        db.saveOrUpdateObject(ro17);
+
+        r.setHotel(h2);
+        r1.setHotel(h1);
+        r2.setHotel(h2);
+        r3.setHotel(h1);
+
+        db.saveOrUpdateObject(r);
+        db.saveOrUpdateObject(r1);
+        db.saveOrUpdateObject(r2);
+        db.saveOrUpdateObject(r3);
     }
 
     @Test
-    public void batch() {
-            db.saveOrUpdateObject(h1);
-            db.saveOrUpdateObject(h2);
-
-            // db.saveOrUpdateObject(u);
-            // db.saveOrUpdateObject(u1);
-            // db.saveOrUpdateObject(u2);
-            // db.saveOrUpdateObject(u3);
-            // db.saveOrUpdateObject(u4);
-            // db.saveOrUpdateObject(u5);
-            // db.saveOrUpdateObject(u6);
-            // db.saveOrUpdateObject(u7);
-            // db.saveOrUpdateObject(u8);
-            // db.saveOrUpdateObject(u9);
-
-            db.saveOrUpdateObject(h1);
-            db.saveOrUpdateObject(h2);
-    
-            db.saveOrUpdateObject(sc);
-            db.saveOrUpdateObject(sc1);
-            db.saveOrUpdateObject(sc2);
-            db.saveOrUpdateObject(sc3);
-            db.saveOrUpdateObject(sc4);
-            db.saveOrUpdateObject(sc5);
-            db.saveOrUpdateObject(sc6);
-            db.saveOrUpdateObject(sc7);
- 
-            db.saveOrUpdateObject(as);
-            db.saveOrUpdateObject(as1);
-            db.saveOrUpdateObject(as2);
-            db.saveOrUpdateObject(as3);
-            db.saveOrUpdateObject(as4);
-            db.saveOrUpdateObject(as5);
-            db.saveOrUpdateObject(as6);
-            db.saveOrUpdateObject(as7);
-            db.saveOrUpdateObject(as8);
-            db.saveOrUpdateObject(as9);
-            db.saveOrUpdateObject(as10);
-
-            db.saveOrUpdateObject(c);
-            db.saveOrUpdateObject(c1);
-            db.saveOrUpdateObject(c2);
-            db.saveOrUpdateObject(c3);
-            db.saveOrUpdateObject(c4);
-            db.saveOrUpdateObject(c5);
-
-            db.saveOrUpdateObject(c);
-            db.saveOrUpdateObject(c1);
-            db.saveOrUpdateObject(c2);
-            db.saveOrUpdateObject(c3);
-            db.saveOrUpdateObject(c4);
-            db.saveOrUpdateObject(c5);
-
-            db.saveOrUpdateObject(h1);
-            db.saveOrUpdateObject(h2);
-    }
-
-    @Test
-    public void getUserTest() {
-        User u = new User("ves", "test", URE.ADMIN);
+    public void getUserByID() {
         db.saveOrUpdateObject(u);
-        List<User> res = null;
-
-        res = db.getUserList(UE.ID, u.getUser_id() + "");
-        assertEquals(u.getUser_id(), res.get(0).getUser_id());
-        res = db.getUserList(UE.ROLE, "ADMIN");
-        assertEquals("test for enum", u, res.get(0));
-
-        res = db.getUserList(UE.NAME, "ves");
-        assertEquals("test for enum", u.getUser_name(), res.get(0).getUser_name());
-
-        
-
-        User u2 = new User("ko", "meh", URE.ADMIN);
-        db.saveOrUpdateObject(u2);
-        res = db.getUserList(UE.ROLE, "ADMIN");
-        assertTrue("only one object", (res.size() != 1) ? true : false);
+        User tmp = db.getUserByID(1);
+        assertTrue((tmp.getUser_id() == 1) ? true : false);
     }
 
     @Test
-    public void clientUsedServices() {
-        ServiceCategory sc = new ServiceCategory("saif", ServiceType.PROSITIVE);
-        AdditServices adss = new AdditServices("saife 14D", sc, 10);
-        AdditServices ad = new AdditServices("saife 15D", sc, 12);
-        db.saveOrUpdateObject(adss);
-        db.saveOrUpdateObject(ad);
-        ClientUsedServices cus = new ClientUsedServices(adss, 1, "note");
-        ClientUsedServices cus1 = new ClientUsedServices(adss, 2, "note");
-        ClientUsedServices cus2 = new ClientUsedServices(adss, 3, "note");
-        ClientUsedServices cus3 = new ClientUsedServices(ad, 1, "note");
-        ClientUsedServices cus4 = new ClientUsedServices(ad, 2, "note");
-        ClientUsedServices cus5 = new ClientUsedServices(ad, 3, "note");
+    public void getUserByName() {
+        User tmp = db.getUserByUsername("Loraine75");
+        assertNotNull(tmp);
+        assertEquals("Loraine75", tmp.getUser_name());
 
-        db.saveOrUpdateObject(cus);
-        db.saveOrUpdateObject(cus1);
-        db.saveOrUpdateObject(cus2);
-        db.saveOrUpdateObject(cus3);
-        db.saveOrUpdateObject(cus4);
-        db.saveOrUpdateObject(cus5);
-
-        // db.getSession().getTransaction().commit();
-
-        ClientUsedServices cus6 = new ClientUsedServices(ad, 4, "note");
-        // db.getSession().beginTransaction();
-        db.saveOrUpdateObject(cus6);
-        //db.getSession().getTransaction().commit();
+        tmp = db.getUserByUsername("test");
+        assertNull(tmp);
     }
-    
 
     @Test
-    public void getClientByDateAndHotelTest() {
-       
-        // db.saveOrUpdateObject(c);
-        // db.saveOrUpdateObject(c5);
-        // db.saveOrUpdateObject(c4);
-        // db.saveOrUpdateObject(c3);
-        // db.saveOrUpdateObject(c2);
-        // db.saveOrUpdateObject(c1);
-
-        //LocalDate ld = LocalDate.of(2020, 11, 16);
-        Query<Clients> q = db.getSession().createQuery("from clients t where t.hotel_id = :id and t.check_in between :start and :end", Clients.class);
-        q.setParameter("id", 1);
-        q.setParameter("start", LocalDateTime.of(2020, 11, 15, 0, 0, 0));
-        q.setParameter("end", LocalDateTime.of(2020, 11, 18, 0, 0, 0));
-
-        //List<Clients> t = q.list();
-
-        List<?> res = db.getSession().createQuery("from clients t where t.check_in between to_date('14.11.2020', 'DD.MM.YYYY') and to_date('17.11.2020', 'DD.MM.YYYY')").list();
-        for (Object object : res) {
-            Clients tmp = (Clients) object;
-            if (tmp.getHotel_id() != 2) res.remove(tmp);
+    public void getUsersByRole() {
+        URE type = URE.RECEPTIONIST;
+        List<User> tmp = db.getUserByRole(type);
+        assertNotNull(tmp);
+        for (User user : tmp) {
+            assertEquals(type, user.getUser_role());
         }
-
-        System.out.println(res);
     }
 
     @Test
-    public void getHotelTest() {
-        List<Hotel> h = db.getHotelInfoList(HE.ID, 1 + "");
-        assertEquals(h1.getHotel_name(), h.get(0).getHotel_name());
+    public void getUsersByHotel() {
+        List<User> tmp = db.getUserByHotel(1);
+        assertNotNull(tmp);
+        for (User user : tmp) {
+            List<Hotel> hotels = user.getHotel();
+            for (Hotel h : hotels) {
+                assertEquals(1, h.getHotel_id()); // checks all hotel id and at the second makes error
+            }
+        }
     }
 
     @Test
-    public void getClientsByDateTest() {
-        List<String> t = new ArrayList<>();
-        t.add("2020-11-16");
-        t.add("2020-11-17");
-        t.add("1");
-        List<Clients> res = db.getClientByDateList(t); // 1 3 6
-        assertEquals(c.getC_name(), res.get(0).getC_name());
-        assertEquals(c2.getC_name(), res.get(1).getC_name());
-        assertEquals(c5.getC_name(), res.get(2).getC_name());
-        //System.out.println(res);
+    public void getADSByHotel() {
+        List<AdditServices> result = db.getAdditServicesByHotel(1);
+        for (AdditServices additServices : result) {
+            assertEquals(1, additServices.getHotel().getHotel_id());
+        }
     }
 
     @Test
-    public void getServicesByDateTest() {
-        List<String> t = new ArrayList<>();
-        t.add("2020-11-16");
-        t.add("2020-11-17");
-        t.add("1");
-        List<ClientUsedServices> res = db.getClientServicesByDate(t); // 1 2 3 4 9 10 11 12
-        assertEquals(cus.getAddit_service().getTitle(), res.get(0).getAddit_service().getTitle());
-        assertEquals(cus1.getAddit_service().getTitle(), res.get(1).getAddit_service().getTitle());
-        assertEquals(cus2.getAddit_service().getTitle(), res.get(2).getAddit_service().getTitle());
-        assertEquals(cus3.getAddit_service().getTitle(), res.get(3).getAddit_service().getTitle());
-        assertEquals(cus8.getAddit_service().getTitle(), res.get(4).getAddit_service().getTitle());
-        assertEquals(cus9.getAddit_service().getTitle(), res.get(5).getAddit_service().getTitle());
-        assertEquals(cus10.getAddit_service().getTitle(), res.get(6).getAddit_service().getTitle());
-        assertEquals(cus11.getAddit_service().getTitle(), res.get(7).getAddit_service().getTitle());
+    public void getAllServiceCategory() {
+        List<ServiceCategory> result = db.getAllServiceCategories();
+        assertNotNull(result);
+        assertNotEquals(0, result.size());
+    }
+
+
+    @Test
+    public void getReservByHotel() {
+        Hotel h = db.getHotelById(1);
+        Hotel hh = db.getHotelById(2);
+
+        // db.saveOrUpdateObject(ro);
+        // db.saveOrUpdateObject(ro1);
+        // db.saveOrUpdateObject(ro2);
+        // db.saveOrUpdateObject(ro3);
+        
+        r.setHotel(h);
+        r2.setHotel(h);
+        r1.setHotel(hh);
+        r3.setHotel(hh);
+        r.setHotel(h);
+        r1.setHotel(hh);
+        r2.setHotel(h);
+        r3.setHotel(hh);
+        db.saveOrUpdateObject(r);
+        db.saveOrUpdateObject(r1);
+        db.saveOrUpdateObject(r2);
+        db.saveOrUpdateObject(r3);
+
+        db.saveOrUpdateObject(r);
+        db.saveOrUpdateObject(r1);
+        db.saveOrUpdateObject(r2);
+        db.saveOrUpdateObject(r3);
+
+        List<Reservation> result = db.getAllReservationsByHotel(1);
+        assertNotNull(result);
+        for (Reservation reservation : result) {
+            assertEquals(1, reservation.getHotel().getHotel_id());
+        }
     }
 
     @Test
-    public void getReservationsByDateTest() {
-        List<String> t = new ArrayList<>();
-        t.add("2020-11-15");
-        t.add("2020-11-16");
-        t.add("1");
-
-        List<Reservation> res = db.getReservationsByDate(t);
-        assertEquals(r3.getReservation_form().getClient_name(), res.get(0).getReservation_form().getClient_name());
+    public void getHotelByID() {
+        Hotel result = db.getHotelById(1);
+        assertEquals(1, result.getHotel_id());
     }
 
     @Test
-    public void getReservationsByUserAndDateTest() {
-        List<String> t = new ArrayList<>();
-        t.add("2020-11-15");
-        t.add("2020-11-16");
-        t.add("8");
-
-        List<Reservation> res = db.getReceptionistMadeReservations(t); // 2 r1
-        assertEquals(r1.getReceptionist().getName(),
-        res.get(0).getReceptionist().getName());
+    public void getHotelByName() {
+        Hotel result = db.getHotelByName(h1.getHotel_name());
+        assertEquals(h1.getHotel_name(), result.getHotel_name());
     }
 
+    @Test
+    public void getRoomByID() {
+        Room result = db.getRoomByID(1);
+        assertEquals(1, result.getR_id());
+    }
 
+    @Test
+    public void getRoomByHotel() {
+        Hotel h = db.getHotelById(1);
+        List<Room> result = db.getRoomsByHotel(h.getHotel_id());
+        for (Room room : result) {
+            assertEquals(1, room.getHotel().getHotel_id());
+        }
+    }
+
+    @Test
+    public void getClientByID() {
+        Clients result = db.getClientByID(1);
+        assertEquals(1, result.getC_id());
+    }
 }
