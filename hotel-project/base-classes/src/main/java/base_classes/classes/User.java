@@ -10,8 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 
 import base_classes.classes.emuns.URE;
@@ -32,8 +31,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private URE user_role;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(unique = false)
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Hotel> hotel = new ArrayList<>();
 
     public User() {}

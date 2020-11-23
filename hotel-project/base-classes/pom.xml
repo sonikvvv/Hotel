@@ -10,6 +10,7 @@
   <groupId>base_classes</groupId>
   <artifactId>base-classes</artifactId>
   <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
 
   <name>base-classes</name>
 

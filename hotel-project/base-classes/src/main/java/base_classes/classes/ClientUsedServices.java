@@ -1,6 +1,6 @@
 package base_classes.classes;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +28,7 @@ public class ClientUsedServices {
     @JoinColumn(name = "serv_id")
     private AdditServices addit_service;
     private int quantity;
-    private LocalDate purchase_date;
+    private LocalDateTime purchase_date;
     private String note;
 
     @Column(columnDefinition = "Number(10,2)")
@@ -47,12 +47,12 @@ public class ClientUsedServices {
     public ClientUsedServices(AdditServices addit_service, int quantity, String note) {
         this.addit_service = addit_service;
         this.quantity = quantity;
-        this.purchase_date = LocalDate.now();
+        this.purchase_date = LocalDateTime.now();
         this.note = note;
         calcTotal();
     }
 
-    public ClientUsedServices(AdditServices addit_service, int quantity, LocalDate purchase_date, String note,
+    public ClientUsedServices(AdditServices addit_service, int quantity, LocalDateTime purchase_date, String note,
             double total, boolean paid, Hotel hotel) {
         this.addit_service = addit_service;
         this.quantity = quantity;
@@ -71,10 +71,6 @@ public class ClientUsedServices {
         return cus_id;
     }
 
-    public LocalDate getDate() {
-        return purchase_date;
-    }
-
     public String getNote() {
         return note;
     }
@@ -91,7 +87,7 @@ public class ClientUsedServices {
         return hotel;
     }
 
-    public LocalDate getPurchase_date() {
+    public LocalDateTime getPurchase_date() {
         return purchase_date;
     }
 
@@ -108,10 +104,6 @@ public class ClientUsedServices {
         this.cus_id = cus_id;
     }
 
-    public void setDate(LocalDate purchase_date) {
-        this.purchase_date = purchase_date;
-    }
-
     public void setNote(String note) {
         this.note = note;
     }
@@ -124,7 +116,7 @@ public class ClientUsedServices {
         this.quantity = quantity;
     }
 
-    public void setPurchase_date(LocalDate purchase_date) {
+    public void setPurchase_date(LocalDateTime purchase_date) {
         this.purchase_date = purchase_date;
     }
 

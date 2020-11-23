@@ -44,6 +44,7 @@ public class Reservation {
         this.receptionist = receptionist;
         this.reservation_form = rf;
         this.room = room;
+        this.date_made = LocalDate.now();
     }
 
     public Reservation(User receptionist, ReservationForm rf, Room room, Hotel hotel) {
@@ -51,6 +52,7 @@ public class Reservation {
         this.reservation_form = rf;
         this.room = room;
         this.hotel = hotel;
+        this.date_made = LocalDate.now();
     }
 
     public Hotel getHotel() {

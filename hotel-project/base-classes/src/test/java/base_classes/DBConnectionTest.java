@@ -255,6 +255,7 @@ public class DBConnectionTest {
         db.saveOrUpdateObject(h2);
 
         u.addToHotel(h1);
+        u.addToHotel(h2);
         u1.addToHotel(h2);
         u2.addToHotel(h2);
         u3.addToHotel(h1);
