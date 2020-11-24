@@ -162,6 +162,15 @@ public class DBConnection {
         return res;
     }
 
+    public List<Hotel> getAllHotels() {
+        Query<Hotel> query = null;
+        String sql_comand = "from " + Hotel.getTableName();
+
+        query = session.createQuery(sql_comand, Hotel.class);
+        List<Hotel> res = query.list();
+        return res;
+    }
+
     public List<Reservation> getAllReservationsByHotel(int hotel_id) {
         Query<Reservation> query = null;
         String sql_comand = "select t from " + Reservation.getTableName() + " t join t."
