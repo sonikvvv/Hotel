@@ -71,7 +71,8 @@ public class Room_ViewController implements Initializable {
     }
 
     @FXML
-    void clients_add(ActionEvent event) {
+    void clients_add(ActionEvent event) 
+    {
         try
         {
         Stage stage = new Stage();

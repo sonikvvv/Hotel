@@ -15,12 +15,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import logic.DecodeOperation;
 import logic.OperationType;
@@ -70,7 +73,19 @@ public class Reservations_HomeController implements Initializable {
 
     @FXML
     void addReservation(ActionEvent event) {
-//TODO 
+        try
+        {
+        Stage stage = new Stage();
+        Scene scene = new Scene(FXMLLoader.load(getClass().getResource("../reservations/addreservation.fxml")));
+        stage.setScene(scene);
+        stage.show();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+       
     }
 
     @FXML
