@@ -59,6 +59,10 @@ public class Raiting {
         return ls;
     }
 
+    public static String getTableName() {
+        return "raiting";
+    }
+
     @Override
     public String toString() {
         return " Raiting [ id = " + this.rait_id + " value: " + this.rait_value + " date: " + this.date_made + " ]";

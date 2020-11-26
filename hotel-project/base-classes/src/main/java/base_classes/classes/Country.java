@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
-@Entity
+@Entity(name = "country")
 public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "country_generator")
