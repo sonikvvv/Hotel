@@ -49,7 +49,7 @@
                   </Label>
                   <Button mnemonicParsing="false" onAction="#add_btn" styleClass="bttn" stylesheets="@../style.css" GridPane.columnIndex="3">
                      <graphic>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="ads_home_addbutton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../icons/icons8_plus_math_32.png" />
                            </image></ImageView>
