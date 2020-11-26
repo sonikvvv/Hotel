@@ -79,6 +79,31 @@ th {
     -fx-background-color: transparent;
 }
 
+.date-picker:editable > .arrow-button > * {
+    -fx-background-color: #45a29d;
+    -fx-font-size: 25;
+    -fx-border-padding: 0 0 0 0;
+}
+
+.date-picker > .arrow-button {
+    -fx-background-color: #212121;
+    -fx-background-radius: 0 12 12 0;
+    -fx-border-color:#555555a9;
+    -fx-border-width: 1 1 1 0;
+    -fx-border-radius: 0 12 12 0;
+}
+
+.date-picker > .text-field {
+    -fx-background-color: #212121;
+    -fx-text-fill: #c5c6c7;
+    -fx-font-size: 15;
+    -fx-background-radius: 12 0 0 12;
+    -fx-border-color: #555555a9;
+    -fx-border-width: 1 0 1 1;
+    -fx-border-radius: 12 0 0 12;
+}
+
+
 .table_view {
     -fx-background-color: transparent;
     -fx-text-aligment: center;

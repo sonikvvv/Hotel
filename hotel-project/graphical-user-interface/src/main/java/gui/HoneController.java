@@ -1,14 +1,20 @@
 package gui;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
-public class HoneController {
+public class HoneController extends Application implements Initializable {
 
     @FXML
     private Button see_all_notif_btn;
@@ -60,6 +66,19 @@ public class HoneController {
     void users(ActionEvent event) throws IOException {
         AnchorPane next = FXMLLoader.load(getClass().getResource("user/user_home.fxml"));
         main_view_pane.getChildren().setAll(next);
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        main_view_pane.getScene();
+
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        primaryStage.initStyle(StageStyle.UTILITY);
+        primaryStage.setResizable(false);
+
     }
 
 }

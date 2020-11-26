@@ -50,8 +50,8 @@
               <columns>
                 <TableColumn fx:id="status_col" styleClass="column-header-background" text="Status" />
                 <TableColumn fx:id="number_col" prefWidth="100.0" styleClass="column-header-background" text="Number" />
-                  <TableColumn fx:id="client_name_col" prefWidth="680.0" styleClass="column-header-background" text="Client Name" />
-                  <TableColumn fx:id="room_type_col" prefWidth="150.0" styleClass="column-header-background" text="Room Type" />
+                  <TableColumn fx:id="client_name_col" prefWidth="593.0" styleClass="column-header-background" text="Client Name" />
+                  <TableColumn fx:id="room_type_col" prefWidth="220.0" styleClass="column-header-background" text="Room Type" />
               </columns>
             </TableView>
          </children>

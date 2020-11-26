@@ -60,6 +60,7 @@ public class ReferencesHomeController implements Initializable {
     void RoomRaiting(ActionEvent event) {
         removeNodeByRowColumnIndex(0, 2, sub_grid);
         TableView<Room> room_rait_table = new TableView<>();
+        room_rait_table.getStyleClass().add("table_view");
         TableColumn<Room, String> room_num_col = new TableColumn<>("Number");
         TableColumn<Room, String> type_col = new TableColumn<>("Type");
         TableColumn<Room, Number> raiting_col = new TableColumn<>("Rating");
@@ -111,6 +112,7 @@ public class ReferencesHomeController implements Initializable {
         TableColumn<Clients, String> sex_col = new TableColumn<>("Sex");
         ObservableList<Clients> activ = FXCollections.observableArrayList();
         TableView<Clients> tv = new TableView<>();
+        tv.getStyleClass().add("table_view");
 
         number_col.setCellValueFactory(new PropertyValueFactory<Clients, Integer>("c_id"));
         name_col.setCellValueFactory(new PropertyValueFactory<Clients, String>("c_name"));
@@ -171,6 +173,7 @@ public class ReferencesHomeController implements Initializable {
         TableColumn<Clients, String> sex_col = new TableColumn<>("Sex");
         ObservableList<Clients> activ = FXCollections.observableArrayList();
         TableView<Clients> tv = new TableView<>();
+        tv.getStyleClass().add("table_view");
 
         number_col.setCellValueFactory(new PropertyValueFactory<Clients, Integer>("c_id"));
         name_col.setCellValueFactory(new PropertyValueFactory<Clients, String>("c_name"));
@@ -222,6 +225,7 @@ public class ReferencesHomeController implements Initializable {
     void createdReservations(ActionEvent event) {
         removeNodeByRowColumnIndex(0, 2, sub_grid);
         TableView<Reservation> reserv_table = new TableView<>();
+        reserv_table.getStyleClass().add("table_view");
         TableColumn<Reservation, Integer> number_col = new TableColumn<>("ID");
         TableColumn<Reservation, String> status_col = new TableColumn<>("Status");
         TableColumn<Reservation, String> hotel_col = new TableColumn<>("Hotel");
@@ -379,8 +383,8 @@ public class ReferencesHomeController implements Initializable {
         boolean flag = false;
         if (childrens.size() > 1) {
             for (Node node : childrens) {
-                if (node instanceof VBox) {
-                    VBox imageView = (VBox) node;
+                if (node instanceof HBox) {
+                    HBox imageView = (HBox) node;
                     if (flag == true) gridPane.getChildren().remove(imageView);
                     else flag = true;
                     break;
@@ -397,12 +401,9 @@ public class ReferencesHomeController implements Initializable {
         String res = recep_choice.getSelectionModel().getSelectedItem();
         VBox vb = new VBox();
         HBox hb = new HBox(2);
-        List<Label> labelList = new ArrayList<>();
-        labelList.add(new Label("user name: " + res));
-        labelList.add(new Label(", text"));
-        hb.getChildren().setAll(labelList);
 
         TableView<Reservation> reserv_table = new TableView<>();
+        reserv_table.getStyleClass().add("table_view");
         reserv_table.setPrefHeight(660);
         TableColumn<Reservation, Integer> number_col = new TableColumn<>("ID");
         TableColumn<Reservation, String> status_col = new TableColumn<>("Status");
@@ -527,6 +528,12 @@ public class ReferencesHomeController implements Initializable {
             }
         }
 
+        User recept = activ.get(0).getReceptionist();
+        Label label = new Label("user name: " + res + " name: " + recept.getName() + " phone: " + recept.getPhone()
+                + " email: " + recept.getEmail());
+        label.getStyleClass().add("small_label");
+        hb.getChildren().setAll(label);
+
         reserv_table.getColumns().add(number_col);
         reserv_table.getColumns().add(status_col);
         reserv_table.getColumns().add(hotel_col);
@@ -559,6 +566,7 @@ public class ReferencesHomeController implements Initializable {
         TableColumn<ClientUsedServices, Integer> quantity_col = new TableColumn<>("Quantity");
         ObservableList<ClientUsedServices> activ = FXCollections.observableArrayList();
         TableView<ClientUsedServices> tv = new TableView<>();
+        tv.getStyleClass().add("table_view");
 
         name_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ClientUsedServices,String>,ObservableValue<String>>(){
             @Override
