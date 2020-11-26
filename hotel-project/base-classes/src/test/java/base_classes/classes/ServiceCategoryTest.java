@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import base_classes.classes.emuns.SCE;
 import base_classes.classes.emuns.ServiceType;
 
 public class ServiceCategoryTest {
@@ -40,9 +39,4 @@ public class ServiceCategoryTest {
         assertEquals(test, ServiceCategory.getFields());
     }
     
-    @Test
-    public void searchTest() {
-        assertEquals("from " + table_name + " t where t." + test.get(0) + " = ", ServiceCategory.search(SCE.ID));
-        assertEquals("from " + table_name + " t where t." + test.get(1) + " = '", ServiceCategory.search(SCE.NAME));
-    }
 }

@@ -11,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
-import base_classes.classes.emuns.SCE;
 import base_classes.classes.emuns.ServiceType;
 
 @Entity(name = "service_category")
@@ -63,21 +62,6 @@ public class ServiceCategory {
         ls.add("category_title");
         ls.add("type");
         return ls;
-    }
-
-    public static String search(SCE type) {
-        String sqlString = "from " + getTableName() + " t where t.";
-        switch (type) {
-            case ID:
-                sqlString = sqlString + getFields().get(0) + " = ";
-                break;
-            case NAME:
-                sqlString = sqlString + getFields().get(1) + " = '";
-                break;
-            default:
-                break;
-        }
-        return sqlString;
     }
 
     @Override

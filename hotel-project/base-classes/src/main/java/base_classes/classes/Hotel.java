@@ -9,8 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
-import base_classes.classes.emuns.HE;
-
 @Entity(name = "hotel")
 public class Hotel {
     @Id
@@ -50,24 +48,6 @@ public class Hotel {
 
     public static String getTableName() {
         return "hotel";
-    }
-
-    public static String search(HE type) {
-        String sqlString = "from " + getTableName() + " t where t.";
-        List<String> fields = getFields();
-
-        switch (type) {
-            case ID:
-                sqlString = sqlString + fields.get(0) + " = ";
-                break;
-            case NAME:
-                sqlString = sqlString + fields.get(1) + " = '";
-                break;
-            default:
-                break;
-        }
-
-        return sqlString;
     }
 
     @Override
