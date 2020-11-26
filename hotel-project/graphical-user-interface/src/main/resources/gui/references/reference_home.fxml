@@ -6,6 +6,8 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.effect.BoxBlur?>
+<?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -13,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.references.ReferencesHomeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1050.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.references.ReferencesHomeController">
    <children>
       <GridPane prefHeight="750.0" prefWidth="1050.0">
         <columnConstraints>
@@ -44,51 +46,81 @@
                               <Insets />
                            </VBox.margin>
                         </Label>
-                        <Button mnemonicParsing="false" onAction="#clientInfoBtn" prefWidth="300.0" styleClass="bttn" stylesheets="@../style.css" text="Client info">
+                        <Button mnemonicParsing="false" onAction="#clientInfoBtn" prefWidth="300.0" styleClass="controls" stylesheets="@../style.css" text="Client info">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#usedServices" prefWidth="300.0" styleClass="bttn" stylesheets="@../style.css" text="Used services">
+                        <Button mnemonicParsing="false" onAction="#usedServices" prefWidth="300.0" styleClass="controls" stylesheets="@../style.css" text="Used services">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#clientRaiting" prefWidth="300.0" styleClass="bttn" stylesheets="@../style.css" text="Client Raiting">
+                        <Button mnemonicParsing="false" onAction="#clientRaiting" prefWidth="300.0" styleClass="controls" stylesheets="@../style.css" text="Client Raiting">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
                         </Button>
-                        <Separator prefWidth="200.0">
+                        <Separator disable="true" opacity="0.6" prefHeight="5.0" prefWidth="200.0" stylesheets="@../style.css">
                            <VBox.margin>
-                              <Insets top="10.0" />
+                              <Insets bottom="5.0" top="5.0" />
                            </VBox.margin>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <effect>
+                              <BoxBlur height="4.0" width="50.0">
+                                 <input>
+                                    <Shadow blurType="ONE_PASS_BOX" color="#0d7377" height="2.0" radius="5.25" />
+                                 </input>
+                              </BoxBlur>
+                           </effect>
                         </Separator>
                         <Label styleClass="small_label" stylesheets="@../style.css" text="Rceptionists" />
                         <ComboBox fx:id="recep_choice" prefWidth="300.0" promptText="Receptionist" styleClass="txt_field" stylesheets="@../style.css" />
-                        <Button mnemonicParsing="false" onAction="#createdReservationsRecep" prefWidth="300.0" styleClass="bttn" stylesheets="@../style.css" text="Created Reservations">
+                        <Button mnemonicParsing="false" onAction="#createdReservationsRecep" prefWidth="300.0" styleClass="controls" stylesheets="@../style.css" text="Created Reservations">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
                         </Button>
-                        <Separator prefWidth="200.0">
+                        <Separator disable="true" opacity="0.6" prefHeight="5.0" prefWidth="200.0" stylesheets="@../style.css">
                            <VBox.margin>
-                              <Insets top="10.0" />
+                              <Insets bottom="5.0" top="5.0" />
                            </VBox.margin>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <effect>
+                              <BoxBlur height="4.0" width="50.0">
+                                 <input>
+                                    <Shadow blurType="ONE_PASS_BOX" color="#0d7377" height="2.0" radius="5.25" />
+                                 </input>
+                              </BoxBlur>
+                           </effect>
                         </Separator>
                         <Label styleClass="small_label" stylesheets="@../style.css" text="Reservations" />
-                        <Button mnemonicParsing="false" onAction="#createdReservations" prefWidth="300.0" styleClass="bttn" stylesheets="@../style.css" text="Created Reservations">
+                        <Button mnemonicParsing="false" onAction="#createdReservations" prefWidth="300.0" styleClass="controls" stylesheets="@../style.css" text="Created Reservations">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
                         </Button>
-                        <Separator prefWidth="200.0">
+                        <Separator disable="true" opacity="0.6" prefHeight="5.0" prefWidth="200.0" stylesheets="@../style.css">
                            <VBox.margin>
-                              <Insets top="10.0" />
+                              <Insets bottom="5.0" top="5.0" />
                            </VBox.margin>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <effect>
+                              <BoxBlur height="4.0" width="50.0">
+                                 <input>
+                                    <Shadow blurType="ONE_PASS_BOX" color="#0d7377" height="2.0" radius="5.25" />
+                                 </input>
+                              </BoxBlur>
+                           </effect>
                         </Separator>
                         <Label styleClass="small_label" stylesheets="@../style.css" text="Rooms" />
-                        <Button mnemonicParsing="false" onAction="#RoomRaiting" prefWidth="300.0" styleClass="bttn" stylesheets="@../style.css" text="Room Raiting">
+                        <Button mnemonicParsing="false" onAction="#RoomRaiting" prefWidth="300.0" styleClass="controls" stylesheets="@../style.css" text="Room Raiting">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>

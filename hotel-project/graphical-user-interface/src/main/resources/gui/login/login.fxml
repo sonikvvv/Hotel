@@ -9,11 +9,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" styleClass="bg_color" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.login.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.login.LoginController">
    <children>
       <AnchorPane prefHeight="500.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -29,37 +28,56 @@
         <rowConstraints>
           <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="35.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="20.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="20.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="20.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="35.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="55.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Button mnemonicParsing="false" onMouseClicked="#logIn" prefHeight="35.0" prefWidth="362.0" styleClass="bttn" stylesheets="@../style.css" text="Log in" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-            <TextField fx:id="username_txt" prefHeight="35.0" prefWidth="260.0" styleClass="txt_field" stylesheets="@../style.css" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <TextField fx:id="username_txt" alignment="BOTTOM_LEFT" prefHeight="35.0" prefWidth="260.0" styleClass="txt_field" stylesheets="@../style.css" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <GridPane.margin>
-                  <Insets />
+                  <Insets left="1.0" />
                </GridPane.margin>
                <opaqueInsets>
                   <Insets />
-               </opaqueInsets></TextField>
-            <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <children>
-                  <Label layoutX="62.0" layoutY="68.0" styleClass="label_login" stylesheets="@../style.css" text="Welcome Back!" />
-                  <Label layoutX="136.0" layoutY="17.0" styleClass="label_login" stylesheets="@../style.css" text="Hello," />
-               </children>
-            </Pane>
-            <Label styleClass="label_login_user_pas" stylesheets="@../style.css" text="Username" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2">
+               </opaqueInsets>
+               <padding>
+                  <Insets left="-2.0" />
+               </padding></TextField>
+            <PasswordField fx:id="pas_txt" prefHeight="35.0" styleClass="txt_field" stylesheets="@../style.css" GridPane.columnIndex="1" GridPane.rowIndex="6">
+               <padding>
+                  <Insets left="-2.0" top="10.0" />
+               </padding>
+               <GridPane.margin>
+                  <Insets left="1.0" />
+               </GridPane.margin></PasswordField>
+            <Label styleClass="label_login" stylesheets="@../style.css" text="Welcome Back!" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets bottom="20.0" />
+               </GridPane.margin>
+            </Label>
+            <Label styleClass="label_login" stylesheets="@../style.css" text="Hello," GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+               <font>
+                  <Font name="Serif Regular" size="12.0" />
+               </font>
+            </Label>
+            <Label styleClass="small_label" stylesheets="@../style.css" text="Username" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2">
                <font>
                   <Font size="15.0" />
                </font>
+               <GridPane.margin>
+                  <Insets top="25.0" />
+               </GridPane.margin>
             </Label>
-            <Label styleClass="label_login_user_pas" stylesheets="@../style.css" text="Password" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5" />
-            <PasswordField fx:id="pas_txt" prefHeight="35.0" styleClass="txt_field" stylesheets="@../style.css" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Label styleClass="small_label" stylesheets="@../style.css" text="Password" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets top="25.0" />
+               </GridPane.margin></Label>
          </children>
       </GridPane>
    </children>

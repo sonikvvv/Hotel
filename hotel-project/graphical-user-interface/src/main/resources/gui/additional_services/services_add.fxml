@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane prefHeight="600.0" prefWidth="500.0">
         <columnConstraints>
@@ -28,7 +28,7 @@
           <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" onAction="#save" prefHeight="35.0" prefWidth="150.0" text="Save" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+            <Button mnemonicParsing="false" onAction="#save" prefHeight="35.0" prefWidth="150.0" styleClass="bttn" stylesheets="@../style.css" text="Save" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
@@ -45,14 +45,14 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ComboBox fx:id="service_cb" prefHeight="25.0" prefWidth="423.0" promptText="Service" />
-                  <ComboBox fx:id="category_cb" prefHeight="25.0" prefWidth="423.0" promptText="Category" GridPane.rowIndex="1" />
-                  <TextField fx:id="price_txt" promptText="Price" GridPane.rowIndex="3" />
-                  <TextArea fx:id="note_txt" prefHeight="200.0" prefWidth="200.0" promptText="Note" GridPane.rowIndex="4" />
-                  <TextField fx:id="quantity_txt" promptText="Quatity" GridPane.rowIndex="2" />
+                  <ComboBox fx:id="service_cb" prefHeight="25.0" prefWidth="423.0" promptText="Service" styleClass="txt_field" stylesheets="@../style.css" />
+                  <ComboBox fx:id="category_cb" prefHeight="25.0" prefWidth="423.0" promptText="Category" styleClass="txt_field" stylesheets="@../style.css" GridPane.rowIndex="1" />
+                  <TextField fx:id="price_txt" promptText="Price" styleClass="txt_field" stylesheets="@../style.css" GridPane.rowIndex="3" />
+                  <TextArea fx:id="note_txt" prefHeight="200.0" prefWidth="200.0" promptText="Note" styleClass="text-area" stylesheets="@../style.css" GridPane.rowIndex="4" />
+                  <TextField fx:id="quantity_txt" promptText="Quatity" styleClass="txt_field" stylesheets="@../style.css" GridPane.rowIndex="2" />
                </children>
             </GridPane>
-            <Label text="Label" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+            <Label styleClass="big_label" stylesheets="@../style.css" text="Label" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </children>
