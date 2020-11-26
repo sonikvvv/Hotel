@@ -21,5 +21,6 @@ public enum OperationType {
     GET_SERVICE_CATEGORY,
     DELETE,
     GET_USER_NOW,
-    AAD_TO_USERS
+    ADD_TO_USERS,
+    CHECKOUT
 }

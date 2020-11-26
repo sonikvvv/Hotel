@@ -7,6 +7,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import logic.DecodeOperation;
+import logic.OperationType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
@@ -44,7 +46,9 @@ public class Add_UserController {
             data.add(pass);
             data.add(name);
             data.add(phone);
-            data.add(email);//TODO: save user
+            data.add(email);
+            
+            DecodeOperation.decodeLogicOperation(OperationType.ADD_TO_USERS, null, data);
         }
     }
 }

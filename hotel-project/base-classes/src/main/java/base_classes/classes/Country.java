@@ -9,8 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
-import base_classes.classes.emuns.CountryE;
-
 @Entity
 public class Country {
     @Id
@@ -50,27 +48,6 @@ public class Country {
 
     public static String getTableName() {
         return "country";
-    }
-
-    public static String search(CountryE type) {
-        String sqlString = "from " + getTableName() + "t where t.";
-        List<String> fields = getFields();
-
-        switch (type) {
-            case ID:
-                sqlString = sqlString + fields.get(0) + " = ";
-                break;
-            case COUNTRY_NAME:
-                sqlString = sqlString + "lower(" + fields.get(1) + ") = lower('";
-                break;
-            case ALL:
-                sqlString = "from " + getTableName();
-                break;
-            default:
-                break;
-        }
-
-        return sqlString;
     }
 
     @Override

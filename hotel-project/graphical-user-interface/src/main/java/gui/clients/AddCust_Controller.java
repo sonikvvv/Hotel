@@ -1,8 +1,6 @@
 package gui.clients;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 import base_classes.classes.Clients;
 import base_classes.classes.Country;
@@ -73,17 +71,16 @@ public void AddCustomer()
         String CarNumber = addcust_carnumber.getText();
         String Note = addcust_note.getText();
 
-        if (Name.length() == 0 || Country.length()  == 0  || PassportNumber.length() == 0  || CarNumber.length() == 0  || DateOfBirth == null || PassportDate == null || addcust_sex.getValue().length() == 0) 
-        {
+        if (Name.length() == 0 || Country.length() == 0 || PassportNumber.length() == 0 || CarNumber.length() == 0
+                || DateOfBirth == null || PassportDate == null || addcust_sex.getValue().length() == 0) {
+                    
             Alert al = new Alert(AlertType.WARNING, "Don't leave empty fields!");
             al.showAndWait();
-        }else 
-        {
-            List<String> t = new ArrayList<>();
+        } else {
 
-            Clients klient = new Clients(Name, DateOfBirth, sex, PassportNumber, PassportDate, CarNumber, new Country(Country),Note);
-            //TODO Save object
-            List res = DecodeOperation.decodeLogicOperation(OperationType.SAVE_OR_UPDATE, klient, null);
+            Clients klient = new Clients(Name, DateOfBirth, sex, PassportNumber, PassportDate, CarNumber,
+                    new Country(Country), Note);
+            DecodeOperation.decodeLogicOperation(OperationType.SAVE_OR_UPDATE, klient, null);
         }
 
    

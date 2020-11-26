@@ -54,6 +54,7 @@ public class Room {
         this.r_type = r_type;
         this.price = price;
         this.r_status = r_status;
+        this.rait.add(new Raiting());
     }
 
     public Room(String r_number, String r_type, double price, SE r_status, Hotel hotel) {
@@ -62,6 +63,7 @@ public class Room {
         this.price = price;
         this.r_status = r_status;
         this.hotel = hotel;
+        this.rait.add(new Raiting());
     }
 
     public List<Clients> getClients() {

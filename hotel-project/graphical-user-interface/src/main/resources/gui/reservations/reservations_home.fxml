@@ -6,15 +6,13 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.reservations.Reservations_HomeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1050.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.reservations.Reservations_HomeController">
    <children>
       <GridPane prefHeight="750.0" prefWidth="1050.0">
          <columnConstraints>
@@ -48,17 +46,10 @@
                      </font>
                   </Label>
                   <DatePicker fx:id="date_picker" onAction="#datePickerChanged" styleClass="date_picker" stylesheets="@../style.css" GridPane.columnIndex="1" />
-                  <Button mnemonicParsing="false" onAction="#addReservation" styleClass="bttn" stylesheets="@../style.css" GridPane.columnIndex="2">
-                     <graphic>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../icons/icons8_plus_math_32.png" />
-                           </image></ImageView>
-                     </graphic>
-                  </Button>
+                  <Button fx:id="add_btn" mnemonicParsing="false" onAction="#addReservation" styleClass="bttn" stylesheets="@../style.css" text="Add" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
                </children>
             </GridPane>
-            <TableView fx:id="reserv_table" prefHeight="200.0" prefWidth="202.0" styleClass="table_view" stylesheets="@../style.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <TableView fx:id="reserv_table" onKeyPressed="#delete" onMouseClicked="#rowClicked" prefHeight="200.0" prefWidth="202.0" styleClass="table_view" stylesheets="@../style.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
               <columns>
                 <TableColumn fx:id="number_col" style="-fx-background-color: transparent;" styleClass="table-row-cell" text="Number" />
                 <TableColumn fx:id="client_name_col" prefWidth="340.0" style="-fx-background-color: transparent;" styleClass="table-row-cell" text="Client Name" />

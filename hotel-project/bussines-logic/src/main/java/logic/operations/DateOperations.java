@@ -40,4 +40,17 @@ public class DateOperations {
         else
             return false;
     }
+
+    public static boolean compareTwoDates(LocalDate compare, LocalDate to) {
+        if (compare.getYear() == to.getYear())
+            if (compare.getMonthValue() == to.getMonthValue())
+                if (compare.getDayOfMonth() == to.getDayOfMonth())
+                    return true;
+                else
+                    return false;
+            else
+                return false;
+        else
+            return false;
+    }
 }
