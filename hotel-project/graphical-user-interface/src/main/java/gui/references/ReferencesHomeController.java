@@ -219,7 +219,7 @@ public class ReferencesHomeController implements Initializable {
     }
 
     @FXML
-    void createdReservations(ActionEvent event) { //TODO: problem with getting data
+    void createdReservations(ActionEvent event) {
         removeNodeByRowColumnIndex(0, 2, sub_grid);
         TableView<Reservation> reserv_table = new TableView<>();
         TableColumn<Reservation, Integer> number_col = new TableColumn<>("ID");

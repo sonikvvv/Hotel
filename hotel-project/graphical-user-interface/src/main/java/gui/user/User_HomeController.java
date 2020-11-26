@@ -2,6 +2,7 @@ package gui.user;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import base_classes.classes.User;
@@ -15,10 +16,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import logic.DecodeOperation;
@@ -27,6 +34,9 @@ import logic.operations.UserOperations;
 
 public class User_HomeController implements Initializable {
 
+    @FXML
+    private Button add_btn;
+    
     @FXML
     private TableView<User> user_table;
 
@@ -48,7 +58,7 @@ public class User_HomeController implements Initializable {
     private ObservableList<User> activ = FXCollections.observableArrayList();
 
     @FXML
-    void add_btn(ActionEvent event) { 
+    void add_user(ActionEvent event) { 
         try {
             Stage st = new Stage();
             Scene sc;
@@ -63,8 +73,35 @@ public class User_HomeController implements Initializable {
         }
     }
 
+    @FXML
+    void keyPressed(KeyEvent event) {
+        User user_now = UserOperations.getUser_now().get(0);
+        if (user_now.getUser_role() == URE.ADMIN) {
+            if (event.getCode() == KeyCode.DELETE) {
+                Alert al = new Alert(AlertType.CONFIRMATION);
+                al.setContentText("Delete this user?");
+                Optional<ButtonType> result = al.showAndWait();
+                User to_delete;
+
+                if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
+                    to_delete = user_table.getSelectionModel().getSelectedItem();
+                    if (to_delete != null) {
+                        user_table.getItems().remove(to_delete);
+                        DecodeOperation.decodeLogicOperation(OperationType.DELETE, to_delete, null);
+                    }
+                }
+            }
+        }
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        User user_now = UserOperations.getUser_now().get(0);
+
+        if (user_now.getUser_role() == URE.RECEPTIONIST) {
+            add_btn.setVisible(false);
+        }
+
         user_name_col.setCellValueFactory(new PropertyValueFactory<>("user_name"));
         role_col.setCellValueFactory(
             new Callback<TableColumn.CellDataFeatures<User, String>, ObservableValue<String>>() {

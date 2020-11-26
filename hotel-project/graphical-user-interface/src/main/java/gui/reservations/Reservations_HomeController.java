@@ -4,9 +4,12 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import base_classes.classes.Reservation;
+import base_classes.classes.User;
+import base_classes.classes.emuns.URE;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -18,18 +21,29 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import logic.DecodeOperation;
 import logic.OperationType;
+import logic.operations.UserOperations;
 
 public class Reservations_HomeController implements Initializable {
 
+    @FXML
+    private Button add_btn;
+    
     @FXML
     private DatePicker date_picker;
 
@@ -73,15 +87,13 @@ public class Reservations_HomeController implements Initializable {
 
     @FXML
     void addReservation(ActionEvent event) {
-        try
-        {
-        Stage stage = new Stage();
-        Scene scene = new Scene(FXMLLoader.load(getClass().getResource("../reservations/addreservation.fxml")));
-        stage.setScene(scene);
-        stage.show();
-        }
-        catch (Exception e)
-        {
+        
+        try {
+            Stage stage = new Stage();
+            Scene scene = new Scene(FXMLLoader.load(getClass().getResource("../reservations/addreservation.fxml")));
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -92,21 +104,60 @@ public class Reservations_HomeController implements Initializable {
     void datePickerChanged(ActionEvent event) {
         List<String> data = new ArrayList<>();
         data.add(date_picker.getValue().toString());
+        activ.clear();
 
-        List<?> res = DecodeOperation.decodeLogicOperation(OperationType.GET_RESERVATIONS, null, null); //TODO: search by date
+        List<?> res = DecodeOperation.decodeLogicOperation(OperationType.GET_RESERVATIONS, null, data);
         if (res != null && res.size() != 0) {
             for (Object object : res) {
                 activ.add((Reservation) object);
+            }
+        }
+
+        reserv_table.getItems().clear();
+        reserv_table.getItems().addAll(activ);
+    }
+
+    @FXML
+    void rowClicked(MouseEvent event) {
+        if (event.getClickCount() == 2) {
+            System.out.println("2 click");
+
+        }
+    }
+
+    @FXML
+    void delete(KeyEvent event) {
+        User user_now = UserOperations.getUser_now().get(0);
+        if (user_now.getUser_role() == URE.MANAGER) {
+            if (event.getCode() == KeyCode.DELETE) {
+                System.out.println("DELETE");
+                Alert al = new Alert(AlertType.CONFIRMATION);
+                al.setContentText("Delete this reservation?");
+                Optional<ButtonType> result = al.showAndWait();
+                Reservation to_delete;
+
+                if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
+                    to_delete = reserv_table.getSelectionModel().getSelectedItem();
+                    if (to_delete != null) {
+                        reserv_table.getItems().remove(to_delete);
+                        DecodeOperation.decodeLogicOperation(OperationType.DELETE, to_delete, null);
+                    }
+
+                }
             }
         }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        User user_now = UserOperations.getUser_now().get(0);
+
+        if (user_now.getUser_role() == URE.RECEPTIONIST) {
+            add_btn.setVisible(false);
+        }
+        
         date_picker.setValue(LocalDate.now());
-
         number_col.setCellValueFactory(new PropertyValueFactory<>("reservation_id"));
-
         client_name_col.setCellValueFactory(
                 new Callback<TableColumn.CellDataFeatures<Reservation, String>, ObservableValue<String>>() {
                     @Override

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import base_classes.classes.Hotel;
+import base_classes.classes.User;
+import base_classes.classes.emuns.URE;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,6 +23,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import logic.DecodeOperation;
 import logic.OperationType;
+import logic.operations.UserOperations;
 
 public class Add_To_HotelController implements Initializable {
 
@@ -48,15 +51,23 @@ public class Add_To_HotelController implements Initializable {
 
     @FXML
     void save(ActionEvent event) {
+        User user_now = UserOperations.getUser_now().get(0);
         String username = username_txt.getText();
         String pass = pass_txt.getText();
         String name = names_txt.getText();
         String phone = phone_txt.getText();
         String email = email_txt.getText();
 
-        if (selectedHotels.size() == 0 || selectedHotels == null) {
-            Alert al = new Alert(AlertType.WARNING, "Select at leat 1 hotel!");
+        if (selectedHotels == null || selectedHotels.size() == 0) {
+            Alert al = new Alert(AlertType.WARNING, "Select at least 1 hotel!");
             al.showAndWait();
+        }
+
+        if (user_now.getUser_role() == URE.OWNER) {
+            if (selectedHotels == null || selectedHotels.size() == 0) {
+                Alert al = new Alert(AlertType.ERROR, "Selected more than 1 hotel!");
+                al.showAndWait();
+            }
         }
 
         if (username.length() == 0 || pass.length()  == 0 || name.length() == 0 || phone.length() == 0 || email.length() == 0) {
@@ -70,10 +81,13 @@ public class Add_To_HotelController implements Initializable {
             data.add(phone);
             data.add(email);
             String hotels = "";
+            //System.out.println(selectedHotels); [Testivile, Mehvile]
             for (String string : selectedHotels) {
                 hotels += string + ",";
             }
-            // TODO: save user
+            data.add(hotels);
+            
+            DecodeOperation.decodeLogicOperation(OperationType.ADD_TO_USERS, null, data);
         }
     }
 

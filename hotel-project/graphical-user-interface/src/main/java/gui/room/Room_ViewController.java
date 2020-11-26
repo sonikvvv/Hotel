@@ -10,6 +10,8 @@ import java.util.ResourceBundle;
 import base_classes.classes.ClientUsedServices;
 import base_classes.classes.Clients;
 import base_classes.classes.Room;
+import base_classes.classes.User;
+import base_classes.classes.emuns.URE;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -28,11 +30,16 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import logic.DecodeOperation;
+import logic.OperationType;
 import logic.operations.RoomOperations;
+import logic.operations.UserOperations;
 
 public class Room_ViewController implements Initializable {
 
@@ -71,22 +78,40 @@ public class Room_ViewController implements Initializable {
     }
 
     @FXML
-    void clients_add(ActionEvent event) 
-    {
-        try
-        {
-        Stage stage = new Stage();
-        Scene scene = new Scene(FXMLLoader.load(getClass().getResource("../clients/AddCust.fxml")));
-        stage.setScene(scene);
-        stage.show();
-        }
-        catch (Exception e)
-        {
+    void clients_add(ActionEvent event) {
+        try {
+            Stage stage = new Stage();
+            Scene scene = new Scene(FXMLLoader.load(getClass().getResource("../clients/AddCust.fxml")));
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         // TODO:da zaredi nova scena i fxml fail
-        
+
+    }
+
+    @FXML //for table view
+    void keyPressed(KeyEvent event) {
+        User user_now = UserOperations.getUser_now().get(0);
+        if(user_now.getUser_role() == URE.MANAGER) {
+            if (event.getCode() == KeyCode.DELETE){
+                Alert al = new Alert(AlertType.CONFIRMATION);
+                al.setContentText("Delete this service?");
+                Optional<ButtonType> result = al.showAndWait();
+                ClientUsedServices to_delete;
+
+                if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
+                    to_delete = ads_table.getSelectionModel().getSelectedItem();
+                    if (to_delete != null) {
+                        ads_table.getItems().remove(to_delete);
+                        DecodeOperation.decodeLogicOperation(OperationType.DELETE, to_delete, null);
+                    }
+
+                }
+            }
+        }
     }
 
     @FXML
@@ -98,12 +123,12 @@ public class Room_ViewController implements Initializable {
             ClientUsedServices tmp = null;
 
             if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
-                //System.out.println("OK");
                 ads_table.getSelectionModel().getSelectedItem().setPaid(true);
                 tmp = ads_table.getSelectionModel().getSelectedItem();
                 ads_table.getItems().setAll(activ);
             }
-            //TODO: update the object in db
+
+            DecodeOperation.decodeLogicOperation(OperationType.SAVE_OR_UPDATE, tmp, null);
         }        
     }
 
@@ -118,7 +143,7 @@ public class Room_ViewController implements Initializable {
             clients_vbox.getChildren().clear();
             for (Clients clients : clList) {
                 Button tmp = new Button(clients.getC_name());
-                tmp.getStyleClass().add("bttn");
+                tmp.getStyleClass().add("controls");
                 tmp.getStylesheets().add(css);
                 tmp.setPrefWidth(352);
                 tmp.setPrefHeight(50);
@@ -157,6 +182,21 @@ public class Room_ViewController implements Initializable {
                         // TODO: load client info page
                     }
 
+                });
+                tmp.setOnKeyPressed(e -> {
+                    if (e.getCode() == KeyCode.DELETE){
+                        Button to_delete = (Button) e.getSource();
+                        List<String> data = new ArrayList<>();
+                        data.add(room_l.getText());
+                        data.add(to_delete.getText());
+                        
+                        clients_vbox.getChildren().remove(to_delete);
+                        if(clients_vbox.getChildren().size() == 0){
+                            data.add("flag");
+                        }
+
+                        DecodeOperation.decodeLogicOperation(OperationType.CHECKOUT, null, data);
+                    }
                 });
                 bList.add(tmp);
             }
