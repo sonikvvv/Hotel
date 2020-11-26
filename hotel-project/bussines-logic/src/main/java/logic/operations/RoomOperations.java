@@ -5,8 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import base_classes.DBConnection;
+import base_classes.classes.Clients;
+import base_classes.classes.Hotel;
 import base_classes.classes.Raiting;
 import base_classes.classes.Room;
+import base_classes.classes.User;
+import base_classes.classes.emuns.SE;
+import base_classes.classes.emuns.URE;
 
 public class RoomOperations {//TODO: fix the raiting
 
@@ -25,16 +30,35 @@ public class RoomOperations {//TODO: fix the raiting
         temporal.add(room);
     }
 
-    public static List<Room> getRooms(DBConnection db, int hotel_id) {
-        List<Room> result = db.getRoomsByHotel(hotel_id);
-        return result;
+    public static List<Room> getRooms(DBConnection db) {
+        User user_now = UserOperations.getUser_now().get(0);
+        
+        List<Room> rooms = new ArrayList<>();
+
+        if (user_now.getUser_role() == URE.ADMIN) {
+            rooms.addAll(db.getAllRooms());
+        } else {
+            for (Hotel hotel : user_now.getHotel()) {
+                rooms.addAll(db.getRoomsByHotel(hotel.getHotel_id()));
+            }
+        }
+
+        return rooms;
     }
 
     public static List<Room> getRoomRait(DBConnection db, List<String> data) {
-        int hotel_id = UserOperations.getUser_now().get(0).getHotel().get(0).getHotel_id();
+       User user_now = UserOperations.getUser_now().get(0);
         List<Room> result = new ArrayList<>();
 
-        List<Room> rooms = db.getRoomsByHotel(hotel_id);
+        List<Room> rooms = new ArrayList<>();
+
+        if (user_now.getUser_role() == URE.ADMIN) {
+            rooms.addAll(db.getAllRooms());
+        } else {
+            for (Hotel hotel : user_now.getHotel()) {
+                rooms.addAll(db.getRoomsByHotel(hotel.getHotel_id()));
+            }
+        }
 
         LocalDateTime fromdate = DateOperations.toDateAndTime(data.get(0));
         LocalDateTime todate = DateOperations.toDateAndTime(data.get(1));
@@ -63,5 +87,25 @@ public class RoomOperations {//TODO: fix the raiting
         return result;
     }
 
+    public static void checkOUT(DBConnection db, List<String> client_and_roomID) {
+        int room_id = Integer.valueOf(client_and_roomID.get(0));
+        Room room = db.getRoomByID(room_id);
+        Clients for_checkout = null;
 
+        for (Clients clients : room.getClients()) {
+            if(clients.getC_name().equals(client_and_roomID.get(1))){
+                for_checkout = clients;
+                break;
+            }
+        }
+
+        if(client_and_roomID.size() == 3){
+            room.setR_status(SE.DIRTY);
+        }
+
+        room.getClients().remove(for_checkout);
+        for_checkout.checkOut();
+        db.saveOrUpdateObject(for_checkout);
+        db.saveOrUpdateObject(room);
+    }
 }
