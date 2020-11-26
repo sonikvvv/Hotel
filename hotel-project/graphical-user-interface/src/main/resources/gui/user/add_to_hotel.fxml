@@ -4,13 +4,13 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="950.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.user.Add_To_HotelController">
@@ -129,12 +129,11 @@
                         </PasswordField>
                      </children>
                   </GridPane>
-                  <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
-                     <children>
-                        <ListView fx:id="hotel_list" layoutY="26.0" prefHeight="441.0" prefWidth="445.0" style="-fx-background-color: transparent;" />
-                        <Label layoutX="205.0" layoutY="4.0" styleClass="small_label" stylesheets="@../style.css" text="Hotel" />
-                     </children>
-                  </Pane>
+                  <TableView fx:id="hotel_table" prefHeight="200.0" prefWidth="200.0" styleClass="table_view" stylesheets="@../style.css" GridPane.columnIndex="2">
+                    <columns>
+                      <TableColumn fx:id="hotel_name_col" prefWidth="441.0" styleClass="column-header-background" text="Hotel" />
+                    </columns>
+                  </TableView>
                </children>
             </GridPane>
          </children>

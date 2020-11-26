@@ -25,29 +25,29 @@
                <children>
                   <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
                      <children>
-                        <Button fx:id="reservation_btn" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#reservations" prefHeight="50.0" prefWidth="250.0" styleClass="bttn" stylesheets="@style.css" text="Reservations">
+                        <Button fx:id="reservation_btn" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#reservations" prefHeight="50.0" prefWidth="250.0" styleClass="controls" stylesheets="@style.css" text="Reservations">
                            <VBox.margin>
-                              <Insets left="1.0" right="1.0" top="10.0" />
+                              <Insets left="1.0" right="1.0" top="-1.0" />
                            </VBox.margin>
                         </Button>
-                        <Button fx:id="room_btn" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#rooms" prefHeight="50.0" prefWidth="250.0" styleClass="bttn" stylesheets="@style.css" text="Rooms">
+                        <Button fx:id="room_btn" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#rooms" prefHeight="50.0" prefWidth="250.0" styleClass="controls" stylesheets="@style.css" text="Rooms">
                            <VBox.margin>
-                              <Insets left="1.0" right="1.0" top="10.0" />
+                              <Insets left="1.0" right="1.0" top="-1.0" />
                            </VBox.margin>
                         </Button>
-                        <Button fx:id="ads_btn" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#ads" prefHeight="50.0" prefWidth="250.0" styleClass="bttn" stylesheets="@style.css" text="Additional Services">
+                        <Button fx:id="ads_btn" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#ads" prefHeight="50.0" prefWidth="250.0" styleClass="controls" stylesheets="@style.css" text="Additional Services">
                            <VBox.margin>
-                              <Insets left="1.0" right="1.0" top="10.0" />
+                              <Insets left="1.0" right="1.0" top="-1.0" />
                            </VBox.margin>
                         </Button>
-                        <Button fx:id="ref_btn" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#ref" prefHeight="50.0" prefWidth="250.0" styleClass="bttn" stylesheets="@style.css" text="References">
+                        <Button fx:id="ref_btn" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#ref" prefHeight="50.0" prefWidth="250.0" styleClass="controls" stylesheets="@style.css" text="References">
                            <VBox.margin>
-                              <Insets left="1.0" right="1.0" top="10.0" />
+                              <Insets left="1.0" right="1.0" top="-1.0" />
                            </VBox.margin>
                         </Button>
-                        <Button fx:id="users_btn" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#users" prefHeight="50.0" prefWidth="250.0" styleClass="bttn" stylesheets="@style.css" text="Users">
+                        <Button fx:id="users_btn" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#users" prefHeight="50.0" prefWidth="250.0" styleClass="controls" stylesheets="@style.css" text="Users">
                            <VBox.margin>
-                              <Insets left="1.0" right="1.0" top="10.0" />
+                              <Insets left="1.0" right="1.0" top="-1.0" />
                            </VBox.margin>
                         </Button>
                      </children>
