@@ -9,7 +9,7 @@ import base_classes.classes.User;
 import base_classes.classes.emuns.URE;
 import logic.operations.*;
 
-public class DecodeOperation { //TODO: some how save temporali objects
+public class DecodeOperation {
     private static DBConnection db = new DBConnection();
 
     public static DBConnection getDb() {
@@ -22,7 +22,7 @@ public class DecodeOperation { //TODO: some how save temporali objects
     
     
     public static List<?> decodeLogicOperation(OperationType type, Object o, List<String> data) {
-        User user_now = new User("name", "password", URE.OWNER);
+        User user_now = new User("name", "password", URE.ADMIN);
         Hotel h = new Hotel("Testivile");
         h.setHotel_id(1);
         user_now.addToHotel(h);
@@ -30,19 +30,19 @@ public class DecodeOperation { //TODO: some how save temporali objects
         List<?> result = new ArrayList<>();
         switch (type){
             case SAVE_OR_UPDATE:
-                // db.saveOrUpdateObject(o);
+                db.saveOrUpdateObject(o);
                 break;
             case GET_ADS:
-                result = AdditionalServicesOperations.getAllAdditionalServices(db, 1);
+                result = AdditionalServicesOperations.getAllAdditionalServices(db);
                 break;
             case GET_USERS:
-                result = UserOperations.getUsers(db, data);
+                result = UserOperations.getUsers(db);
                 break;
             case GET_RESERVATIONS:
-                result = ReservOperations.getReservations(db, data);
+                result = ReservOperations.getReservations(db, data.get(0));
                 break;
             case GET_ROOMS:
-                result = RoomOperations.getRooms(db, 1);
+                result = RoomOperations.getRooms(db);
                 break;
             case CLIENT_INFO:
                 result = ClientOperations.getClientsInfo(db, data);
@@ -63,18 +63,25 @@ public class DecodeOperation { //TODO: some how save temporali objects
                 result = ReservOperations.getReceptionistCreatedReservations(db, data);
                 break;
             case GET_RECEPTIONIST:
-                result = UserOperations.getReceptionists(db, data);
+                result = UserOperations.getReceptionists(db);
                 break;
             case GET_USER_NOW:
                 result = UserOperations.getUser_now();
                 break;
-            case AAD_TO_USERS:
+            case ADD_TO_USERS:
+                UserOperations.addUser(db, data);
                 break;
             case GET_HOTEL:
-                result = HotelOperations.getHotels(db, data);
+                result = HotelOperations.getHotels(db);
                 break;
             case LOGIN:
                 result = UserOperations.authenticationOperation(db, data);
+                break;
+            case DELETE:
+                db.deleteObject(o);
+                break;
+            case CHECKOUT:
+                RoomOperations.checkOUT(db, data);
                 break;
             default:
                 break;

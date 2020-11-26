@@ -18,13 +18,12 @@ public class ClientOperations {
     public static List<Clients> getClientsInfo(DBConnection db, List<String> data) {
         List<Clients> clientList = new ArrayList<>();
         User user_now = UserOperations.getUser_now().get(0);
-        if (user_now.getUser_role() == URE.OWNER){
-            for (Hotel hotel : UserOperations.getUser_now().get(0).getHotel()) {
+        if (user_now.getUser_role() == URE.ADMIN) {
+            clientList = db.getAllClients();
+        } else {
+            for (Hotel hotel : user_now.getHotel()) {
                 clientList.addAll(db.getClientsByHotel(hotel.getHotel_id()));
             }
-        }
-        else if (user_now.getUser_role() == URE.MANAGER) {
-            clientList.addAll(db.getClientsByHotel(user_now.getHotel().get(0).getHotel_id()));
         }
 
         LocalDateTime fromdate = DateOperations.toDateAndTime(data.get(0));
@@ -43,12 +42,13 @@ public class ClientOperations {
     public static List<ClientUsedServices> getUsedServices(DBConnection db, List<String> data) {
         List<Clients> clientList = new ArrayList<>();
         User user_now = UserOperations.getUser_now().get(0);
-        if (user_now.getUser_role() == URE.OWNER) {
-            for (Hotel hotel : UserOperations.getUser_now().get(0).getHotel()) {
+        
+        if (user_now.getUser_role() == URE.ADMIN) {
+            clientList = db.getAllClients();
+        } else {
+            for (Hotel hotel : user_now.getHotel()) {
                 clientList.addAll(db.getClientsByHotel(hotel.getHotel_id()));
             }
-        } else if (user_now.getUser_role() == URE.MANAGER) {
-            clientList.addAll(db.getClientsByHotel(user_now.getHotel().get(0).getHotel_id()));
         }
 
         LocalDateTime fromdate = DateOperations.toDateAndTime(data.get(0));
@@ -80,7 +80,16 @@ public class ClientOperations {
     }
     
     public static List<Clients> getClientRaiting(DBConnection db, List<String> data) {
-        List<Clients> clientList = getClientsInfo(db, data);
+        List<Clients> clientList = new ArrayList<>();
+        User user_now = UserOperations.getUser_now().get(0);
+
+        if (user_now.getUser_role() == URE.ADMIN) {
+            clientList = db.getAllClients();
+        } else {
+            for (Hotel hotel : user_now.getHotel()) {
+                clientList.addAll(db.getClientsByHotel(hotel.getHotel_id()));
+            }
+        }
 
         LocalDateTime fromdate = DateOperations.toDateAndTime(data.get(0));
         LocalDateTime todate = DateOperations.toDateAndTime(data.get(1));

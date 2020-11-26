@@ -9,7 +9,7 @@ import base_classes.classes.User;
 import base_classes.classes.emuns.URE;
 
 public class UserOperations {
-    private static User user_now = new User("name", "password", URE.OWNER);
+    private static User user_now = new User("name", "password", URE.ADMIN);
 
     public static List<User> getUser_now() {
         List<User> tmp = new ArrayList<>();
@@ -39,22 +39,36 @@ public class UserOperations {
         return result;
     }
 
-    public static List<User> getUsers(DBConnection db, List<String> data) {
+    public static List<User> getUsers(DBConnection db) {
         List<User> result = new ArrayList<>();
-        // if (user_now.getUser_role() == URE.ADMIN)
+        if (user_now.getUser_role() == URE.ADMIN)
             result = db.getAllUsers();
-        // else if (user_now.getUser_role() == URE.OWNER){
-            // List<Hotel> hotels = UserOperations.user_now.getHotel();
-            // for (Hotel hotel : hotels) {
-                // result.addAll(db.getUserByHotel(hotel.getHotel_id()));
-            // }
-        // }
+        else if (user_now.getUser_role() == URE.OWNER){
+            List<Hotel> hotels = UserOperations.user_now.getHotel();
+            for (Hotel hotel : hotels) {
+                result.addAll(db.getUserByHotel(hotel.getHotel_id()));
+            }
+        }
         return result;
     }
 
-    public static List<User> getReceptionists(DBConnection db, List<String> data) {
-        List<User> result = 
-        db.getUserByRole(URE.RECEPTIONIST);
+    public static List<User> getReceptionists(DBConnection db) {
+        User user_now = UserOperations.getUser_now().get(0);
+        List<User> result = getUsers(db);
+        List<User> receptionists = new ArrayList<>();
+        for (User user : receptionists) {
+            if (user.getUser_role() == URE.RECEPTIONIST){
+                for (Hotel hotel : user.getHotel()) {
+                    for (Hotel hotel2 : user_now.getHotel()) {
+                        if (hotel.getHotel_id() == hotel2.getHotel_id()) {
+                            result.add(user);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
         return result;
     }
 
@@ -69,6 +83,13 @@ public class UserOperations {
         switch (user_now.getUser_role()) {
             case ADMIN:
                 newUser.setUser_role(URE.OWNER);
+                String[] hotels = data.get(5).split(",");
+                List<Hotel> hotel_obj = new ArrayList<>();
+                for (String string : hotels) {
+                    Hotel tmp = db.getHotelByName(string);
+                    if(tmp != null)
+                        hotel_obj.add(tmp);
+                }
                 break;
             case MANAGER:
                 newUser.setUser_role(URE.RECEPTIONIST);
@@ -76,14 +97,19 @@ public class UserOperations {
                 break;
             case OWNER:
                 newUser.setUser_role(URE.MANAGER);
-                break;
-            case RECEPTIONIST:
+                String[] hotels_ = data.get(5).split(",");
+                List<Hotel> hotel_obj_ = new ArrayList<>();
+                for (String string : hotels_) {
+                    Hotel tmp = db.getHotelByName(string);
+                    if (tmp != null)
+                        hotel_obj_.add(tmp);
+                }
                 break;
             default:
                 break;
         }
         
-        
+        db.saveOrUpdateObject(newUser);
 
     }
 }

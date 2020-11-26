@@ -5,6 +5,8 @@ import java.util.List;
 
 import base_classes.DBConnection;
 import base_classes.classes.Hotel;
+import base_classes.classes.User;
+import base_classes.classes.emuns.URE;
 
 
 public class HotelOperations {
@@ -18,14 +20,17 @@ public class HotelOperations {
         this.hotel_now = hotel_now;
     }
 
-	public static List<?> getHotels(DBConnection db, List<String> data) {
-		Hotel hh = new Hotel("testivile");
-		Hotel hh1 = new Hotel("testivile1");
-		Hotel hh2 = new Hotel("testivile2");
-        List<Hotel> hl = new ArrayList<>();
-        hl.add(hh);
-        hl.add(hh1);
-        hl.add(hh2);
-        return hl;
+	public static List<Hotel> getHotels(DBConnection db) {
+        User user_now = UserOperations.getUser_now().get(0);
+        List<Hotel> hotels = new ArrayList<>();
+        if (user_now.getUser_role() == URE.ADMIN) {
+            hotels = db.getAllHotels();
+        }
+        else {
+            for (Hotel hotel : user_now.getHotel()) {
+                hotels.add(db.getHotelById(hotel.getHotel_id()));
+            }
+        }
+        return hotels;
 	}
 }
