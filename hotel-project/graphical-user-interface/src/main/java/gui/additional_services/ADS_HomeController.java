@@ -11,11 +11,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import logic.DecodeOperation;
 import logic.OperationType;
@@ -37,9 +40,21 @@ public class ADS_HomeController implements Initializable {
     private ObservableList<AdditServices> activ = FXCollections.observableArrayList();
 
     @FXML
-    void add_btn(ActionEvent event) {
+    void add_btn(ActionEvent event) 
+    {
 
+        try{
+            Stage st = new Stage();
+            Scene sc = new Scene(FXMLLoader.load(getClass().getResource("services_category_add.FXML")));
+            st.setScene(sc);
+            st.show();
+        }
+        catch(Exception e){ 
+            e.printStackTrace();
+        }
     }
+
+    
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

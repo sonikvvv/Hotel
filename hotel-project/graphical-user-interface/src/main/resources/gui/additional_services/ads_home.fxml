@@ -45,7 +45,14 @@
                         <Font size="30.0" />
                      </font>
                   </Label>
-                  <Button mnemonicParsing="false" onAction="#add_btn" styleClass="bttn" stylesheets="@../style.css" text="Add" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
+                  <Button mnemonicParsing="false" onAction="#add_btn" styleClass="bttn" stylesheets="@../style.css" GridPane.columnIndex="3">
+                     <graphic>
+                        <ImageView fx:id="ads_home_addbutton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/icons8_plus_math_32.png" />
+                           </image></ImageView>
+                     </graphic>
+                  </Button>
                </children>
             </GridPane>
             <TableView fx:id="ads_table" prefHeight="200.0" prefWidth="200.0" styleClass="table_view" stylesheets="@../style.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
