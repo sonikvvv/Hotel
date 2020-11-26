@@ -133,6 +133,20 @@ public class DBConnection {
         }
     }
 
+    public List<AdditServices> getAllAdditServices() {
+        Query<AdditServices> query = null;
+        String sql_comand = "from " + AdditServices.getTableName();
+
+        query = session.createQuery(sql_comand, AdditServices.class);
+        List<AdditServices> res = query.list();
+
+        if (res.isEmpty()) {
+            return null;
+        } else {
+            return res;
+        }
+    }
+
     public List<ServiceCategory> getAllServiceCategories() {
         Query<ServiceCategory> query = null;
         String sql_comand = "from " + ServiceCategory.getTableName() ;
@@ -208,6 +222,15 @@ public class DBConnection {
         }
     }
 
+    public List<Room> getAllRooms() {
+        Query<Room> query = null;
+        String sql_comand = "from " + Room.getTableName();
+
+        query = session.createQuery(sql_comand, Room.class);
+        List<Room> res = query.list();
+        return res;
+    }
+
     public Clients getClientByID(int id) {
         Clients result = session.get(Clients.class, id);
         return result;
@@ -227,5 +250,28 @@ public class DBConnection {
         } else {
             return res;
         }
+    }
+
+    public List<Clients> getAllClients() {
+        Query<Clients> query = null;
+        String sql_comand = "from " + Clients.getTableName();
+
+        query = session.createQuery(sql_comand, Clients.class);
+        List<Clients> res = query.list();
+
+        if (res.isEmpty()) {
+            return null;
+        } else {
+            return res;
+        }
+    }
+
+    public List<Reservation> getAllReservations() {
+        Query<Reservation> query = null;
+        String sql_comand = "from " + Reservation.getTableName();
+
+        query = session.createQuery(sql_comand, Reservation.class);
+        List<Reservation> res = query.list();
+        return res;
     }
 }
