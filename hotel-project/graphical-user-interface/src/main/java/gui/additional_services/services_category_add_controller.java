@@ -32,6 +32,8 @@ public class services_category_add_controller {
     private ComboBox<String> services_category_add_negorpos;
     private ObservableList<String> choose = FXCollections.observableArrayList("Negative", "Positive");
 
+    
+
     @FXML
     void textBoxKeyPressed(KeyEvent event) {
         String check = services_category_add_name.getText();
