@@ -75,6 +75,38 @@ th {
     -fx-text-fill: #c5c6c7;
 }
 
+.combo-box-popup .list-view {
+    -fx-background-color:#212121;
+}
+
+.combo-box .list-cell 
+{
+    -fx-background: #212121;
+    -fx-background-color: transparent;
+    -fx-text-fill:  #c5c6c7;
+}
+
+.combo-box-popup .list-view .list-cell:filled:selected, .combo-box-popup .list-view .list-cell:filled:selected:hover 
+{
+    -fx-background-color: #555555a9;
+    -fx-text-fill: #c5c6c7;
+    -fx-font-weight: bold;
+}
+
+.combo-box-popup .list-view .list-cell:filled:hover 
+{
+    -fx-background-color: #555555a9;
+    -fx-text-fill: #c5c6c7;
+}
+.combo-box-base:hover
+{
+    -fx-color: -fx-hover-base;
+}
+
+.combo-box-base:showing {
+    -fx-color: #212121;
+}
+
 .date_picker {
     -fx-background-color: transparent;
 }
