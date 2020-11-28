@@ -1,5 +1,6 @@
 package base_classes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -273,5 +274,29 @@ public class DBConnection {
         query = session.createQuery(sql_comand, Reservation.class);
         List<Reservation> res = query.list();
         return res;
+    }
+
+    public List<String> getDistinctRoomTypes() {
+        String sql = "select DISTINCT r_type from room"; // single 7 double 11
+        Query<?> q = session.createQuery(sql);
+        List<?> result = q.list();
+        List<String> distinct_roomTypes = new ArrayList<>();
+        for (Object object : result) {
+            String tmp = (String) object;
+            distinct_roomTypes.add(tmp);
+        }
+        return distinct_roomTypes;
+    }
+
+    public List<String> getDistinctAdditionalServices() {
+        String sql = "select DISTINCT title from add_serv"; // single 7 double 11
+        Query<?> q = session.createQuery(sql);
+        List<?> result = q.list();
+        List<String> distinct_services = new ArrayList<>();
+        for (Object object : result) {
+            String tmp = (String)object;
+            distinct_services.add(tmp);
+        }
+        return distinct_services;
     }
 }
