@@ -22,5 +22,7 @@ public enum OperationType {
     DELETE,
     GET_USER_NOW,
     ADD_TO_USERS,
-    CHECKOUT
+    CHECKOUT,
+    RECEPTIONIST_REFERENCE,
+    ROOM_TYPES
 }

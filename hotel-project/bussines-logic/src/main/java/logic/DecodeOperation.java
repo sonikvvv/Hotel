@@ -24,9 +24,9 @@ public class DecodeOperation {
     public static List<?> decodeLogicOperation(OperationType type, Object o, List<String> data) {
         User user_now = new User("name", "password", URE.ADMIN);
         Hotel h = new Hotel("Testivile");
-        h.setHotel_id(1);
-        user_now.addToHotel(h);
-        UserOperations.setUser_now(user_now);
+        // h.setHotel_id(1);
+        // user_now.addToHotel(h);
+        // UserOperations.setUser_now(user_now);
         List<?> result = new ArrayList<>();
         switch (type){
             case SAVE_OR_UPDATE:
@@ -82,6 +82,12 @@ public class DecodeOperation {
                 break;
             case CHECKOUT:
                 RoomOperations.checkOUT(db, data);
+                break;
+            case RECEPTIONIST_REFERENCE:
+                result = RoomOperations.getRoomBusyness(db, data);
+                break;
+            case ROOM_TYPES:
+                result = RoomOperations.getRoomTypes(db);
                 break;
             default:
                 break;
