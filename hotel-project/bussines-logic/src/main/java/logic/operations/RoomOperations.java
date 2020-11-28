@@ -138,7 +138,6 @@ public class RoomOperations {//TODO: fix the raiting
         datesBetween.add(toDate);
 
         int[][] tmp = new int[datesBetween.size()][room_types.size()];
-
         
         for (Reservation reservation : reservations) {
             int dateIndex = 0;
