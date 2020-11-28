@@ -73,7 +73,7 @@ public class Receptionist_ReserenceController implements Initializable {
         recept_ref_table.getColumns().add(date_col);
 
         
-        for (String string : roomTypes) {
+        for (String string : roomTypes) { // TODO: figure how to get the element 
             TableColumn<RoomBusyness, Number> col = new TableColumn<>(string);
             col.setCellValueFactory(
                 new Callback<TableColumn.CellDataFeatures<RoomBusyness, Number>, ObservableValue<Number>>() {

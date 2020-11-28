@@ -1,13 +1,16 @@
 package logic.operations;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import base_classes.DBConnection;
 import base_classes.classes.Clients;
 import base_classes.classes.Hotel;
 import base_classes.classes.Raiting;
+import base_classes.classes.Reservation;
 import base_classes.classes.Room;
 import base_classes.classes.User;
 import base_classes.classes.emuns.SE;
@@ -107,5 +110,71 @@ public class RoomOperations {//TODO: fix the raiting
         for_checkout.checkOut();
         db.saveOrUpdateObject(for_checkout);
         db.saveOrUpdateObject(room);
+    }
+
+    public static List<String> getRoomTypes(DBConnection db) {
+        List<String> room_types = db.getDistinctRoomTypes();
+        return room_types;
+    }
+
+    public static List<RoomBusyness> getRoomBusyness(DBConnection db, List<String> data) {
+        User user_now = UserOperations.getUser_now().get(0);
+        LocalDate fromDate = DateOperations.toDate(data.get(0));
+        LocalDate toDate = DateOperations.toDate(data.get(1));
+
+        List<RoomBusyness> result = new ArrayList<>();
+        List<String> room_types = db.getDistinctRoomTypes();
+
+        List<Reservation> reservations = new ArrayList<>();
+        if (user_now.getUser_role() == URE.ADMIN){
+            reservations.addAll(db.getAllReservations());
+        } else {
+            for (Hotel hotel : user_now.getHotel()) {
+                reservations.addAll(db.getAllReservationsByHotel(hotel.getHotel_id()));
+            }
+        }
+
+        List<LocalDate> datesBetween = fromDate.datesUntil(toDate).collect(Collectors.toList());
+        datesBetween.add(toDate);
+
+        int[][] tmp = new int[datesBetween.size()][room_types.size()];
+
+        
+        for (Reservation reservation : reservations) {
+            int dateIndex = 0;
+            int todateIndex = 0;
+            int r_typeIndex = 0;
+            LocalDate startDate = reservation.getReservation_form().getStart_date();
+            LocalDate endDate = reservation.getReservation_form().getEnd_date();
+
+            if (startDate.compareTo(fromDate) > 0) {
+                if (startDate.compareTo(toDate) < 0) {
+                    dateIndex = datesBetween.indexOf(startDate);
+                } else
+                    dateIndex = datesBetween.indexOf(toDate);
+            }
+            else dateIndex = 0;
+
+            if (endDate.compareTo(toDate) < 0) {
+                if (endDate.compareTo(fromDate) > 0) {
+                    todateIndex = datesBetween.indexOf(endDate);
+                } else 
+                    todateIndex = 0;
+            } else todateIndex = datesBetween.indexOf(toDate);
+
+            if (reservation.getRoom() != null)
+                r_typeIndex = room_types.indexOf(reservation.getRoom().getR_type());
+
+            for (int i = dateIndex; i <= todateIndex; i++) {
+                tmp[i][r_typeIndex] += 1;
+            }
+            
+        }
+
+        for (int i = 0; i <= datesBetween.size() - 1; i++) {
+            result.add(new RoomBusyness(datesBetween.get(i), tmp[i]));
+        }
+
+        return result;
     }
 }
