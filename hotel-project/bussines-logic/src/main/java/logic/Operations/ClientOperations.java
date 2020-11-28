@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import base_classes.DBConnection;
+import base_classes.classes.AdditServices;
 import base_classes.classes.ClientUsedServices;
 import base_classes.classes.Clients;
 import base_classes.classes.Hotel;
@@ -53,8 +54,9 @@ public class ClientOperations {
 
         LocalDateTime fromdate = DateOperations.toDateAndTime(data.get(0));
         LocalDateTime todate = DateOperations.toDateAndTime(data.get(1));
-        //List<ClientUsedServices> result = new ArrayList<>();
+        List<ClientUsedServices> result = new ArrayList<>();
         List<ClientUsedServices> sortedByDate = new ArrayList<>();
+        List<String> distinct_services = db.getDistinctAdditionalServices();
 
         for (Clients clients : clientList) {
             List<ClientUsedServices> cus = clients.getCuds();
@@ -65,18 +67,29 @@ public class ClientOperations {
             }
             
         }
-        // AdditServices ads;
-        // for (ClientUsedServices clientUsedServices : sortedByDate) {// TODO: fix the sorting
-        //     ads = clientUsedServices.getAddit_service();
-        //     ClientUsedServices0
-        //     for (ClientUsedServices clientUsedServices2 : sortedByDate) {
-        //         if 
-        //     }
 
-        // }
+        for (String service_name : distinct_services) {
+            AdditServices service = null;
+            boolean flag = false;
+            int quantity = 0;
+            for (ClientUsedServices cus : sortedByDate) {
+                if (service_name.equals(cus.getAddit_service().getTitle())) {
+                    if (flag == false){
+                        service = cus.getAddit_service();
+                        flag = true;
+                    }
+                    quantity += cus.getQuantity();
+                }
+            }
+            if(quantity != 0) {
+                ClientUsedServices grouped = new ClientUsedServices();
+                grouped.setAddit_service(service);
+                grouped.setQuantity(quantity);
+                result.add(grouped);
+            }
+        }      
         
-        
-        return sortedByDate;
+        return result;
     }
     
     public static List<Clients> getClientRaiting(DBConnection db, List<String> data) {
