@@ -77,7 +77,7 @@
                            </effect>
                         </Separator>
                         <Label styleClass="small_label" stylesheets="@../style.css" text="Rceptionists" />
-                        <ComboBox fx:id="recep_choice" prefWidth="300.0" promptText="Receptionist" styleClass="txt_field" stylesheets="@../style.css" />
+                        <ComboBox fx:id="recep_choice" prefWidth="300.0" styleClass="txt_field" stylesheets="@../style.css" />
                         <Button mnemonicParsing="false" onAction="#createdReservationsRecep" prefWidth="300.0" styleClass="controls" stylesheets="@../style.css" text="Created Reservations">
                            <VBox.margin>
                               <Insets top="10.0" />

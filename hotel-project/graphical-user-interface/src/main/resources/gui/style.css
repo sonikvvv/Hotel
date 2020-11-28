@@ -137,7 +137,7 @@ th {
 
 
 .table_view {
-    -fx-background-color: transparent;
+    -fx-background-color: #212121;
     -fx-text-aligment: center;
     -fx-font-size: 15px;
 }
