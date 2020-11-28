@@ -37,7 +37,7 @@ import javafx.util.Callback;
 import logic.DecodeOperation;
 import logic.OperationType;
 
-public class ReferencesHomeController implements Initializable {
+public class ReferencesHomeController implements Initializable { // TODO: add style class to the columns for the header
 
     @FXML
     private GridPane sub_grid = new GridPane();
@@ -174,6 +174,7 @@ public class ReferencesHomeController implements Initializable {
         ObservableList<Clients> activ = FXCollections.observableArrayList();
         TableView<Clients> tv = new TableView<>();
         tv.getStyleClass().add("table_view");
+        name_col.setPrefWidth(560);
 
         number_col.setCellValueFactory(new PropertyValueFactory<Clients, Integer>("c_id"));
         name_col.setCellValueFactory(new PropertyValueFactory<Clients, String>("c_name"));
@@ -394,7 +395,7 @@ public class ReferencesHomeController implements Initializable {
     }
 
     @FXML
-    void createdReservationsRecep(ActionEvent event) { //TODO: show more info for user 
+    void createdReservationsRecep(ActionEvent event) { 
         removeNodeByRowColumnIndex(0, 2, sub_grid);
         removeVbox(0, 2, sub_grid);
         
@@ -567,6 +568,10 @@ public class ReferencesHomeController implements Initializable {
         ObservableList<ClientUsedServices> activ = FXCollections.observableArrayList();
         TableView<ClientUsedServices> tv = new TableView<>();
         tv.getStyleClass().add("table_view");
+        name_col.setPrefWidth(400);
+        category_col.setPrefWidth(185);
+        quantity_col.setPrefWidth(100);
+
 
         name_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ClientUsedServices,String>,ObservableValue<String>>(){
             @Override

@@ -126,9 +126,9 @@ public class Room_ViewController implements Initializable {
                 ads_table.getSelectionModel().getSelectedItem().setPaid(true);
                 tmp = ads_table.getSelectionModel().getSelectedItem();
                 ads_table.getItems().setAll(activ);
+                DecodeOperation.decodeLogicOperation(OperationType.SAVE_OR_UPDATE, tmp, null);
             }
 
-            DecodeOperation.decodeLogicOperation(OperationType.SAVE_OR_UPDATE, tmp, null);
         }        
     }
 

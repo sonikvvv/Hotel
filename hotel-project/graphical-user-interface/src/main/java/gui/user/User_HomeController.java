@@ -64,7 +64,7 @@ public class User_HomeController implements Initializable {
             Scene sc;
             if (UserOperations.getUser_now().get(0).getUser_role() == URE.ADMIN ||
                 UserOperations.getUser_now().get(0).getUser_role() == URE.OWNER) {
-            sc = new Scene(FXMLLoader.load(getClass().getResource("add_to_hotel.fxml")));
+            sc = new Scene(FXMLLoader.load(getClass().getResource("add_user_to_hotel.fxml")));
             } else sc = new Scene(FXMLLoader.load(getClass().getResource("add_user.fxml")));
             st.setScene(sc);
             st.show();
