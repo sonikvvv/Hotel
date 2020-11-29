@@ -47,7 +47,6 @@ public class Add_UserController {
             data.add(name);
             data.add(phone);
             data.add(email);
-            
             DecodeOperation.decodeLogicOperation(OperationType.ADD_TO_USERS, null, data);
         }
     }

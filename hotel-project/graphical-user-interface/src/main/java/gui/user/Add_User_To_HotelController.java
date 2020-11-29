@@ -70,8 +70,10 @@ public class Add_User_To_HotelController implements Initializable {
 
         if (user_now.getUser_role() == URE.OWNER) {
             if (selectedHotels == null || selectedHotels.size() == 0) {
-                Alert al = new Alert(AlertType.ERROR, "Selected more than 1 hotel!");
-                al.showAndWait();
+                if (selectedHotels.size() > 1) {
+                    Alert al = new Alert(AlertType.ERROR, "Selected more than 1 hotel!");
+                    al.showAndWait();
+                }
             }
         }
 
@@ -85,7 +87,10 @@ public class Add_User_To_HotelController implements Initializable {
             data.add(name);
             data.add(phone);
             data.add(email);
-            String hotels = "";// TODO: fix me send the list of hotels
+            String hotels = "";
+            for (Hotel hotel : selectedHotels) {
+                hotels += hotel.getHotel_name() + ",";
+            }
             data.add(hotels);
             
             DecodeOperation.decodeLogicOperation(OperationType.ADD_TO_USERS, null, data);
