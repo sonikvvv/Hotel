@@ -50,11 +50,7 @@ public class ReferencesHomeController implements Initializable { // TODO: add st
 
     @FXML
     private DatePicker fromDate;
-
-    @FXML
-    void comboBox(ActionEvent event) {
-        
-    }
+    private final String style = "column-header-background";
 
     @FXML
     void RoomRaiting(ActionEvent event) {
@@ -65,6 +61,10 @@ public class ReferencesHomeController implements Initializable { // TODO: add st
         TableColumn<Room, String> type_col = new TableColumn<>("Type");
         TableColumn<Room, Number> raiting_col = new TableColumn<>("Rating");
         ObservableList<Room> activ = FXCollections.observableArrayList();
+
+        room_num_col.getStyleClass().add(style);
+        type_col.getStyleClass().add(style);
+        raiting_col.getStyleClass().add(style);
 
         room_num_col.setCellValueFactory(new PropertyValueFactory<>("r_number"));
         type_col.setCellValueFactory(new PropertyValueFactory<>("r_type"));
@@ -113,6 +113,15 @@ public class ReferencesHomeController implements Initializable { // TODO: add st
         ObservableList<Clients> activ = FXCollections.observableArrayList();
         TableView<Clients> tv = new TableView<>();
         tv.getStyleClass().add("table_view");
+
+        number_col.getStyleClass().add(style);
+        name_col.getStyleClass().add(style);
+        country_col.getStyleClass().add(style);
+        birth_col.getStyleClass().add(style);
+        passsport_number_col.getStyleClass().add(style);
+        passport_date_col.getStyleClass().add(style);
+        vaucher_col.getStyleClass().add(style);
+        sex_col.getStyleClass().add(style);
 
         number_col.setCellValueFactory(new PropertyValueFactory<Clients, Integer>("c_id"));
         name_col.setCellValueFactory(new PropertyValueFactory<Clients, String>("c_name"));
@@ -175,6 +184,11 @@ public class ReferencesHomeController implements Initializable { // TODO: add st
         TableView<Clients> tv = new TableView<>();
         tv.getStyleClass().add("table_view");
         name_col.setPrefWidth(560);
+
+        number_col.getStyleClass().add(style);
+        name_col.getStyleClass().add(style);
+        rait_col.getStyleClass().add(style);
+        sex_col.getStyleClass().add(style);
 
         number_col.setCellValueFactory(new PropertyValueFactory<Clients, Integer>("c_id"));
         name_col.setCellValueFactory(new PropertyValueFactory<Clients, String>("c_name"));
@@ -242,6 +256,21 @@ public class ReferencesHomeController implements Initializable { // TODO: add st
         TableColumn<Reservation, Number> price_col = new TableColumn<>("Price");
         TableColumn<Reservation, String> notes_col = new TableColumn<>("Note");
         ObservableList<Reservation> activ = FXCollections.observableArrayList();
+
+        number_col.getStyleClass().add(style);
+        status_col.getStyleClass().add(style);
+        hotel_col.getStyleClass().add(style);
+        client_name_col.getStyleClass().add(style);
+        reserv_type_col.getStyleClass().add(style);
+        room_type_col.getStyleClass().add(style);
+        cancel_type_col.getStyleClass().add(style);
+        food_type_col.getStyleClass().add(style);
+        date_col.getStyleClass().add(style);
+        adults_col.getStyleClass().add(style);
+        kids_col.getStyleClass().add(style);
+        babies_col.getStyleClass().add(style);
+        price_col.getStyleClass().add(style);
+        notes_col.getStyleClass().add(style);
 
         number_col.setCellValueFactory(new PropertyValueFactory<>("reservation_id"));
         date_col.setCellValueFactory(new PropertyValueFactory<>("date_made"));
@@ -422,6 +451,21 @@ public class ReferencesHomeController implements Initializable { // TODO: add st
         TableColumn<Reservation, String> notes_col = new TableColumn<>("Note");
         ObservableList<Reservation> activ = FXCollections.observableArrayList();
 
+        number_col.getStyleClass().add(style);
+        status_col.getStyleClass().add(style);
+        hotel_col.getStyleClass().add(style);
+        client_name_col.getStyleClass().add(style);
+        reserv_type_col.getStyleClass().add(style);
+        room_type_col.getStyleClass().add(style);
+        cancel_type_col.getStyleClass().add(style);
+        food_type_col.getStyleClass().add(style);
+        date_col.getStyleClass().add(style);
+        adults_col.getStyleClass().add(style);
+        kids_col.getStyleClass().add(style);
+        babies_col.getStyleClass().add(style);
+        price_col.getStyleClass().add(style);
+        notes_col.getStyleClass().add(style);
+
         number_col.setCellValueFactory(new PropertyValueFactory<>("reservation_id"));
         date_col.setCellValueFactory(new PropertyValueFactory<>("date_made"));
         
@@ -572,6 +616,9 @@ public class ReferencesHomeController implements Initializable { // TODO: add st
         category_col.setPrefWidth(185);
         quantity_col.setPrefWidth(100);
 
+        name_col.getStyleClass().add(style);
+        category_col.getStyleClass().add(style);
+        quantity_col.getStyleClass().add(style);
 
         name_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ClientUsedServices,String>,ObservableValue<String>>(){
             @Override
