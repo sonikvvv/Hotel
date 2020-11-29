@@ -57,7 +57,7 @@ public class HomeController extends Application implements Initializable {
         if (user_now.getUser_role() == URE.RECEPTIONIST){
             next = FXMLLoader.load(getClass().getResource("references/receptionist_reference.fxml"));
         } else {
-            next = FXMLLoader.load(getClass().getResource("references/references_home.fxml"));
+            next = FXMLLoader.load(getClass().getResource("references/reference_home.fxml"));
         }
         main_view_pane.getChildren().setAll(next);
     }
