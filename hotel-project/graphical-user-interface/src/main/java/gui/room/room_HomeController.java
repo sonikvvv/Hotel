@@ -62,6 +62,16 @@ public class room_HomeController implements Initializable {
     @FXML
     void add_btn(ActionEvent event) {
 
+        try{
+            Stage st = new Stage();
+            Scene sc = new Scene(FXMLLoader.load(getClass().getResource("add_room.fxml")));
+            st.setScene(sc);
+            st.show();
+        }
+        catch(Exception e){ 
+            e.printStackTrace();
+        }
+
     }
 
     @FXML

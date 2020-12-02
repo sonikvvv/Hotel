@@ -39,6 +39,7 @@
               <rowConstraints>
                 <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
@@ -54,6 +55,16 @@
                      </GridPane.margin>
                   </Label>
                   <ComboBox fx:id="room_type_cb" prefWidth="418.0" styleClass="txt_field" stylesheets="@../style.css" GridPane.rowIndex="1" />
+                  <Label prefWidth="96.0" styleClass="small_label" stylesheets="@../style.css" text="Price" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets bottom="40.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField fx:id="room_price" styleClass="txt_field" stylesheets="@../style.css" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </TextField>
                </children>
             </GridPane>
          </children>
