@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import base_classes.DBConnection;
-import base_classes.classes.Hotel;
-import base_classes.classes.User;
-import base_classes.classes.emuns.URE;
 import logic.operations.*;
 
 public class DecodeOperation {
@@ -22,11 +19,6 @@ public class DecodeOperation {
     
     
     public static List<?> decodeLogicOperation(OperationType type, Object o, List<String> data) {
-        User user_now = new User("name", "password", URE.ADMIN);
-        Hotel h = new Hotel("Testivile");
-        // h.setHotel_id(1);
-        // user_now.addToHotel(h);
-        // UserOperations.setUser_now(user_now);
         List<?> result = new ArrayList<>();
         switch (type){
             case SAVE_OR_UPDATE:
@@ -94,14 +86,5 @@ public class DecodeOperation {
         }
 
         return result;
-    }
-
-    public static void main(String[] args) {
-        List<String> t = new ArrayList<>();
-        t.add("2020-11-16");
-        t.add("2020-11-17");
-        t.add("1");
-        //Clients purvi = new Clients("Kaloyan", LocalDate.of(1999, 9, 24), true, "1369", LocalDate.of(2023, 1, 5) , "AV1552A", new Country("Bulgaria"), "No note", "42194Xd");
-        //List res = DecodeOperation.decodeLogicOperation(OperationType.SAVE_OR_UPDATE, purvi, null);
     }
 }

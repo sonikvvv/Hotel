@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import base_classes.DBConnection;
 import base_classes.classes.AdditServices;
 import base_classes.classes.ClientUsedServices;
@@ -13,17 +16,20 @@ import base_classes.classes.Raiting;
 import base_classes.classes.User;
 import base_classes.classes.emuns.URE;
 
-
 public class ClientOperations {
+    private static final Logger LOGGER = LogManager.getLogger(ClientOperations.class);
 
     public static List<Clients> getClientsInfo(DBConnection db, List<String> data) {
+        LOGGER.debug("Starting getClientsInfo with data {}", data);
         List<Clients> clientList = new ArrayList<>();
         User user_now = UserOperations.getUser_now().get(0);
         if (user_now.getUser_role() == URE.ADMIN) {
             clientList = db.getAllClients();
+            LOGGER.debug("Getting clients from all hotels.");
         } else {
             for (Hotel hotel : user_now.getHotel()) {
                 clientList.addAll(db.getClientsByHotel(hotel.getHotel_id()));
+                LOGGER.debug("Getting clients from hotel id: {}.", hotel.getHotel_id());
             }
         }
 
@@ -37,18 +43,23 @@ public class ClientOperations {
             }
         }
         
+        LOGGER.debug("Sorted clients by dates: {} - {}.", fromdate.toString(), todate.toString());
+        LOGGER.debug("Result. getClientsInfo {} ", result.toString());
         return result;
     }
 
     public static List<ClientUsedServices> getUsedServices(DBConnection db, List<String> data) {
+        LOGGER.debug("Starting getUsedServices with data {}", data);
         List<Clients> clientList = new ArrayList<>();
         User user_now = UserOperations.getUser_now().get(0);
         
         if (user_now.getUser_role() == URE.ADMIN) {
             clientList = db.getAllClients();
+            LOGGER.debug("Getting clients from all hotels.");
         } else {
             for (Hotel hotel : user_now.getHotel()) {
                 clientList.addAll(db.getClientsByHotel(hotel.getHotel_id()));
+                LOGGER.debug("Getting clients from hotel id: {}.", hotel.getHotel_id());
             }
         }
 
@@ -67,6 +78,9 @@ public class ClientOperations {
             }
             
         }
+
+        LOGGER.debug("Sorted client used services by dates: {} - {}.", fromdate.toString(),
+                todate.toString());
 
         for (String service_name : distinct_services) {
             AdditServices service = null;
@@ -87,26 +101,33 @@ public class ClientOperations {
                 grouped.setQuantity(quantity);
                 result.add(grouped);
             }
-        }      
+        }
+     
+        LOGGER.debug("Created new clients used services grouped by additional service. ");
+        LOGGER.debug("Result. {} ", result.toString());
         
         return result;
     }
     
     public static List<Clients> getClientRaiting(DBConnection db, List<String> data) {
+        LOGGER.debug("Starting getClientRaiting with data {}", data);
         List<Clients> clientList = new ArrayList<>();
         User user_now = UserOperations.getUser_now().get(0);
 
         if (user_now.getUser_role() == URE.ADMIN) {
             clientList = db.getAllClients();
+            LOGGER.debug("Getting clients from all hotels.");
         } else {
             for (Hotel hotel : user_now.getHotel()) {
                 clientList.addAll(db.getClientsByHotel(hotel.getHotel_id()));
+                LOGGER.debug("Getting clients from hotel id: {}.", hotel.getHotel_id());
             }
         }
 
         LocalDateTime fromdate = DateOperations.toDateAndTime(data.get(0));
         LocalDateTime todate = DateOperations.toDateAndTime(data.get(1));
 
+        LOGGER.debug("Sorting by date the ratings and getting the biggest by value from this period.");
         List<Clients> result = new ArrayList<>();
         for (Clients clients : clientList) {
             Clients tmp = clients;
@@ -128,6 +149,8 @@ public class ClientOperations {
             tmp.getRait().set(0, max);
             result.add(tmp);
         }
+
+        LOGGER.debug("Result. - {}", clientList);
 
         return clientList; 
     }
