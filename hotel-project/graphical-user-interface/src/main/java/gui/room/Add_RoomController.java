@@ -3,6 +3,7 @@ package gui.room;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import base_classes.classes.Room;
 import base_classes.classes.emuns.SE;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,6 +14,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import logic.DecodeOperation;
+import logic.OperationType;
 
 
 public class Add_RoomController implements Initializable {
@@ -20,7 +23,7 @@ public class Add_RoomController implements Initializable {
 
     @FXML
     private ComboBox<String> room_type_cb;
-    private ObservableList<String> choose = FXCollections.observableArrayList("Dirty", "Out of Order", "Reserved", "Occupied", "Check Out", "Free");
+    private ObservableList<String> choose = FXCollections.observableArrayList("Single", "Double", "Triple", "Quad", "Queen", "King", "Twin", "Suite");
 
 
 
@@ -42,27 +45,10 @@ public class Add_RoomController implements Initializable {
         }
         else
         {
-            //public Room(String r_number, String r_type, double price, SE r_status)
-            switch(room_type_cb.getValue())
-            {
-                case "Dirty":
-                break;
-
-                case "Out of Order":
-                break;
-
-                case "Reserved":
-                break;
-
-                case "Occupied":
-                break;
-
-                case "Check Out":
-                break;
-
-                case "Free":
-                break;
-            }
+            double newprice = Double.valueOf(room_price.getText());
+            Room staq = new Room(room_number_txt.getText(), room_type_cb.getValue(), newprice, SE.FREE);
+            DecodeOperation.decodeLogicOperation(OperationType.SAVE_OR_UPDATE, staq, null);
+            
         }
         
     }
