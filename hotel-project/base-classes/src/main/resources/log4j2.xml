@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Properties>
+        <Property name="basePath">D:\Programing\Java\hotel\Hotel\hotel-project\logs</Property>
+    </Properties>
+
+    <Appenders>
+        <RollingFile name="fileLogger" fileName="${basePath}/app-logs.log" filePattern="${basePath}/app-logs-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{36} - %msg%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+            </Policies>
+        </RollingFile>
+
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{36} - %msg%n" />
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Logger name="org.hibernate.SQL" level="debug" additivity="false">
+            <AppenderRef ref="fileLogger" />
+        </Logger>
+        <Logger name="org.hibernate.type.descriptor.sql" level="trace" additivity="false">
+            <AppenderRef ref="fileLogger" />
+        </Logger>
+        <Logger name="base_classes.DBConnection" level="debug" additivity="false">
+            <AppenderRef ref="fileLogger" />
+        </Logger>
+        <Root level="info" additivity="false">
+            <appender-ref ref="console" />
+        </Root>
+    </Loggers>
+</Configuration>
