@@ -4,6 +4,9 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import base_classes.classes.AdditServices;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -39,18 +42,20 @@ public class ADS_HomeController implements Initializable {
 
     private ObservableList<AdditServices> activ = FXCollections.observableArrayList();
 
-    @FXML
-    void add_btn(ActionEvent event) 
-    {
+    private static final Logger LOGGER = LogManager.getLogger(ADS_HomeController.class);
 
-        try{
+    @FXML
+    void add_btn(ActionEvent event) {
+        LOGGER.info("Add additional service button clicked.");
+        LOGGER.debug("Starting add additional service.");
+        try {
             Stage st = new Stage();
             Scene sc = new Scene(FXMLLoader.load(getClass().getResource("services_category_add.FXML")));
             st.setScene(sc);
             st.show();
-        }
-        catch(Exception e){ 
-            e.printStackTrace();
+            LOGGER.debug("Add service scene loaded succesfuly.");
+        } catch (Exception e) {
+            LOGGER.error("Loading exeption occured -> {}", e);
         }
     }
 
@@ -58,6 +63,8 @@ public class ADS_HomeController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        LOGGER.debug("Starting initialize.");
+        
         title_col.setCellValueFactory(new PropertyValueFactory<>("title"));
         price_col.setCellValueFactory(new PropertyValueFactory<>("price"));
         category_col.setCellValueFactory(

@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import base_classes.classes.User;
 import base_classes.classes.emuns.URE;
 import javafx.beans.property.SimpleStringProperty;
@@ -57,8 +60,12 @@ public class User_HomeController implements Initializable {
 
     private ObservableList<User> activ = FXCollections.observableArrayList();
 
+    private static final Logger LOGGER = LogManager.getLogger(User_HomeController.class);
+
     @FXML
-    void add_user(ActionEvent event) { 
+    void add_user(ActionEvent event) {
+        LOGGER.info("User clicked add user button.");
+        LOGGER.debug("Starting add user.");
         try {
             Stage st = new Stage();
             Scene sc;
@@ -68,16 +75,20 @@ public class User_HomeController implements Initializable {
             } else sc = new Scene(FXMLLoader.load(getClass().getResource("add_user.fxml")));
             st.setScene(sc);
             st.show();
+            LOGGER.debug("Add user scene loaded succesfuly.");
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("Loading exeption occured -> {}", e);
         }
     }
 
     @FXML
     void keyPressed(KeyEvent event) {
+        LOGGER.info("User pressed key -> {}.", event.getCode());
+        LOGGER.debug("Starting key pressed.");
         User user_now = UserOperations.getUser_now().get(0);
         if (user_now.getUser_role() == URE.ADMIN) {
             if (event.getCode() == KeyCode.DELETE) {
+
                 Alert al = new Alert(AlertType.CONFIRMATION);
                 al.setContentText("Delete this user?");
                 Optional<ButtonType> result = al.showAndWait();
@@ -86,6 +97,7 @@ public class User_HomeController implements Initializable {
                 if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
                     to_delete = user_table.getSelectionModel().getSelectedItem();
                     if (to_delete != null) {
+                        LOGGER.info("Deleting user: {}", to_delete);
                         user_table.getItems().remove(to_delete);
                         DecodeOperation.decodeLogicOperation(OperationType.DELETE, to_delete, null);
                     }
@@ -96,10 +108,12 @@ public class User_HomeController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        LOGGER.debug("Starting innitialize.");
         User user_now = UserOperations.getUser_now().get(0);
 
         if (user_now.getUser_role() == URE.RECEPTIONIST) {
             add_btn.setVisible(false);
+            LOGGER.debug("Hiding the add button from receptionists.");
         }
 
         user_name_col.setCellValueFactory(new PropertyValueFactory<>("user_name"));

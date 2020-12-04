@@ -4,6 +4,9 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import base_classes.classes.Clients;
 import base_classes.classes.Room;
 import base_classes.classes.User;
@@ -34,7 +37,7 @@ import logic.OperationType;
 import logic.operations.RoomOperations;
 import logic.operations.UserOperations;
 
-public class room_HomeController implements Initializable {
+public class Room_HomeController implements Initializable {
 
     @FXML
     private Button add_btn;
@@ -59,25 +62,29 @@ public class room_HomeController implements Initializable {
 
     private ObservableList<Room> activ = FXCollections.observableArrayList();
 
+    private static final Logger LOGGER = LogManager.getLogger(Room_HomeController.class);
+
     @FXML
     void add_btn(ActionEvent event) {
-
-        try{
+        LOGGER.info("User clicked add room.");
+        LOGGER.debug("Starting add room.");
+        try {
             Stage st = new Stage();
             Scene sc = new Scene(FXMLLoader.load(getClass().getResource("add_room.fxml")));
             st.setScene(sc);
             st.show();
+            LOGGER.debug("Room view scene loaded succesfuly.");
+        } catch (Exception e) {
+            LOGGER.error("Loading exeption occured -> {}", e);
         }
-        catch(Exception e){ 
-            e.printStackTrace();
-        }
-
     }
 
     @FXML
     void keyPressed(KeyEvent event) {
+        LOGGER.info("User pressed key -> {}", event.getCode());
         if (event.getCode() == KeyCode.F7) { //TODO: make dirty after check out
             Room clean = room_table.getSelectionModel().getSelectedItem();
+            LOGGER.debug("Room to clean -> {}", clean);
             if (clean.getR_status() == SE.DIRTY) {
                 int index = room_table.getItems().indexOf(clean);
                 clean.setR_status(SE.FREE);
@@ -89,36 +96,39 @@ public class room_HomeController implements Initializable {
 
     @FXML
     void openRoomView(MouseEvent event) {
+        LOGGER.info("User clicked on room.");
+        LOGGER.debug("Starting open room view scene.");
         if (event.getClickCount() == 2 && activ.size() != 0){
             try {
                 Room tmp = room_table.getSelectionModel().getSelectedItem();
-                RoomOperations.addToTemporal((tmp != null)? tmp : null);
-                
-                if (tmp != null) { 
-                    try{
+                RoomOperations.addToTemporal((tmp != null) ? tmp : null);
+
+                if (tmp != null) {
+                    try {
                         Stage st = new Stage();
                         Scene sc = new Scene(FXMLLoader.load(getClass().getResource("room_view.fxml")));
                         st.setScene(sc);
                         st.show();
-                    }
-                    catch(Exception e){ 
-                        e.printStackTrace();
+                        LOGGER.debug("Room view scene loaded succesfuly.");
+                    } catch (Exception e) {
+                        LOGGER.error("Loading exeption occured -> {}", e);
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                LOGGER.error("Loading exeption occured -> {}", e);
             }
-            
         }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        LOGGER.debug("Starting initializing");
         User user_now = UserOperations.getUser_now().get(0);
 
         if (user_now.getUser_role() == URE.RECEPTIONIST) {
             add_btn.setVisible(false);
             add_btn.setDisable(true);
+            LOGGER.debug("Hiding the add button from receptionists.");
         }
         
         number_col.setCellValueFactory(new PropertyValueFactory<>("r_number"));

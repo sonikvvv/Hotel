@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import base_classes.classes.ClientUsedServices;
 import base_classes.classes.Clients;
 import base_classes.classes.Room;
@@ -72,6 +75,8 @@ public class Room_ViewController implements Initializable {
 
     private ObservableList<ClientUsedServices> activ = FXCollections.observableArrayList();
 
+    private static final Logger LOGGER = LogManager.getLogger(Room_ViewController.class);
+
     @FXML
     void ads_add(ActionEvent event) {
         // TODO:
@@ -80,12 +85,15 @@ public class Room_ViewController implements Initializable {
     @FXML
     void clients_add(ActionEvent event) {
         try {
+            LOGGER.info("User clicked add client button.");
+            LOGGER.debug("Starting add client to room.");
             Stage stage = new Stage();
             Scene scene = new Scene(FXMLLoader.load(getClass().getResource("../clients/AddCust.fxml")));
             stage.setScene(scene);
             stage.show();
+            LOGGER.debug("Add client scene loaded succesfuly.");
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("Loading exeption occured -> {}", e);
         }
 
         // TODO:da zaredi nova scena i fxml fail
@@ -94,6 +102,8 @@ public class Room_ViewController implements Initializable {
 
     @FXML //for table view
     void keyPressed(KeyEvent event) {
+        LOGGER.info("User pressed key -> {}", event.getCode());
+        LOGGER.debug("Starting key pressed.");
         User user_now = UserOperations.getUser_now().get(0);
         if(user_now.getUser_role() == URE.MANAGER) {
             if (event.getCode() == KeyCode.DELETE){
@@ -105,10 +115,10 @@ public class Room_ViewController implements Initializable {
                 if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
                     to_delete = ads_table.getSelectionModel().getSelectedItem();
                     if (to_delete != null) {
-                        ads_table.getItems().remove(to_delete);
+                        LOGGER.debug("Additional service to delete -> {}", to_delete);
+                        ads_table.getItems().remove(to_delete); // TODO: update the scene
                         DecodeOperation.decodeLogicOperation(OperationType.DELETE, to_delete, null);
                     }
-
                 }
             }
         }
@@ -116,6 +126,8 @@ public class Room_ViewController implements Initializable {
 
     @FXML
     void pay(MouseEvent event) {
+        LOGGER.info("User clicked on additional service.");
+        LOGGER.debug("Starting pay additional service.");
         if (event.getClickCount() == 2 && activ.size() != 0) {
             Alert al = new Alert(AlertType.CONFIRMATION);
             al.setContentText("Pay additional services?");
@@ -126,6 +138,7 @@ public class Room_ViewController implements Initializable {
                 ads_table.getSelectionModel().getSelectedItem().setPaid(true);
                 tmp = ads_table.getSelectionModel().getSelectedItem();
                 ads_table.getItems().setAll(activ);
+                LOGGER.debug("Payed additional service to save -> {}", tmp);
                 DecodeOperation.decodeLogicOperation(OperationType.SAVE_OR_UPDATE, tmp, null);
             }
 
@@ -135,11 +148,15 @@ public class Room_ViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
+            LOGGER.debug("Starting initialize.");
             Room r = RoomOperations.getTemporal().get(0);
             String css = getClass().getResource("../style.css").toExternalForm();
             room_l.setText(r.getR_number());
             List<Clients> clList = r.getClients();
             List<Button> bList = new ArrayList<>();
+
+            LOGGER.debug("Clients to add in the vbox -> {}", clList.size());
+
             clients_vbox.getChildren().clear();
             for (Clients clients : clList) {
                 Button tmp = new Button(clients.getC_name());
@@ -149,6 +166,8 @@ public class Room_ViewController implements Initializable {
                 tmp.setPrefHeight(50);
                 
                 tmp.setOnMouseClicked(e -> {
+                    LOGGER.info("User clicked client button.");
+                    LOGGER.debug("Starting load client't additional services.");
                     ads_table.getItems().clear();
                     activ.clear();
                     if (e.getClickCount() == 1) {
@@ -184,6 +203,8 @@ public class Room_ViewController implements Initializable {
 
                 });
                 tmp.setOnKeyPressed(e -> {
+                    LOGGER.info("User pressed key -> {}", e.getCode());
+                    LOGGER.debug("Starting check out user");
                     if (e.getCode() == KeyCode.DELETE){
                         Button to_delete = (Button) e.getSource();
                         List<String> data = new ArrayList<>();
@@ -195,6 +216,7 @@ public class Room_ViewController implements Initializable {
                             data.add("flag");
                         }
 
+                        LOGGER.debug("Client for check out -> {}", to_delete);
                         DecodeOperation.decodeLogicOperation(OperationType.CHECKOUT, null, data);
                     }
                 });
@@ -203,7 +225,7 @@ public class Room_ViewController implements Initializable {
 
             clients_vbox.getChildren().addAll(bList);
         }catch(Exception e){
-            e.printStackTrace();
+            LOGGER.error("Loading exeption occured -> {}", e);
         }
 
     }

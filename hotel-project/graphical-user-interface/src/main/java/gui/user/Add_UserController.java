@@ -3,6 +3,9 @@ package gui.user;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -29,8 +32,11 @@ public class Add_UserController {
     @FXML
     private PasswordField pass_txt;
 
+    private static final Logger LOGGER = LogManager.getLogger(Add_UserController.class);
+
     @FXML
     void save(ActionEvent event) {
+        LOGGER.debug("Starting save user.");
         String username = username_txt.getText();
         String pass = pass_txt.getText();
         String name = names_txt.getText();

@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import base_classes.classes.Hotel;
 import base_classes.classes.User;
 import base_classes.classes.emuns.URE;
@@ -54,8 +57,11 @@ public class Add_User_To_HotelController implements Initializable {
 
     private List<Hotel> selectedHotels = new ArrayList<>();
 
+    private static final Logger LOGGER = LogManager.getLogger(Add_User_To_HotelController.class);
+
     @FXML
     void save(ActionEvent event) {
+        LOGGER.debug("Starting save usser to hotel.");
         User user_now = UserOperations.getUser_now().get(0);
         String username = username_txt.getText();
         String pass = pass_txt.getText();
@@ -64,7 +70,7 @@ public class Add_User_To_HotelController implements Initializable {
         String email = email_txt.getText();
 
         if (selectedHotels == null || selectedHotels.size() == 0) {
-            Alert al = new Alert(AlertType.WARNING, "Select at least 1 hotel!");
+            Alert al = new Alert(AlertType.WARNING, "Select 1 hotel!");
             al.showAndWait();
         }
 
@@ -99,6 +105,7 @@ public class Add_User_To_HotelController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        LOGGER.debug("Starting initialize.");
         List<?> result = DecodeOperation.decodeLogicOperation(OperationType.GET_HOTEL, null, null);
         for (Object object : result) {
             Hotel tmp = (Hotel) object;
