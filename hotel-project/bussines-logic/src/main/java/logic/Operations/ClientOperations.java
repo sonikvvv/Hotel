@@ -34,7 +34,7 @@ public class ClientOperations {
         }
 
         LocalDateTime fromdate = DateOperations.toDateAndTime(data.get(0));
-        LocalDateTime todate = DateOperations.toDateAndTime(data.get(1));
+        LocalDateTime todate = DateOperations.toDateAndTimeEndOfDay(data.get(1));
         List<Clients> result = new ArrayList<>();
 
         for (Clients clients : clientList) {
@@ -64,7 +64,7 @@ public class ClientOperations {
         }
 
         LocalDateTime fromdate = DateOperations.toDateAndTime(data.get(0));
-        LocalDateTime todate = DateOperations.toDateAndTime(data.get(1));
+        LocalDateTime todate = DateOperations.toDateAndTimeEndOfDay(data.get(1));
         List<ClientUsedServices> result = new ArrayList<>();
         List<ClientUsedServices> sortedByDate = new ArrayList<>();
         List<String> distinct_services = db.getDistinctAdditionalServices();
@@ -125,7 +125,7 @@ public class ClientOperations {
         }
 
         LocalDateTime fromdate = DateOperations.toDateAndTime(data.get(0));
-        LocalDateTime todate = DateOperations.toDateAndTime(data.get(1));
+        LocalDateTime todate = DateOperations.toDateAndTimeEndOfDay(data.get(1));
 
         LOGGER.debug("Sorting by date the ratings and getting the biggest by value from this period.");
         List<Clients> result = new ArrayList<>();

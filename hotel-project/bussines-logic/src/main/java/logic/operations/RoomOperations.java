@@ -75,7 +75,7 @@ public class RoomOperations {//TODO: fix the raiting
         }
 
         LocalDateTime fromdate = DateOperations.toDateAndTime(data.get(0));
-        LocalDateTime todate = DateOperations.toDateAndTime(data.get(1));
+        LocalDateTime todate = DateOperations.toDateAndTimeEndOfDay(data.get(1));
 
         LOGGER.debug("Comparing room raits by dates {} - {} ", fromdate, todate);
         for (Room room : rooms) {
