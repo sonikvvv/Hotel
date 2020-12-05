@@ -88,15 +88,19 @@ public class RoomOperations {//TODO: fix the raiting
                 }
             }
 
-            Raiting max = raits.get(0);
-            for (Raiting raiting : raits) {
-                if (max.getRait_value() < raiting.getRait_value()) {
-                    max = raiting;
+            try {
+                Raiting max = raits.get(0);
+                for (Raiting raiting : raits) {
+                    if (max.getRait_value() < raiting.getRait_value()) {
+                        max = raiting;
+                    }
                 }
-            }
 
-            tmp.getRait().set(0, max);
-            result.add(tmp);
+                tmp.getRait().set(0, max);
+                result.add(tmp);
+            } catch (Exception e) {
+                LOGGER.error("Error occured -> {}", e);
+            }
         }
 
         LOGGER.debug("Result. {}", result);
