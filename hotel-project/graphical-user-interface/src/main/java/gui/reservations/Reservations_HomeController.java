@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import base_classes.classes.Reservation;
 import base_classes.classes.User;
 import base_classes.classes.emuns.URE;
@@ -85,27 +88,32 @@ public class Reservations_HomeController implements Initializable {
 
     private ObservableList<Reservation> activ = FXCollections.observableArrayList();
 
+    private static final Logger LOGGER = LogManager.getLogger(Reservations_HomeController.class);
+
     @FXML
     void addReservation(ActionEvent event) {
-        
         try {
+            LOGGER.info("User cliecked add reservation button.");
+            LOGGER.debug("Starting add reservation.");
             Stage stage = new Stage();
             Scene scene = new Scene(FXMLLoader.load(getClass().getResource("../reservations/addreservation.fxml")));
             stage.setScene(scene);
             stage.show();
+            LOGGER.debug("Add reservation scene loaded succesfuly.");
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("Loading exeption occured -> {}", e);
         }
-
-       
     }
 
     @FXML
     void datePickerChanged(ActionEvent event) {
+        LOGGER.info("User changed date.");
+        LOGGER.debug("Starting date picker changed.");
         List<String> data = new ArrayList<>();
         data.add(date_picker.getValue().toString());
         activ.clear();
 
+        LOGGER.debug("Date changet to -> {}", date_picker.getValue().toString());
         List<?> res = DecodeOperation.decodeLogicOperation(OperationType.GET_RESERVATIONS, null, data);
         if (res != null && res.size() != 0) {
             for (Object object : res) {
@@ -127,10 +135,12 @@ public class Reservations_HomeController implements Initializable {
 
     @FXML
     void delete(KeyEvent event) {
+        LOGGER.info("User pressed key -> {}", event.getCode());
+        LOGGER.debug("Starting delete reservation.");
         User user_now = UserOperations.getUser_now().get(0);
         if (user_now.getUser_role() == URE.MANAGER) {
             if (event.getCode() == KeyCode.DELETE) {
-                System.out.println("DELETE");
+
                 Alert al = new Alert(AlertType.CONFIRMATION);
                 al.setContentText("Delete this reservation?");
                 Optional<ButtonType> result = al.showAndWait();
@@ -139,6 +149,7 @@ public class Reservations_HomeController implements Initializable {
                 if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
                     to_delete = reserv_table.getSelectionModel().getSelectedItem();
                     if (to_delete != null) {
+                        LOGGER.debug("Reservation to delete -> {}", to_delete);
                         reserv_table.getItems().remove(to_delete);
                         DecodeOperation.decodeLogicOperation(OperationType.DELETE, to_delete, null);
                     }
@@ -150,11 +161,7 @@ public class Reservations_HomeController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        User user_now = UserOperations.getUser_now().get(0);
-
-        if (user_now.getUser_role() == URE.RECEPTIONIST) {
-            add_btn.setVisible(false);
-        }
+        LOGGER.debug("Starting initialize.");
         
         date_picker.setValue(LocalDate.now());
         number_col.setCellValueFactory(new PropertyValueFactory<>("reservation_id"));

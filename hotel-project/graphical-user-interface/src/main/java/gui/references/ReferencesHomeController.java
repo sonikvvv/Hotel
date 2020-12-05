@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import base_classes.classes.ClientUsedServices;
 import base_classes.classes.Clients;
 import base_classes.classes.Reservation;
@@ -37,7 +40,7 @@ import javafx.util.Callback;
 import logic.DecodeOperation;
 import logic.OperationType;
 
-public class ReferencesHomeController implements Initializable { // TODO: add style class to the columns for the header
+public class ReferencesHomeController implements Initializable {
 
     @FXML
     private GridPane sub_grid = new GridPane();
@@ -50,10 +53,15 @@ public class ReferencesHomeController implements Initializable { // TODO: add st
 
     @FXML
     private DatePicker fromDate;
+
     private final String style = "column-header-background";
+
+    private static final Logger LOGGER = LogManager.getLogger(ReferencesHomeController.class);
 
     @FXML
     void RoomRaiting(ActionEvent event) {
+        LOGGER.info("User clicked room raiting.");
+        LOGGER.debug("Starting room raiting.");
         removeNodeByRowColumnIndex(0, 2, sub_grid);
         TableView<Room> room_rait_table = new TableView<>();
         room_rait_table.getStyleClass().add("table_view");
@@ -101,6 +109,8 @@ public class ReferencesHomeController implements Initializable { // TODO: add st
 
     @FXML
     void clientInfoBtn(ActionEvent event) {
+        LOGGER.info("User clicked client info.");
+        LOGGER.debug("Starting client info.");
         removeNodeByRowColumnIndex(0, 2, sub_grid);
         TableColumn<Clients, Integer> number_col = new TableColumn<>("ID");
         TableColumn<Clients, String> name_col = new TableColumn<>("Name");
@@ -175,6 +185,8 @@ public class ReferencesHomeController implements Initializable { // TODO: add st
 
     @FXML
     void clientRaiting(ActionEvent event) {
+        LOGGER.info("User clicked client raiting.");
+        LOGGER.debug("Starting client raiting.");
         removeNodeByRowColumnIndex(0, 2, sub_grid);
         TableColumn<Clients, Integer> number_col = new TableColumn<>("ID");
         TableColumn<Clients, String> name_col = new TableColumn<>("Name");
@@ -238,6 +250,8 @@ public class ReferencesHomeController implements Initializable { // TODO: add st
 
     @FXML
     void createdReservations(ActionEvent event) {
+        LOGGER.info("User clicked created reservations.");
+        LOGGER.debug("Starting created reservations.");
         removeNodeByRowColumnIndex(0, 2, sub_grid);
         TableView<Reservation> reserv_table = new TableView<>();
         reserv_table.getStyleClass().add("table_view");
@@ -397,6 +411,7 @@ public class ReferencesHomeController implements Initializable { // TODO: add st
     }
 
     public void removeNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
+        LOGGER.debug("Starting remove table view.");
         ObservableList<Node> childrens = gridPane.getChildren();
         for (Node node : childrens) {
             if (node instanceof TableView && GridPane.getRowIndex(node) == row
@@ -409,6 +424,7 @@ public class ReferencesHomeController implements Initializable { // TODO: add st
     }
 
     public void removeVbox(final int row, final int column, GridPane gridPane) {
+        LOGGER.debug("Starting remove vbox.");
         ObservableList<Node> childrens = gridPane.getChildren();
         boolean flag = false;
         if (childrens.size() > 1) {
@@ -424,7 +440,9 @@ public class ReferencesHomeController implements Initializable { // TODO: add st
     }
 
     @FXML
-    void createdReservationsRecep(ActionEvent event) { 
+    void createdReservationsRecep(ActionEvent event) {
+        LOGGER.info("User clicked created reservations by receptionis.");
+        LOGGER.debug("Starting created reservations by receptionis.");
         removeNodeByRowColumnIndex(0, 2, sub_grid);
         removeVbox(0, 2, sub_grid);
         
@@ -605,6 +623,8 @@ public class ReferencesHomeController implements Initializable { // TODO: add st
 
     @FXML
     void usedServices(ActionEvent event) {
+        LOGGER.info("User clicked client used services.");
+        LOGGER.debug("Starting client used services.");
         removeNodeByRowColumnIndex(0, 2, sub_grid);
         TableColumn<ClientUsedServices, String> name_col = new TableColumn<>("Name");
         TableColumn<ClientUsedServices, String> category_col = new TableColumn<>("Category");
@@ -661,6 +681,7 @@ public class ReferencesHomeController implements Initializable { // TODO: add st
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        LOGGER.debug("Starting initialize.");
         List<?> receptionists = DecodeOperation.decodeLogicOperation(OperationType.GET_RECEPTIONIST, null, null);
         if (receptionists != null && receptionists.size() != 0) {
             for (Object object : receptionists) {

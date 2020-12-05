@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -33,18 +36,27 @@ public class Receptionist_ReserenceController implements Initializable {
 
     @FXML
     private TableView<RoomBusyness> recept_ref_table;
+
     private ObservableList<RoomBusyness> activ = FXCollections.observableArrayList();
+
     private List<String> roomTypes = new ArrayList<>();
+
     private final String style = "column-header-background";
+
+    private static final Logger LOGGER = LogManager.getLogger(Receptionist_ReserenceController.class);
 
     @FXML
     void search(ActionEvent event) {
+        LOGGER.info("User lcicked search button.");
+        LOGGER.debug("Starting search.");
         recept_ref_table.getItems().clear();
         activ.clear();
 
         List<String> data = new ArrayList<>();
         data.add(fromDate.getValue().toString());
         data.add(toDate.getValue().toString());
+
+        LOGGER.debug("Search eith data -> {}", data);
 
         List<?> result = DecodeOperation.decodeLogicOperation(OperationType.RECEPTIONIST_REFERENCE, null, data);
         if (result != null && result.size() != 0) {
@@ -58,6 +70,7 @@ public class Receptionist_ReserenceController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        LOGGER.debug("Starting initialize.");
         fromDate.setValue(LocalDate.now());
         toDate.setValue(LocalDate.now());
 
