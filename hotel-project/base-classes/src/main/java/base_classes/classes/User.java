@@ -131,6 +131,6 @@ public class User {
 
     @Override
     public String toString() {
-        return "User [ id = " + this.user_id + " username: " + this.user_name + " role: " + this.user_role + " ]";
+        return "User [ id = " + this.user_id + " username: " + this.user_name + " role: " + this.user_role + " hotels: " + this.hotel + " ]";
     }    
 }
