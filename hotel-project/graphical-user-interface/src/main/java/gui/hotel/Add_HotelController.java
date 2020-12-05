@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Stage;
 import logic.DecodeOperation;
 import logic.OperationType;
 
@@ -32,6 +33,8 @@ public class Add_HotelController {
             Hotel hotel = new Hotel(hotel_name);
             LOGGER.debug("Creating new hotel: {}", hotel);
             DecodeOperation.decodeLogicOperation(OperationType.SAVE_OR_UPDATE, hotel, null);
+            Stage st = (Stage) hotel_name_txt.getScene().getWindow();
+            st.close();
         }
     }
 

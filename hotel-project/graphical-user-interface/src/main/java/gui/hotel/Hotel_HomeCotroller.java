@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -36,20 +37,37 @@ public class Hotel_HomeCotroller implements Initializable {
     @FXML
     private TableColumn<Hotel, String> hotel_name_col;
 
-    private ObservableList<Hotel> activ = FXCollections.observableArrayList();
+    private static ObservableList<Hotel> activ = FXCollections.observableArrayList();
 
     private static final Logger LOGGER = LogManager.getLogger(Hotel_HomeCotroller.class);
+
+    private void load() {
+        activ.clear();
+        
+        List<?> result = DecodeOperation.decodeLogicOperation(OperationType.GET_HOTEL, null, null);
+        if (result != null && result.size() != 0) {
+            for (Object object : result) {
+                activ.add((Hotel) object);
+            }
+        }
+
+        hotel_table.getItems().setAll(activ);
+    }
 
     @FXML
     void addHotel(ActionEvent event) {
         try {
             LOGGER.info("User clicked add hotel button.");
             LOGGER.debug("Starting add new hotel.");
+            URL location = Hotel_HomeCotroller.class.getResource("add_hotel.fxml");
+            FXMLLoader loader = new FXMLLoader(location);
+            Parent parent = loader.load();
             Stage st = new Stage();
             Scene sc;
-            sc = new Scene(FXMLLoader.load(getClass().getResource("add_hotel.fxml")));
+            sc = new Scene(parent);
             st.setScene(sc);
-            st.show();
+            st.showAndWait();
+            load();
             LOGGER.debug("Hotel scene loaded succesfuly.");
         } catch (Exception e) {
             LOGGER.error("Loading exeption occured -> {}", e);
@@ -81,16 +99,10 @@ public class Hotel_HomeCotroller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         LOGGER.debug("Starting initialize.");
+        activ.clear();
         hotel_name_col.setCellValueFactory(new PropertyValueFactory<>("hotel_name"));        
 
-        List<?> result = DecodeOperation.decodeLogicOperation(OperationType.GET_HOTEL, null, null);
-        if (result != null && result.size() != 0) {
-            for (Object object : result) {
-                activ.add((Hotel) object);
-            }
-        }
-
-        hotel_table.getItems().setAll(activ);
+        load();
     }
 
 }
