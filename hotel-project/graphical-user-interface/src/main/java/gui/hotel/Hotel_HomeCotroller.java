@@ -42,6 +42,7 @@ public class Hotel_HomeCotroller implements Initializable {
     private static final Logger LOGGER = LogManager.getLogger(Hotel_HomeCotroller.class);
 
     private void load() {
+        LOGGER.debug("Starting load method.");
         activ.clear();
         
         List<?> result = DecodeOperation.decodeLogicOperation(OperationType.GET_HOTEL, null, null);

@@ -18,6 +18,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -62,19 +63,46 @@ public class User_HomeController implements Initializable {
 
     private static final Logger LOGGER = LogManager.getLogger(User_HomeController.class);
 
+    private void load() {
+        LOGGER.debug("Starting load method.");
+        activ.clear();
+
+        List<?> result = DecodeOperation.decodeLogicOperation(OperationType.GET_USERS, null, null);
+        if (result != null && result.size() != 0) {
+            for (Object object : result) {
+                User tmp = (User) object;
+                activ.add(tmp);
+            }
+        }
+
+        user_table.getItems().setAll(activ);
+    }
+
     @FXML
     void add_user(ActionEvent event) {
         LOGGER.info("User clicked add user button.");
         LOGGER.debug("Starting add user.");
         try {
-            Stage st = new Stage();
-            Scene sc;
+            URL location;
             if (UserOperations.getUser_now().get(0).getUser_role() == URE.ADMIN ||
                 UserOperations.getUser_now().get(0).getUser_role() == URE.OWNER) {
-            sc = new Scene(FXMLLoader.load(getClass().getResource("add_user_to_hotel.fxml")));
-            } else sc = new Scene(FXMLLoader.load(getClass().getResource("add_user.fxml")));
+                    location = getClass().getResource("add_user_to_hotel.fxml");
+                    LOGGER.debug("Loading add user to hotel fxml.");
+            } else {
+                location = getClass().getResource("add_user.fxml");
+                LOGGER.debug("Loading add user fxml.");
+            }
+
+            FXMLLoader loader = new FXMLLoader(location);
+            Parent parent = loader.load();
+
+            Stage st = new Stage();
+            Scene sc;
+            sc = new Scene(parent);
             st.setScene(sc);
-            st.show();
+            st.showAndWait();
+
+            load();
             LOGGER.debug("Add user scene loaded succesfuly.");
         } catch (Exception e) {
             LOGGER.error("Loading exeption occured -> {}", e);
@@ -128,15 +156,7 @@ public class User_HomeController implements Initializable {
         name_col.setCellValueFactory(new PropertyValueFactory<>("name"));
         phone_n_col.setCellValueFactory(new PropertyValueFactory<>("phone"));
 
-        List<?> result = DecodeOperation.decodeLogicOperation(OperationType.GET_USERS, null, null);
-        if (result != null && result.size() != 0){
-            for (Object object : result) {
-                User tmp = (User) object;
-                activ.add(tmp);
-            }
-        }
-
-        user_table.getItems().setAll(activ);
+        load();
     }
 
 }
