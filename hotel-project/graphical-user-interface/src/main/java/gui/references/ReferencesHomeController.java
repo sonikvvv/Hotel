@@ -588,14 +588,13 @@ public class ReferencesHomeController implements Initializable {
                 for (Object object : result) {
                     activ.add((Reservation) object);
                 }
+                User recept = activ.get(0).getReceptionist(); // getting the info for the rerceptionist
+                Label label = new Label("user name: " + res + " name: " + recept.getName() + " phone: " + recept.getPhone()
+                        + " email: " + recept.getEmail());
+                label.getStyleClass().add("small_label");
+                hb.getChildren().setAll(label);
             }
         }
-
-        User recept = activ.get(0).getReceptionist();
-        Label label = new Label("user name: " + res + " name: " + recept.getName() + " phone: " + recept.getPhone()
-                + " email: " + recept.getEmail());
-        label.getStyleClass().add("small_label");
-        hb.getChildren().setAll(label);
 
         reserv_table.getColumns().add(number_col);
         reserv_table.getColumns().add(status_col);
