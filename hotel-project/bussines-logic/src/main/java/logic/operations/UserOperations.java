@@ -67,8 +67,8 @@ public class UserOperations {
     public static List<User> getReceptionists(DBConnection db) {
         LOGGER.debug("Starting getReceptionists.");
         User user_now = UserOperations.getUser_now().get(0);
-        List<User> result = getUsers(db);
-        List<User> receptionists = new ArrayList<>();
+        List<User> result = new ArrayList<>();
+        List<User> receptionists = getUsers(db);
         for (User user : receptionists) {
             if (user.getUser_role() == URE.RECEPTIONIST){
                 for (Hotel hotel : user.getHotel()) {
@@ -94,18 +94,20 @@ public class UserOperations {
         newUser.setName(data.get(2));
         newUser.setPhone(data.get(3));
         newUser.setEmail(data.get(4));
+        String[] hotels = data.get(5).split(",");
+        List<Hotel> hotel_obj = new ArrayList<>();
 
         switch (user_now.getUser_role()) {
             case ADMIN:
                 LOGGER.debug("ADMIN");
                 newUser.setUser_role(URE.OWNER);
-                String[] hotels = data.get(5).split(",");
-                List<Hotel> hotel_obj = new ArrayList<>();
+
                 for (String string : hotels) {
                     Hotel tmp = db.getHotelByName(string);
                     if(tmp != null)
                         hotel_obj.add(tmp);
                 }
+                newUser.setHotel(hotel_obj);
                 break;
             case MANAGER:
                 LOGGER.debug("MANAGER");
@@ -115,13 +117,13 @@ public class UserOperations {
             case OWNER:
                 LOGGER.debug("OWNER");
                 newUser.setUser_role(URE.MANAGER);
-                String[] hotels_ = data.get(5).split(",");
-                List<Hotel> hotel_obj_ = new ArrayList<>();
-                for (String string : hotels_) {
+
+                for (String string : hotels) {
                     Hotel tmp = db.getHotelByName(string);
                     if (tmp != null)
-                        hotel_obj_.add(tmp);
+                        hotel_obj.add(tmp);
                 }
+                newUser.setHotel(hotel_obj);
                 break;
             default:
                 break;

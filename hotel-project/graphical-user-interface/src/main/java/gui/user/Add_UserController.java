@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Stage;
 import logic.DecodeOperation;
 import logic.OperationType;
 import javafx.scene.control.PasswordField;
@@ -54,6 +55,9 @@ public class Add_UserController {
             data.add(phone);
             data.add(email);
             DecodeOperation.decodeLogicOperation(OperationType.ADD_TO_USERS, null, data);
+
+            Stage st = (Stage) names_txt.getScene().getWindow();
+            st.close();
         }
     }
 }

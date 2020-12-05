@@ -21,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -70,23 +71,19 @@ public class Add_User_To_HotelController implements Initializable {
         String email = email_txt.getText();
 
         if (selectedHotels == null || selectedHotels.size() == 0) {
-            Alert al = new Alert(AlertType.WARNING, "Select 1 hotel!");
+            Alert al = new Alert(AlertType.WARNING, "Select at least 1 hotel!");
             al.showAndWait();
-        }
-
-        if (user_now.getUser_role() == URE.OWNER) {
+        } else if (user_now.getUser_role() == URE.OWNER) {
             if (selectedHotels == null || selectedHotels.size() == 0) {
                 if (selectedHotels.size() > 1) {
                     Alert al = new Alert(AlertType.ERROR, "Selected more than 1 hotel!");
                     al.showAndWait();
                 }
             }
-        }
-
-        if (username.length() == 0 || pass.length()  == 0 || name.length() == 0 || phone.length() == 0 || email.length() == 0) {
+        } else if (username.length() == 0 || pass.length()  == 0 || name.length() == 0 || phone.length() == 0 || email.length() == 0) {
             Alert al = new Alert(AlertType.WARNING, "Don't leave empty fields!");
             al.showAndWait();
-        }else {
+        } else {
             List<String> data = new ArrayList<>();
             data.add(username);
             data.add(pass);
@@ -100,6 +97,8 @@ public class Add_User_To_HotelController implements Initializable {
             data.add(hotels);
             
             DecodeOperation.decodeLogicOperation(OperationType.ADD_TO_USERS, null, data);
+            Stage st = (Stage) hotel_table.getScene().getWindow();
+            st.close();
         }
     }
 
@@ -120,8 +119,8 @@ public class Add_User_To_HotelController implements Initializable {
             public void handle(Event event) {
                 ObservableList<Hotel> selectedItems = hotel_table.getSelectionModel().getSelectedItems();
                 selectedHotels.clear();
-                for (Hotel s : selectedItems) {
-                    System.out.println(s);
+                for (Hotel h : selectedItems) {
+                    selectedHotels.add(h);
                 }
             }
         });
