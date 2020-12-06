@@ -32,6 +32,7 @@ public class Add_HotelController implements Initializable {
 
     public void setHotel(Hotel hotel) {
         this.hotel = hotel;
+        hotel_name_txt.setText(hotel.getHotel_name());
     }
 
     @FXML

@@ -107,6 +107,7 @@ public class Hotel_HomeCotroller implements Initializable {
                     add_hotel.setHotel(to_edit);
                 }
 
+                
                 Stage st = new Stage();
                 Scene sc;
                 sc = new Scene(parent);
