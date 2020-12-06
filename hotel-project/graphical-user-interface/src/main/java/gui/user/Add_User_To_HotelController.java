@@ -60,6 +60,22 @@ public class Add_User_To_HotelController implements Initializable {
 
     private static final Logger LOGGER = LogManager.getLogger(Add_User_To_HotelController.class);
 
+    private User user = null;
+
+    public void setUser(User user) {
+        this.user = user;
+        names_txt.setText(user.getName());
+        phone_txt.setText(user.getPhone());
+        username_txt.setText(user.getUser_name());
+        email_txt.setText(user.getEmail());
+        pass_txt.setText(user.getUser_password());
+
+        hotel_table.getSelectionModel().getSelectedItems().clear();
+        for (Hotel hotel : user.getHotel()) {
+            hotel_table.getSelectionModel().select(hotel);
+        }
+    }
+
     @FXML
     void save(ActionEvent event) {
         LOGGER.debug("Starting save usser to hotel.");
@@ -96,7 +112,17 @@ public class Add_User_To_HotelController implements Initializable {
             }
             data.add(hotels);
             
-            DecodeOperation.decodeLogicOperation(OperationType.ADD_TO_USERS, null, data);
+            if (user != null){
+                user.setName(name);
+                user.setUser_name(username);
+                user.setPhone(phone);
+                user.setEmail(email);
+                user.setUser_password(pass);
+                user.setHotel(hotel_table.getSelectionModel().getSelectedItems());
+                DecodeOperation.decodeLogicOperation(OperationType.SAVE_OR_UPDATE, user, null);
+            }
+            else 
+                DecodeOperation.decodeLogicOperation(OperationType.ADD_TO_USERS, null, data);
             Stage st = (Stage) hotel_table.getScene().getWindow();
             st.close();
         }
@@ -105,6 +131,7 @@ public class Add_User_To_HotelController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         LOGGER.debug("Starting initialize.");
+
         List<?> result = DecodeOperation.decodeLogicOperation(OperationType.GET_HOTEL, null, null);
         for (Object object : result) {
             Hotel tmp = (Hotel) object;
@@ -126,7 +153,6 @@ public class Add_User_To_HotelController implements Initializable {
         });
 
         hotel_table.getItems().addAll(activ);
-
     }
 
 }

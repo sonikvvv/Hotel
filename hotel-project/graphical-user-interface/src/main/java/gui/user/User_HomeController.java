@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import base_classes.classes.Hotel;
 import base_classes.classes.User;
 import base_classes.classes.emuns.URE;
 import javafx.beans.property.SimpleStringProperty;
@@ -58,6 +59,9 @@ public class User_HomeController implements Initializable {
 
     @FXML
     private TableColumn<User, String> phone_n_col;
+
+    @FXML
+    private TableColumn<User, String> hotel_col;
 
     private ObservableList<User> activ = FXCollections.observableArrayList();
 
@@ -114,9 +118,9 @@ public class User_HomeController implements Initializable {
         LOGGER.info("User pressed key -> {}.", event.getCode());
         LOGGER.debug("Starting key pressed.");
         User user_now = UserOperations.getUser_now().get(0);
-        if (user_now.getUser_role() == URE.ADMIN) {
-            if (event.getCode() == KeyCode.DELETE) {
-
+        
+        if (event.getCode() == KeyCode.DELETE) {
+            if (user_now.getUser_role() == URE.ADMIN) {
                 Alert al = new Alert(AlertType.CONFIRMATION);
                 al.setContentText("Delete this user?");
                 Optional<ButtonType> result = al.showAndWait();
@@ -131,7 +135,60 @@ public class User_HomeController implements Initializable {
                     }
                 }
             }
+        } else if (event.getCode() == KeyCode.F2) {
+            if (user_now.getUser_role() != URE.RECEPTIONIST){
+                try {
+                    URL location;
+                    boolean controller = false;
+                    if (UserOperations.getUser_now().get(0).getUser_role() == URE.ADMIN
+                            || UserOperations.getUser_now().get(0).getUser_role() == URE.OWNER) {
+                        location = getClass().getResource("add_user_to_hotel.fxml");
+                        controller = true;
+                        LOGGER.debug("Loading add user to hotel fxml.");
+                    } else {
+                        location = getClass().getResource("add_user.fxml");
+                        LOGGER.debug("Loading add user fxml.");
+                    }
+
+                    FXMLLoader loader = new FXMLLoader(location);
+                    Parent parent = loader.load();
+
+                    Add_UserController add_user;
+                    Add_User_To_HotelController add_user_to_hotel;
+                    User to_edit;
+
+                    if (controller) {
+                        add_user_to_hotel = loader.getController();
+                        to_edit = user_table.getSelectionModel().getSelectedItem();
+                        if (to_edit != null) {
+                            LOGGER.info("Updating user: {}", to_edit);
+                            add_user_to_hotel.setUser(to_edit);
+                        }
+                    }
+                    else {
+                        add_user = loader.getController();
+                        to_edit = user_table.getSelectionModel().getSelectedItem();
+                        if (to_edit != null) {
+                            LOGGER.info("Updating user: {}", to_edit);
+                            add_user.setUser(to_edit);
+                        }
+                    }
+                    
+                    
+                    Stage st = new Stage();
+                    Scene sc;
+                    sc = new Scene(parent);
+                    st.setScene(sc);
+                    st.showAndWait();
+
+                    load();
+                    LOGGER.debug("Add user scene loaded succesfuly.");
+                } catch (Exception e) {
+                    LOGGER.error("Loading exeption occured -> {}", e);
+                }
+            }
         }
+        
     }
 
     @Override
@@ -155,6 +212,25 @@ public class User_HomeController implements Initializable {
         email_col.setCellValueFactory(new PropertyValueFactory<>("email"));
         name_col.setCellValueFactory(new PropertyValueFactory<>("name"));
         phone_n_col.setCellValueFactory(new PropertyValueFactory<>("phone"));
+
+        hotel_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<User,String>,ObservableValue<String>>(){
+
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<User, String> param) {
+                String hotels = "";
+                int count = 0;
+                for (Hotel hotel : param.getValue().getHotel()) {
+                    if (param.getValue().getHotel().size() == 1 || count == 0){
+                        hotels += hotel.getHotel_name();
+                    }
+                    else 
+                        hotels += "," + hotel.getHotel_name();
+                    count++;
+                }
+                return new SimpleStringProperty(hotels);
+            }
+            
+        });
 
         load();
     }
