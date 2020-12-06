@@ -1,16 +1,17 @@
 package base_classes;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import base_classes.classes.AdditServices;
 import base_classes.classes.ClientUsedServices;
@@ -26,461 +27,332 @@ import base_classes.classes.emuns.SE;
 import base_classes.classes.emuns.ServiceType;
 import base_classes.classes.emuns.URE;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DBConnectionTest {
-    private DBConnection db = null;
-    private Hotel h1 = null;
-    private Hotel h2 = null;
-    private User u = null;
-    private User u1 = null;
-    private User u2 = null;
-    private User u3 = null;
-    private User u4 = null;
-    private User u5 = null;
-    private User u6 = null;
-    private User u7 = null;
-    private User u8 = null;
-    private User u9 = null;
-    private ServiceCategory sc = null;
-    private ServiceCategory sc1 = null;
-    private ServiceCategory sc2 = null;
-    private ServiceCategory sc3 = null;
-    private ServiceCategory sc4 = null;
-    private ServiceCategory sc5 = null;
-    private ServiceCategory sc6 = null;
-    private ServiceCategory sc7 = null;
-    private AdditServices as = null;
-    private AdditServices as1 = null;
-    private AdditServices as2 = null;
-    private AdditServices as3 = null;
-    private AdditServices as4 = null;
-    private AdditServices as5 = null;
-    private AdditServices as6 = null;
-    private AdditServices as7 = null;
-    private AdditServices as8 = null;
-    private AdditServices as9 = null;
-    private AdditServices as10 = null;
-    private Clients c = null;
-    private Clients c1 = null;
-    private Clients c2 = null;
-    private Clients c3 = null;
-    private Clients c4 = null;
-    private Clients c5 = null;
-    private ClientUsedServices cus = null;
-    private ClientUsedServices cus1 = null;
-    private ClientUsedServices cus2 = null;
-    private ClientUsedServices cus3 = null;
-    private ClientUsedServices cus4 = null;
-    private ClientUsedServices cus5 = null;
-    private ClientUsedServices cus6 = null;
-    private ClientUsedServices cus7 = null;
-    private ClientUsedServices cus8 = null;
-    private ClientUsedServices cus9 = null;
-    private ClientUsedServices cus10 = null;
-    private ClientUsedServices cus11 = null;
-    private ClientUsedServices cus12 = null;
-    private ClientUsedServices cus13 = null;
-    private ClientUsedServices cus14 = null;
-    private ClientUsedServices cus15 = null;
-    private ReservationForm fr = null;
-    private ReservationForm fr1 = null;
-    private ReservationForm fr2 = null;
-    private ReservationForm fr3 = null;
-    private Room ro = null;
-    private Room ro1 = null;
-    private Room ro2 = null;
-    private Room ro3 = null;
-    private Room ro4 = null;
-    private Room ro5 = null;
-    private Room ro6 = null;
-    private Room ro7 = null;
-    private Room ro8 = null;
-    private Room ro9 = null;
-    private Room ro10 = null;
-    private Room ro11 = null;
-    private Room ro12 = null;
-    private Room ro13 = null;
-    private Room ro14 = null;
-    private Room ro15 = null;
-    private Room ro16 = null;
-    private Room ro17 = null;
-    private Reservation r = null;
-    private Reservation r1 = null;
-    private Reservation r2 = null;
-    private Reservation r3 = null;
+    private DBConnection db = new DBConnection();
+    private Country country = new Country("Testiviles"); 
+    private Hotel h1 = new Hotel("Testivile"); 
+    private ReservationForm rf = new ReservationForm("reservation_type", "room_type", "cancel_type",
+            LocalDate.parse("2020-10-13"), LocalDate.parse("2020-10-23"), 4, 0, 1, "food_type", 1050, "status", "notes",
+            "client_name");
+    private Room room = new Room("103", "Double", 1000, SE.FREE, h1); 
+    private ServiceCategory sc = new ServiceCategory("Safe", ServiceType.PROSITIVE); 
+    private User user = new User("Anastacio48", "6gGJ7LYSbNbMkom", "Mariah O'Kon", "940.249.9052 x164", URE.ADMIN); 
+    private AdditServices ads = new AdditServices("Safe 14d", sc, 15, h1);
+    private Clients client = new Clients("Susanna O'Connell", LocalDate.parse("2020-11-15"), false, "47195",
+            LocalDate.parse("2020-05-13"), "67419", country, "client_note", "Multi-channelled", h1); 
+    private ClientUsedServices cus = new ClientUsedServices(ads, 3, "note", h1);
+    private Reservation res = new Reservation(user, rf, room, h1);
 
     public DBConnectionTest() {
-        db = new DBConnection();
-
-        h1 = new Hotel("Testivile");
-        h2 = new Hotel("Mehvile");
-
-        u = new User("Loraine75", "autiTYkKRO1S2g2", URE.OWNER);
-        u1 = new User("Hans.Lakin83", "jwr_6HCmF6EdMjr", URE.OWNER);
-        u2 = new User("Dejon_Casper34", "ECWnGq01UOj_5Mm", URE.OWNER);
-        u3 = new User("Nadia.Goldner", "jMcKKo_JBPGdWPD", URE.MANAGER);
-        u4 = new User("Colton.Bergnaum", "KcL_6uglshryOTG", URE.MANAGER);
-        u5 = new User("Brayan_Torphy63", "svNLz129ZCT1yKk", URE.MANAGER);
-        u6 = new User("Uriah89", "kdaP4797Ldq0OHK", URE.RECEPTIONIST);
-        u7 = new User("Josie.Emmerich", "Vc6rNpBOB0Thxmr", URE.RECEPTIONIST);
-        u8 = new User("Bernhard_Braun", "2NqBCSTWpt5vIYh", URE.RECEPTIONIST);
-        u9 = new User("Brenna.Dietrich88", "YrjsuzduxyV81ya", URE.RECEPTIONIST);
-
-        sc = new ServiceCategory("Clothing", ServiceType.PROSITIVE);
-        sc1 = new ServiceCategory("Automotive", ServiceType.PROSITIVE);
-        sc2 = new ServiceCategory("Music", ServiceType.PROSITIVE);
-        sc3 = new ServiceCategory("Automotive", ServiceType.PROSITIVE);
-        sc4 = new ServiceCategory("Shoes", ServiceType.NEGATIVE);
-        sc5 = new ServiceCategory("Toys", ServiceType.NEGATIVE);
-        sc6 = new ServiceCategory("Outdoors", ServiceType.NEGATIVE);
-        sc7 = new ServiceCategory("Health", ServiceType.NEGATIVE);
-
-        as = new AdditServices("Awesome Frozen Mouse", sc, 75.00);
-        as1 = new AdditServices("Incredible Frozen Shirt", sc4, 892.00);
-        as2 = new AdditServices("Intelligent Cotton Fish", sc4, 439.00);
-        as3 = new AdditServices("Practical Wooden Tuna", sc3, 299.00);
-        as4 = new AdditServices("Small Rubber Car", sc1, 991.00);
-        as5 = new AdditServices("Licensed Metal Chicken", sc3, 689.00);
-        as6 = new AdditServices("Sleek Fresh Fish", sc2, 296.00);
-        as7 = new AdditServices("Tasty Wooden Shoes", sc5, 661.00);
-        as8 = new AdditServices("Refined Concrete Chips", sc1, 127.00);
-        as9 = new AdditServices("Sleek Granite Chicken", sc7, 770.00);
-        as10 = new AdditServices("Rustic Granite Shoes", sc3, 535.00);
-
-        c = new Clients("Amina Jakubowski", LocalDate.now(), false, "30506", LocalDate.of(2020, 11, 10), "car_number",
-                new Country("Testivile"), "client_note", "vaucher");
-        c1 = new Clients("Annamarie Haag", LocalDate.now(), true, "67547", LocalDate.of(2020, 11, 15), "car_number",
-                new Country("Falkland Islands (Malvinas)"), "client_note", "vaucher");
-        c2 = new Clients("Bud McClure II", LocalDate.now(), true, "48931", LocalDate.of(2020, 11, 16), "car_number",
-                new Country("Anguilla"), "client_note", "vaucher");
-
-        c3 = new Clients("Marley Brakus", LocalDate.now(), true, "14411", LocalDate.of(2020, 11, 17), "car_number",
-                new Country("Virgin Islands, U.S."), "client_note", "vaucher");
-        c4 = new Clients("Amie Moen", LocalDate.now(), true, "81962", LocalDate.of(2020, 11, 17), "car_number",
-                new Country("Argentina"), "client_note", "vaucher");
-        c5 = new Clients("Wendell Volkman I", LocalDate.now(), true, "5330", LocalDate.of(2020, 11, 18), "car_number",
-                new Country("Iraq"), "client_note", "vaucher");
-
-        cus = new ClientUsedServices(as1, 1, "note");
-        cus1 = new ClientUsedServices(as9, 2, "note");
-        cus2 = new ClientUsedServices(as1, 3, "note");
-        cus3 = new ClientUsedServices(as6, 1, "note");
-
-        c.addToUsedServices(cus);
-        c.addToUsedServices(cus1);
-        c.addToUsedServices(cus2);
-        c.addToUsedServices(cus3);
-
-        cus4 = new ClientUsedServices(as6, 2, "note");
-        cus5 = new ClientUsedServices(as1, 3, "note");
-        cus6 = new ClientUsedServices(as5, 3, "note");
-        cus7 = new ClientUsedServices(as7, 3, "note");
-
-        c1.addToUsedServices(cus4);
-        c1.addToUsedServices(cus5);
-        c1.addToUsedServices(cus6);
-        c1.addToUsedServices(cus7);
-
-        cus8 = new ClientUsedServices(as5, 3, "note");
-        cus9 = new ClientUsedServices(as9, 3, "note");
-        cus10 = new ClientUsedServices(as1, 3, "note");
-        cus11 = new ClientUsedServices(as10, 3, "note");
-
-        c2.addToUsedServices(cus8);
-        c2.addToUsedServices(cus9);
-        c2.addToUsedServices(cus10);
-        c2.addToUsedServices(cus11);
-
-        cus12 = new ClientUsedServices(as5, 3, "note");
-        cus13 = new ClientUsedServices(as9, 3, "note");
-
-        c3.addToUsedServices(cus12);
-        c3.addToUsedServices(cus13);
-
-        cus14 = new ClientUsedServices(as5, 3, "note");
-        cus15 = new ClientUsedServices(as10, 3, "note");
-
-        c4.addToUsedServices(cus14);
-        c4.addToUsedServices(cus15);
-
-        fr = new ReservationForm("test", "Double", "t", LocalDate.of(2020, 11, 8), LocalDate.of(2020, 11, 13), 2, 0, 0,
-                "fb", 1000, "expired", "notes", "Marlon Kunde");
-        fr1 = new ReservationForm("test", "Double", "t", LocalDate.of(2020, 11, 6), LocalDate.of(2020, 11, 10), 4, 2, 0,
-                "fb", 957, "expired", "notes", "Paula Funk");
-        fr2 = new ReservationForm("test", "single", "t", LocalDate.of(2020, 11, 7), LocalDate.of(2020, 11, 17), 4, 4, 0,
-                "fb", 453, "expired", "notes", "Ryleigh Hilpert");
-        fr3 = new ReservationForm("test", "single", "t", LocalDate.of(2020, 12, 12), LocalDate.of(2020, 11, 17), 2, 2,
-                0, "fb", 732, "expired", "notes", "Ruben Rice");
-
-        ro = new Room("20", "double", 447.21, SE.FREE);
-        ro1 = new Room("79", "single", 274.22, SE.OCCUPIED);
-        ro2 = new Room("42", "single", 371.19, SE.FREE);
-
-        ro3 = new Room("73", "double", 454.60, SE.OCCUPIED);
-        ro4 = new Room("65", "double", 250.79, SE.OCCUPIED);
-        ro5 = new Room("79", "double", 451.43, SE.RESERVED);
-
-        ro6 = new Room("61", "double", 440.07, SE.DIRTY);
-        ro7 = new Room("64", "single", 431.91, SE.DIRTY);
-        ro8 = new Room("26", "double", 216.81, SE.DIRTY);
-
-        ro9 = new Room("17", "double", 290.59, SE.OUT_OF_ORDER);
-        ro10 = new Room("35", "single", 472.41, SE.RESERVED);
-        ro11 = new Room("40", "double", 317.77, SE.RESERVED);
-        ro12 = new Room("89", "single", 245.89, SE.FREE);
-
-        ro13 = new Room("89", "double", 242.80, SE.FREE);
-        ro14 = new Room("89", "single", 216.34, SE.OUT_OF_ORDER);
-        ro15 = new Room("89", "double", 442.24, SE.RESERVED);
-
-        ro16 = new Room("89", "double", 280.67, SE.OUT_OF_ORDER);
-        ro17 = new Room("89", "single", 367.78, SE.FREE);
-
-        ro.addToClients(c);
-        ro6.addToClients(c1);
-        ro12.addToClients(c2);
-        ro9.addToClients(c3);
-        ro4.addToClients(c4);
-        ro13.addToClients(c5);
-
-        r = new Reservation(u, fr, ro);
-        r1 = new Reservation(u2, fr3, ro2);
-        r2 = new Reservation(u8, fr2, ro1);
-        r3 = new Reservation(u8, fr1, ro3);
-
-    }
-
-    @Before
-    public void batch() {
-        db.saveOrUpdateObject(h1);
-        db.saveOrUpdateObject(h2);
-
-        u.addToHotel(h1);
-        u.addToHotel(h2);
-        u1.addToHotel(h2);
-        u2.addToHotel(h2);
-        u3.addToHotel(h1);
-        u4.addToHotel(h2);
-        u5.addToHotel(h1);
-        u6.addToHotel(h2);
-        u7.addToHotel(h1);
-        u8.addToHotel(h1);
-        u9.addToHotel(h2);
-
-        db.saveOrUpdateObject(u);
-        db.saveOrUpdateObject(u1);
-        db.saveOrUpdateObject(u2);
-        db.saveOrUpdateObject(u3);
-        db.saveOrUpdateObject(u4);
-        db.saveOrUpdateObject(u5);
-        db.saveOrUpdateObject(u6);
-        db.saveOrUpdateObject(u7);
-        db.saveOrUpdateObject(u8);
-        db.saveOrUpdateObject(u9);
-
-        db.saveOrUpdateObject(sc);
-        db.saveOrUpdateObject(sc1);
-        db.saveOrUpdateObject(sc2);
-        db.saveOrUpdateObject(sc3);
-        db.saveOrUpdateObject(sc4);
-        db.saveOrUpdateObject(sc5);
-        db.saveOrUpdateObject(sc6);
-        db.saveOrUpdateObject(sc7);
-
-        db.saveOrUpdateObject(as);
-        db.saveOrUpdateObject(as1);
-        db.saveOrUpdateObject(as2);
-        db.saveOrUpdateObject(as3);
-        db.saveOrUpdateObject(as4);
-        db.saveOrUpdateObject(as5);
-        db.saveOrUpdateObject(as6);
-        db.saveOrUpdateObject(as7);
-        db.saveOrUpdateObject(as8);
-        db.saveOrUpdateObject(as9);
-        db.saveOrUpdateObject(as10);
-
-        c.setHotel(h1);
-        c1.setHotel(h2);
-        c2.setHotel(h2);
-        c3.setHotel(h2);
-        c4.setHotel(h1);
-        c5.setHotel(h2);
-
-        db.saveOrUpdateObject(c);
-        db.saveOrUpdateObject(c1);
-        db.saveOrUpdateObject(c2);
-        db.saveOrUpdateObject(c3);
-        db.saveOrUpdateObject(c4);
-        db.saveOrUpdateObject(c5);
-
-        ro.setHotel(h2);
-        ro1.setHotel(h2);
-        ro2.setHotel(h1);
-        ro3.setHotel(h1);
-        ro4.setHotel(h2);
-        ro5.setHotel(h1);
-        ro6.setHotel(h1);
-        ro7.setHotel(h1);
-        ro8.setHotel(h2);
-        ro9.setHotel(h2);
-        ro10.setHotel(h2);
-        ro11.setHotel(h2);
-        ro12.setHotel(h1);
-        ro13.setHotel(h2);
-        ro14.setHotel(h1);
-        ro15.setHotel(h1);
-        ro16.setHotel(h1);
-        ro17.setHotel(h1);
-
-        db.saveOrUpdateObject(ro);
-        db.saveOrUpdateObject(ro1);
-        db.saveOrUpdateObject(ro2);
-        db.saveOrUpdateObject(ro3);
-        db.saveOrUpdateObject(ro4);
-        db.saveOrUpdateObject(ro5);
-        db.saveOrUpdateObject(ro6);
-        db.saveOrUpdateObject(ro7);
-        db.saveOrUpdateObject(ro8);
-        db.saveOrUpdateObject(ro9);
-        db.saveOrUpdateObject(ro10);
-        db.saveOrUpdateObject(ro11);
-        db.saveOrUpdateObject(ro12);
-        db.saveOrUpdateObject(ro13);
-        db.saveOrUpdateObject(ro14);
-        db.saveOrUpdateObject(ro15);
-        db.saveOrUpdateObject(ro16);
-        db.saveOrUpdateObject(ro17);
-
-        r.setHotel(h2);
-        r1.setHotel(h1);
-        r2.setHotel(h2);
-        r3.setHotel(h1);
-
-        db.saveOrUpdateObject(r);
-        db.saveOrUpdateObject(r1);
-        db.saveOrUpdateObject(r2);
-        db.saveOrUpdateObject(r3);
+        List<Hotel> hotels = new ArrayList<>();
+        hotels.add(0, h1);
+        user.setHotel(hotels);
     }
 
     @Test
-    public void getUserByID() {
-        db.saveOrUpdateObject(u);
-        User tmp = db.getUserByID(1);
-        assertTrue((tmp.getUser_id() == 1) ? true : false);
+    public void Test_1() { //save 
+        db.saveObject(h1);
+        db.saveObject(user);
+        db.saveObject(room);
+        db.saveObject(sc);
+        db.saveObject(ads);
+        db.saveObject(cus);
+        db.saveObject(country);
+        db.saveObject(client);
+        db.saveObject(res);
+
+        assertTrue(h1.getHotel_id() > 0);
+        assertTrue(user.getUser_id() > 0);
+        assertTrue(room.getR_id() > 0);
+        assertTrue(sc.getCategory_id() > 0);
+        assertTrue(ads.getServ_id() > 0);
+        assertTrue(cus.getCus_id() > 0);
+        assertTrue(country.getCountry_id() > 0);
+        assertTrue(client.getC_id() > 0);
+        assertTrue(res.getReservation_id() > 0);
     }
 
     @Test
-    public void getUserByName() {
-        User tmp = db.getUserByUsername("Loraine75");
-        assertNotNull(tmp);
-        assertEquals("Loraine75", tmp.getUser_name());
+    public void Test_11() { //get by id
+        Hotel get_h1 = db.getHotelById(1);
+        User get_user = db.getUserByID(1);
+        Room get_room = db.getRoomByID(1);
+        ServiceCategory get_sc = db.getServiceCategoryByID(1);
+        AdditServices get_ads = db.getAdditServicesByID(1);
+        ClientUsedServices get_cus = db.getClientUsedServicesByID(1);
+        Country get_country = db.getCountryByID(1);
+        Clients get_client = db.getClientByID(1);
+        Reservation get_res = db.getReservationByID(1);
 
-        tmp = db.getUserByUsername("test");
-        assertNull(tmp);
+        assertEquals(h1.getHotel_name(), get_h1.getHotel_name());
+        assertEquals(user.getName(), get_user.getName());
+        assertEquals(room.getR_number(), get_room.getR_number());
+        assertEquals(sc.getCategory_title(), get_sc.getCategory_title());
+        assertEquals(ads.getTitle(), get_ads.getTitle());
+        assertEquals(cus.getNote(), get_cus.getNote());
+        assertEquals(country.getCountry_name(), get_country.getCountry_name());
+        assertEquals(client.getC_name(), get_client.getC_name());
+        assertEquals(res.getDate_made(), get_res.getDate_made());
     }
 
     @Test
-    public void getUsersByRole() {
-        URE type = URE.RECEPTIONIST;
-        List<User> tmp = db.getUserByRole(type);
-        assertNotNull(tmp);
-        for (User user : tmp) {
-            assertEquals(type, user.getUser_role());
-        }
+    public void Test_12() { //get user by name
+        User result = db.getUserByUsername(user.getUser_name());
+
+        assertNotNull(result);
+        assertEquals(user.getUser_name(), result.getUser_name());
+
+        result = db.getUserByUsername("TEFVD");
+        assertNull(result);
     }
 
     @Test
-    public void getUsersByHotel() {
-        List<User> tmp = db.getUserByHotel(1);
-        assertNotNull(tmp);
-        for (User user : tmp) {
-            List<Hotel> hotels = user.getHotel();
-            for (Hotel h : hotels) {
-                assertEquals(1, h.getHotel_id()); // checks all hotel id and at the second makes error
-            }
-        }
+    public void Test_13() { //get all users
+        List<User> result = db.getAllUsers();
+
+        assertNotNull(result);
+        assertTrue(result.size() > 0);
+        assertTrue(result.get(0) instanceof User);
     }
 
     @Test
-    public void getADSByHotel() {
+    public void Test_14() { //get all users by role
+        List<User> result = db.getUserByRole(user.getUser_role());
+
+        assertNotNull(result);
+        assertTrue(result.size() > 0);
+        assertTrue(result.get(0) instanceof User);
+
+        result = db.getUserByRole(URE.RECEPTIONIST);
+        assertTrue(result.size() == 0);
+
+    }
+
+    @Test
+    public void Test_15() { //get all users by hotel
+        List<User> result = db.getUserByHotel(1);
+
+        assertNotNull(result);
+        assertTrue(result.size() > 0);
+        assertTrue(result.get(0) instanceof User);
+
+        result = db.getUserByHotel(5);
+        assertTrue(result.size() == 0);
+    }
+
+    @Test
+    public void Test_16() { //get adsitional services by hotel
         List<AdditServices> result = db.getAdditServicesByHotel(1);
-        for (AdditServices additServices : result) {
-            assertEquals(1, additServices.getHotel().getHotel_id());
-        }
+
+        assertNotNull(result);
+        assertTrue(result.size() > 0);
+        assertTrue(result.get(0) instanceof AdditServices);
+
+        result = db.getAdditServicesByHotel(5);
+        assertTrue(result.size() == 0);
     }
 
     @Test
-    public void getAllServiceCategory() {
+    public void Test_17() { // get all additional services
+        List<AdditServices> result = db.getAllAdditServices();
+
+        assertNotNull(result);
+        assertTrue(result.size() > 0);
+        assertTrue(result.get(0) instanceof AdditServices);
+    }
+
+    @Test
+    public void Test_18() { // get all service categories
         List<ServiceCategory> result = db.getAllServiceCategories();
+
         assertNotNull(result);
-        assertNotEquals(0, result.size());
-    }
-
-
-    @Test
-    public void getReservByHotel() {
-        Hotel h = db.getHotelById(1);
-        Hotel hh = db.getHotelById(2);
-
-        // db.saveOrUpdateObject(ro);
-        // db.saveOrUpdateObject(ro1);
-        // db.saveOrUpdateObject(ro2);
-        // db.saveOrUpdateObject(ro3);
-        
-        r.setHotel(h);
-        r2.setHotel(h);
-        r1.setHotel(hh);
-        r3.setHotel(hh);
-        r.setHotel(h);
-        r1.setHotel(hh);
-        r2.setHotel(h);
-        r3.setHotel(hh);
-        db.saveOrUpdateObject(r);
-        db.saveOrUpdateObject(r1);
-        db.saveOrUpdateObject(r2);
-        db.saveOrUpdateObject(r3);
-
-        db.saveOrUpdateObject(r);
-        db.saveOrUpdateObject(r1);
-        db.saveOrUpdateObject(r2);
-        db.saveOrUpdateObject(r3);
-
-        List<Reservation> result = db.getAllReservationsByHotel(1);
-        assertNotNull(result);
-        for (Reservation reservation : result) {
-            assertEquals(1, reservation.getHotel().getHotel_id());
-        }
+        assertTrue(result.size() > 0);
+        assertTrue(result.get(0) instanceof ServiceCategory);
     }
 
     @Test
-    public void getHotelByID() {
-        Hotel result = db.getHotelById(1);
-        assertEquals(1, result.getHotel_id());
-    }
-
-    @Test
-    public void getHotelByName() {
+    public void Test_19() { // get hotel by name
         Hotel result = db.getHotelByName(h1.getHotel_name());
+
+        assertNotNull(result);
         assertEquals(h1.getHotel_name(), result.getHotel_name());
+
+        result = db.getHotelByName("fwrg");
+        assertNull(result);
     }
 
     @Test
-    public void getRoomByID() {
-        Room result = db.getRoomByID(1);
-        assertEquals(1, result.getR_id());
+    public void Test_21() { // get all hotels
+        List<Hotel> result = db.getAllHotels();
+
+        assertNotNull(result);
+        assertTrue(result.size() > 0);
+        assertTrue(result.get(0) instanceof Hotel);
     }
 
     @Test
-    public void getRoomByHotel() {
-        Hotel h = db.getHotelById(1);
-        List<Room> result = db.getRoomsByHotel(h.getHotel_id());
-        for (Room room : result) {
-            assertEquals(1, room.getHotel().getHotel_id());
-        }
+    public void Test_22() { //get all reservations by hotel
+        List<Reservation> result = db.getAllReservationsByHotel(1);
+
+        assertNotNull(result);
+        assertTrue(result.size() > 0);
+        assertTrue(result.get(0) instanceof Reservation);
+
+        result = db.getAllReservationsByHotel(5);
+        assertTrue(result.size() == 0);
     }
 
     @Test
-    public void getClientByID() {
-        Clients result = db.getClientByID(1);
-        assertEquals(1, result.getC_id());
+    public void Test_23() { //get all rooms by hotel
+        List<Room> result = db.getRoomsByHotel(1);
+
+        assertNotNull(result);
+        assertTrue(result.size() > 0);
+        assertTrue(result.get(0) instanceof Room);
+
+        result = db.getRoomsByHotel(5);
+        assertTrue(result.size() == 0);
+    }
+
+    @Test
+    public void Test_24() { // get all rooms
+        List<Room> result = db.getAllRooms();
+
+        assertNotNull(result);
+        assertTrue(result.size() > 0);
+        assertTrue(result.get(0) instanceof Room);
+    }
+
+    @Test
+    public void Test_25() { // get clients by hotel
+        List<Clients> result = db.getClientsByHotel(1);
+
+        assertNotNull(result);
+        assertTrue(result.size() > 0);
+        assertTrue(result.get(0) instanceof Clients);
+
+        result = db.getClientsByHotel(5);
+        assertTrue(result.size() == 0);
+    }
+
+    @Test
+    public void Test_26() { // get all clients
+        List<Clients> result = db.getAllClients();
+
+        assertNotNull(result);
+        assertTrue(result.size() > 0);
+        assertTrue(result.get(0) instanceof Clients);
+    }
+
+    @Test
+    public void Test_27() { //get all reservations
+        List<Reservation> result = db.getAllReservations();
+
+        assertNotNull(result);
+        assertTrue(result.size() > 0);
+        assertTrue(result.get(0) instanceof Reservation);
+    }
+
+    @Test
+    public void Test_28() { // get distinct room types
+        List<String> result = db.getDistinctRoomTypes();
+
+        assertNotNull(result);
+        assertTrue(result.size() > 0);
+    }
+
+    @Test
+    public void Test_29() { // get distinct additional services
+        List<String> result = db.getDistinctAdditionalServices();
+
+        assertNotNull(result);
+        assertTrue(result.size() > 0);
+    }
+
+    @Test
+    public void Test_3() { // update
+        h1 = db.getHotelById(1);
+        user = db.getUserByID(1);
+        room = db.getRoomByID(1);
+        sc = db.getServiceCategoryByID(1);
+        ads = db.getAdditServicesByID(1);
+        cus = db.getClientUsedServicesByID(1);
+        country = db.getCountryByID(1);
+        client = db.getClientByID(1);
+        res = db.getReservationByID(1);
+
+        h1.setHotel_name("Test");
+        user.setName("Test");
+        room.setR_number("Test");
+        sc.setCategory_title("Test");
+        ads.setTitle("Test");
+        cus.setNote("Test");
+        country.setCountry_name("Test");
+        client.setC_name("Test");
+        res.setDate_made(LocalDate.parse("2020-10-10"));
+
+        db.updateObject(h1);
+        db.updateObject(user);
+        db.updateObject(room);
+        db.updateObject(sc);
+        db.updateObject(ads);
+        db.updateObject(cus);
+        db.updateObject(country);
+        db.updateObject(client);
+        db.updateObject(res);
+        
+        Hotel updated_h1 = db.getHotelById(1);
+        User updated_user = db.getUserByID(1);
+        Room updated_room = db.getRoomByID(1);
+        ServiceCategory updated_sc = db.getServiceCategoryByID(1);
+        AdditServices updated_ads = db.getAdditServicesByID(1);
+        ClientUsedServices updated_cus = db.getClientUsedServicesByID(1);
+        Country updated_country = db.getCountryByID(1);
+        Clients updated_client = db.getClientByID(1);
+        Reservation updated_res = db.getReservationByID(1);
+
+        assertEquals(h1.getHotel_name(), updated_h1.getHotel_name());
+        assertEquals(user.getName(), updated_user.getName());
+        assertEquals(room.getR_number(), updated_room.getR_number());
+        assertEquals(sc.getCategory_title(), updated_sc.getCategory_title());
+        assertEquals(ads.getTitle(), updated_ads.getTitle());
+        assertEquals(cus.getNote(), updated_cus.getNote());
+        assertEquals(country.getCountry_name(), updated_country.getCountry_name());
+        assertEquals(client.getC_name(), updated_client.getC_name());
+        assertEquals(res.getDate_made(), updated_res.getDate_made());
+    }
+
+    @Test
+    public void Test_31() { //delete 
+        db.deleteObject(h1);
+        db.deleteObject(user);
+        db.deleteObject(room);
+        db.deleteObject(sc);
+        db.deleteObject(ads);
+        db.deleteObject(cus);
+        db.deleteObject(country);
+        db.deleteObject(client);
+        db.deleteObject(res);
+
+        Hotel deleted_h1 = db.getHotelById(h1.getHotel_id());
+        User deleted_user = db.getUserByID(user.getUser_id());
+        Room deleted_room = db.getRoomByID(room.getR_id());
+        ServiceCategory deleted_sc = db.getServiceCategoryByID(sc.getCategory_id());
+        AdditServices deleted_ads = db.getAdditServicesByID(ads.getServ_id());
+        ClientUsedServices deleted_cus = db.getClientUsedServicesByID(cus.getCus_id());
+        Country deleted_country = db.getCountryByID(country.getCountry_id());
+        Clients deleted_client = db.getClientByID(client.getC_id());
+        Reservation deleted_res = db.getReservationByID(res.getReservation_id());
+
+        assertNull(deleted_h1);
+        assertNull(deleted_user);
+        assertNull(deleted_room);
+        assertNull(deleted_sc);
+        assertNull(deleted_ads);
+        assertNull(deleted_cus);
+        assertNull(deleted_country);
+        assertNull(deleted_client);
+        assertNull(deleted_res);
     }
 }
