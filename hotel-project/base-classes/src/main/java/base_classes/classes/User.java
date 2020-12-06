@@ -49,6 +49,17 @@ public class User {
         this.phone = phone;
         this.user_role = user_role;
     }
+
+    public User(String user_name, String user_password, String name, String phone, String email, URE user_role,
+            List<Hotel> hotel) {
+        this.user_name = user_name;
+        this.user_password = user_password;
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.user_role = user_role;
+        this.hotel = hotel;
+    }
     
     public void setUser_id(int user_id) {
         this.user_id = user_id;
@@ -132,5 +143,5 @@ public class User {
     @Override
     public String toString() {
         return "User [ id = " + this.user_id + " username: " + this.user_name + " role: " + this.user_role + " hotels: " + this.hotel + " ]";
-    }    
+    }
 }

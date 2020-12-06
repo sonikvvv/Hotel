@@ -52,14 +52,11 @@ public class ClientUsedServices {
         calcTotal();
     }
 
-    public ClientUsedServices(AdditServices addit_service, int quantity, LocalDateTime purchase_date, String note,
-            double total, boolean paid, Hotel hotel) {
+    public ClientUsedServices(AdditServices addit_service, int quantity, String note, Hotel hotel) {
         this.addit_service = addit_service;
         this.quantity = quantity;
-        this.purchase_date = purchase_date;
+        this.purchase_date = LocalDateTime.now();
         this.note = note;
-        this.total = total;
-        this.paid = paid;
         this.hotel = hotel;
     }
 

@@ -77,6 +77,9 @@ public class AdditServices {
     public void setHotel(Hotel hotel) {
         this.hotel = hotel;
     }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public static String getTableName() {
         return "add_serv";
