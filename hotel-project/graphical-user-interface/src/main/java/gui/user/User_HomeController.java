@@ -174,7 +174,6 @@ public class User_HomeController implements Initializable {
                         }
                     }
                     
-                    
                     Stage st = new Stage();
                     Scene sc;
                     sc = new Scene(parent);

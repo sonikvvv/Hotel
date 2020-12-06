@@ -42,6 +42,7 @@ public class Add_UserController implements Initializable {
     private User user = null;
 
     public void setUser(User user) {
+        LOGGER.debug("Starting set user with data -> {}", user);
         this.user = user;
 
         names_txt.setText(user.getName());
@@ -79,6 +80,7 @@ public class Add_UserController implements Initializable {
                 user.setEmail(email);
                 user.setUser_password(pass);
                 DecodeOperation.decodeLogicOperation(OperationType.SAVE_OR_UPDATE, user, null);
+                LOGGER.debug("Updating user to -> {}", user);
             }
             else {
                 DecodeOperation.decodeLogicOperation(OperationType.ADD_TO_USERS, null, data);
@@ -91,6 +93,7 @@ public class Add_UserController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        LOGGER.debug("Starting initialize.");
         if (user != null){
             names_txt.setText(user.getName());
             phone_txt.setText(user.getPhone());

@@ -26,11 +26,8 @@ public class Add_HotelController implements Initializable {
 
     private Hotel hotel = null;
 
-    public void setHotel_name_txt(String hotel_name) {
-        this.hotel_name_txt.setText(hotel_name);
-    }
-
     public void setHotel(Hotel hotel) {
+        LOGGER.debug("Starting set hotel with data -> {}", hotel);
         this.hotel = hotel;
         hotel_name_txt.setText(hotel.getHotel_name());
     }
@@ -51,7 +48,7 @@ public class Add_HotelController implements Initializable {
             }
             else {
                 hotel.setHotel_name(hotel_name);
-                LOGGER.debug("Renaming existing hotel: {}", hotel);
+                LOGGER.debug("Renaming existing hotel to: {}", hotel);
             }
 
             DecodeOperation.decodeLogicOperation(OperationType.SAVE_OR_UPDATE, hotel, null);
@@ -63,6 +60,7 @@ public class Add_HotelController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        LOGGER.debug("Starting initialize.");
         if (hotel != null) {
             hotel_name_txt.setText(hotel.getHotel_name());
         }

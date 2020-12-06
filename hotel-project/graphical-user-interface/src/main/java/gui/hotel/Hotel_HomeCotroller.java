@@ -106,7 +106,6 @@ public class Hotel_HomeCotroller implements Initializable {
                     LOGGER.debug("Hotel for editing: {}", to_edit);
                     add_hotel.setHotel(to_edit);
                 }
-
                 
                 Stage st = new Stage();
                 Scene sc;

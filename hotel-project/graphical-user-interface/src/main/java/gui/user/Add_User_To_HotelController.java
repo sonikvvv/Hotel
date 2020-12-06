@@ -63,6 +63,7 @@ public class Add_User_To_HotelController implements Initializable {
     private User user = null;
 
     public void setUser(User user) {
+        LOGGER.debug("Starting set user with data -> {}", user);
         this.user = user;
         names_txt.setText(user.getName());
         phone_txt.setText(user.getPhone());
@@ -120,6 +121,7 @@ public class Add_User_To_HotelController implements Initializable {
                 user.setUser_password(pass);
                 user.setHotel(hotel_table.getSelectionModel().getSelectedItems());
                 DecodeOperation.decodeLogicOperation(OperationType.SAVE_OR_UPDATE, user, null);
+                LOGGER.debug("Updating user to -> {}", user);
             }
             else 
                 DecodeOperation.decodeLogicOperation(OperationType.ADD_TO_USERS, null, data);
