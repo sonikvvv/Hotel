@@ -139,7 +139,7 @@ public class Room_ViewController implements Initializable {
                 tmp = ads_table.getSelectionModel().getSelectedItem();
                 ads_table.getItems().setAll(activ);
                 LOGGER.debug("Payed additional service to save -> {}", tmp);
-                DecodeOperation.decodeLogicOperation(OperationType.SAVE_OR_UPDATE, tmp, null);
+                DecodeOperation.decodeLogicOperation(OperationType.UPDATE, tmp, null);
             }
 
         }        

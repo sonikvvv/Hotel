@@ -120,7 +120,7 @@ public class Add_User_To_HotelController implements Initializable {
                 user.setEmail(email);
                 user.setUser_password(pass);
                 user.setHotel(hotel_table.getSelectionModel().getSelectedItems());
-                DecodeOperation.decodeLogicOperation(OperationType.SAVE_OR_UPDATE, user, null);
+                DecodeOperation.decodeLogicOperation(OperationType.UPDATE, user, null);
                 LOGGER.debug("Updating user to -> {}", user);
             }
             else 

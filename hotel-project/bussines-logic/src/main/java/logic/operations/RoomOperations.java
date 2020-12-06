@@ -129,9 +129,9 @@ public class RoomOperations {//TODO: fix the raiting
         LOGGER.debug("Client for check out - {}", client_for_checkout);
         room.getClients().remove(client_for_checkout);
         client_for_checkout.checkOut();
-        db.saveOrUpdateObject(client_for_checkout);
+        db.updateObject(client_for_checkout);
         LOGGER.debug("Room for update - {}", room);
-        db.saveOrUpdateObject(room);
+        db.updateObject(room);
     }
 
     public static List<String> getRoomTypes(DBConnection db) {

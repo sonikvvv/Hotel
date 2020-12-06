@@ -80,7 +80,7 @@ public void AddCustomer()
 
             Clients klient = new Clients(Name, DateOfBirth, sex, PassportNumber, PassportDate, CarNumber,
                     new Country(Country), Note);
-            DecodeOperation.decodeLogicOperation(OperationType.SAVE_OR_UPDATE, klient, null);
+            DecodeOperation.decodeLogicOperation(OperationType.SAVE, klient, null);
         }
 
    

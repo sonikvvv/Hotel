@@ -79,7 +79,7 @@ public class Add_UserController implements Initializable {
                 user.setPhone(phone);
                 user.setEmail(email);
                 user.setUser_password(pass);
-                DecodeOperation.decodeLogicOperation(OperationType.SAVE_OR_UPDATE, user, null);
+                DecodeOperation.decodeLogicOperation(OperationType.UPDATE, user, null);
                 LOGGER.debug("Updating user to -> {}", user);
             }
             else {

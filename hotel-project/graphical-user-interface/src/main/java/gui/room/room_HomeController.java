@@ -82,14 +82,14 @@ public class Room_HomeController implements Initializable {
     @FXML
     void keyPressed(KeyEvent event) {
         LOGGER.info("User pressed key -> {}", event.getCode());
-        if (event.getCode() == KeyCode.F7) { //TODO: make dirty after check out
+        if (event.getCode() == KeyCode.F7) {
             Room clean = room_table.getSelectionModel().getSelectedItem();
             LOGGER.debug("Room to clean -> {}", clean);
             if (clean.getR_status() == SE.DIRTY) {
                 int index = room_table.getItems().indexOf(clean);
                 clean.setR_status(SE.FREE);
                 room_table.getItems().set(index, clean);
-                DecodeOperation.decodeLogicOperation(OperationType.SAVE_OR_UPDATE, clean, null);
+                DecodeOperation.decodeLogicOperation(OperationType.UPDATE, clean, null);
             }
         }
     }

@@ -51,7 +51,7 @@ public class Add_HotelController implements Initializable {
                 LOGGER.debug("Renaming existing hotel to: {}", hotel);
             }
 
-            DecodeOperation.decodeLogicOperation(OperationType.SAVE_OR_UPDATE, hotel, null);
+            DecodeOperation.decodeLogicOperation(OperationType.UPDATE, hotel, null);
             
             Stage st = (Stage) hotel_name_txt.getScene().getWindow();
             st.close();

@@ -1,7 +1,8 @@
 package logic;
 
 public enum OperationType {
-    SAVE_OR_UPDATE,
+    SAVE,
+    UPDATE,
     GET_USERS,
     CHECK_USER,
     CLIENT_INFO,

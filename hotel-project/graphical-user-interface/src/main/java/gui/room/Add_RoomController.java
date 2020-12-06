@@ -47,7 +47,7 @@ public class Add_RoomController implements Initializable {
         {
             double newprice = Double.valueOf(room_price.getText());
             Room staq = new Room(room_number_txt.getText(), room_type_cb.getValue(), newprice, SE.FREE);
-            DecodeOperation.decodeLogicOperation(OperationType.SAVE_OR_UPDATE, staq, null);
+            DecodeOperation.decodeLogicOperation(OperationType.SAVE, staq, null);
             
         }
         
