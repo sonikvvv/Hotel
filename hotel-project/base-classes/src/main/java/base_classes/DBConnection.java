@@ -9,7 +9,9 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import base_classes.classes.AdditServices;
+import base_classes.classes.ClientUsedServices;
 import base_classes.classes.Clients;
+import base_classes.classes.Country;
 import base_classes.classes.Hotel;
 import base_classes.classes.Reservation;
 import base_classes.classes.Room;
@@ -36,30 +38,48 @@ public class DBConnection {
         this.session = session;
     }
 
-    public void saveOrUpdateObject(Object object) {
-        LOGGER.debug("Save Or Update");
+    public void saveObject(Object object) {
         try {
+            LOGGER.debug("Starting save.");
             session.beginTransaction();
-            session.saveOrUpdate(object.getClass().toString(), object);
-            LOGGER.trace("Saved object: {}", object);
+            session.save(object.getClass().toString(), object);
+            LOGGER.debug("Saved object: {}", object);
         } catch (Exception e) {
-            LOGGER.error("Fail to begin transaction or saving or updating {}: {}", object, e);
+            LOGGER.error("Fail to begin transaction or save failure {}: {}", object, e);
             session.getTransaction().rollback();
         }finally {
             session.getTransaction().commit();
-            LOGGER.debug("Save Or Update -> end with commit.");
+            LOGGER.debug("Save -> end with commit.");
+        }
+    }
+
+    public void updateObject(Object object) {
+        try {
+            LOGGER.debug("Starting update.");
+            session.beginTransaction();
+            session.save(object.getClass().toString(), object);
+            LOGGER.debug("Updated object: {}", object);
+        } catch (Exception e) {
+            LOGGER.error("Fail to begin transaction or update failure {}: {}", object, e);
+            session.getTransaction().rollback();
+        }finally {
+            session.getTransaction().commit();
+            LOGGER.debug("Update -> end with commit.");
         }
     }
 
     public void deleteObject(Object object) {
         try {
+            LOGGER.debug("Starting delete.");
             session.beginTransaction();
             session.delete(object.getClass().toString(), object);
+            LOGGER.debug("Deleted object: {}", object);
         } catch (Exception e) {
             LOGGER.error("Fail to begin transaction or deleting {}: {}", object, e);
             session.getTransaction().rollback();
         } finally {
             session.getTransaction().commit();
+            LOGGER.debug("Delete -> end with commit.");
         }
     }
 
@@ -344,6 +364,51 @@ public class DBConnection {
             return distinct_services;
         } catch (Exception e) {
             LOGGER.error("Problem getting distinct additional services -: {}", e);
+            return null;
+        }
+    }
+
+    public ServiceCategory getServiceCategoryByID(int id) {
+        try {
+            return session.get(ServiceCategory.class, id);
+        } catch (Exception e) {
+            LOGGER.error("Problem getting service category by id: {} -: {}", id, e);
+            return null;
+        }
+    }
+
+    public AdditServices getAdditServicesByID(int id) {
+        try {
+            return session.get(AdditServices.class, id);
+        } catch (Exception e) {
+            LOGGER.error("Problem getting additional services by id: {} -: {}", id, e);
+            return null;
+        }
+    }
+
+    public ClientUsedServices getClientUsedServicesByID(int id) {
+        try {
+            return session.get(ClientUsedServices.class, id);
+        } catch (Exception e) {
+            LOGGER.error("Problem getting client used services by id: {} -: {}", id, e);
+            return null;
+        }
+    }
+
+    public Country getCountryByID(int id) {
+        try {
+            return session.get(Country.class, id);
+        } catch (Exception e) {
+            LOGGER.error("Problem getting country by id: {} -: {}", id, e);
+            return null;
+        }
+    }
+
+    public Reservation getReservationByID(int id) {
+        try {
+            return session.get(Reservation.class, id);
+        } catch (Exception e) {
+            LOGGER.error("Problem getting reservation by id: {} -: {}", id, e);
             return null;
         }
     }
