@@ -109,6 +109,7 @@ public class Clients {
         this.check_in = LocalDateTime.now();
         this.vaucher = vaucher;
         this.hotel = hotel;
+        this.rait.add(new Raiting());
     }
 
     public LocalDate getC_bd() {
