@@ -65,8 +65,7 @@ public class ReservOperations {
         LOGGER.debug("Comparing reservations to dates {} - {}.", fromdate.toString(), todate.toString());
         for (Reservation reservation : reservations) {
             if (DateOperations.compareDates(reservation.getDate_made(), fromdate, todate)) {
-                if(reservation.getReceptionist().getUser_name().equals(data.get(2)))
-                    result.add(reservation);
+                result.add(reservation);
             }
         }
 
