@@ -5,16 +5,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.Type;
@@ -36,13 +33,11 @@ public class Clients {
     private LocalDate c_passport_date;
     private String c_car_number;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "country_id")
+    @ManyToOne
     private Country country;
     private String c_note;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(unique = false)
+    @ManyToMany
     private List<ClientUsedServices> cuds = new ArrayList<>();
 
     private LocalDateTime check_in;
@@ -52,13 +47,10 @@ public class Clients {
     private double total = 0;
     private String vaucher;
     
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "hotel_id")
+    @ManyToOne
     private Hotel hotel;
-    
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(unique = false)
+    @ManyToMany
     private List<Raiting> rait = new ArrayList<>();
 
 

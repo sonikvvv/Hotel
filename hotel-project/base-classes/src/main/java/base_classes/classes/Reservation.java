@@ -4,13 +4,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
@@ -21,18 +19,16 @@ public class Reservation {
     @SequenceGenerator(name = "reserv_generator", sequenceName = "reserv_seq", allocationSize = 1)
     private int reservation_id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Room room;
 
     @Embedded
     private ReservationForm reservation_form;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", unique = false)
+    @ManyToOne
     private User receptionist;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn( name = "hotel_id", unique = false)
+    @ManyToOne
     private Hotel hotel;
 
     private LocalDate date_made;

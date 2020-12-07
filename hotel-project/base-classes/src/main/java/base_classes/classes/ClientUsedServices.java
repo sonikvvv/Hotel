@@ -4,15 +4,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.Type;
@@ -24,8 +21,7 @@ public class ClientUsedServices {
     @SequenceGenerator(name = "cus_generator", sequenceName = "cus_seq", allocationSize = 1)
     private int cus_id;
     
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "serv_id")
+    @ManyToOne
     private AdditServices addit_service;
     private int quantity;
     private LocalDateTime purchase_date;
@@ -37,8 +33,7 @@ public class ClientUsedServices {
     @Type(type = "true_false")
     private boolean paid = false;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "hotel_id")
+    @ManyToOne
     private Hotel hotel;
 
     public ClientUsedServices() {
