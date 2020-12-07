@@ -3,6 +3,7 @@ package base_classes.classes;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -30,7 +31,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private URE user_role;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Hotel> hotel = new ArrayList<>();
 
     public User() {}

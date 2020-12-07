@@ -3,6 +3,7 @@ package base_classes.classes;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,8 +11,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 import base_classes.classes.emuns.SE;
@@ -29,16 +31,19 @@ public class Room {
     @Column(columnDefinition = "Number(10,2)")
     private double price; 
 
-    @ManyToMany
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(unique = false)
     private List<Clients> clients = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private SE r_status;
 
-    @ManyToMany
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(unique = false)
     private List<Raiting> rait = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "hotel_id")
     private Hotel hotel;
 
     public Room() {
