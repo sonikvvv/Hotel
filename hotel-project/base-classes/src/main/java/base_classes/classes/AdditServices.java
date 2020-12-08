@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PreRemove;
 import javax.persistence.SequenceGenerator;
 
 @Entity(name = "add_serv")
@@ -83,6 +84,12 @@ public class AdditServices {
 
     public static String getTableName() {
         return "add_serv";
+    }
+
+    @PreRemove
+    public void detach() {
+        this.category = null;
+        this.hotel = null;
     }
 
     public static List<String> getFields() {

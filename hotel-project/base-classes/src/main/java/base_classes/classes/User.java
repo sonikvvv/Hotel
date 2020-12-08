@@ -10,11 +10,12 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.PreRemove;
 import javax.persistence.SequenceGenerator;
 
 import base_classes.classes.emuns.URE;
-
 
 @Entity(name = "app_user")
 public class User {
@@ -32,6 +33,7 @@ public class User {
     private URE user_role;
 
     @ManyToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "hotel_id")
     private List<Hotel> hotel = new ArrayList<>();
 
     public User() {}
@@ -124,6 +126,11 @@ public class User {
 
     public void addToHotel(Hotel h) {
         this.hotel.add(h);
+    }
+
+    @PreRemove
+    public void detach() {
+        this.hotel = null;
     }
 
     public static List<String> getFields() {
