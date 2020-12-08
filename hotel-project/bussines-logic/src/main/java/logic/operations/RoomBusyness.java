@@ -29,4 +29,13 @@ public class RoomBusyness {
     public void setDate(LocalDate date) {
         this.date = date;
     }
+
+    @Override
+    public String toString() {
+        String res = "";
+        for (int i : this.room_busynes) {
+            res += i + " ";
+        }
+        return this.date.toString() + " [ " + res + "]";
+    }
 }

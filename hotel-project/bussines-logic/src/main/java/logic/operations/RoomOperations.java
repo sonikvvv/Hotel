@@ -192,9 +192,10 @@ public class RoomOperations {//TODO: fix the raiting
                 r_typeIndex = room_types.indexOf(reservation.getRoom().getR_type());
 
             for (int i = dateIndex; i <= todateIndex; i++) {
-                tmp[i][r_typeIndex] += 1;
+                if (i != 0 && todateIndex != 0){
+                    tmp[i][r_typeIndex] += 1;
+                }
             }
-            
         }
 
         for (int i = 0; i <= datesBetween.size() - 1; i++) {

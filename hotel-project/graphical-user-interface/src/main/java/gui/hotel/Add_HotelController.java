@@ -45,14 +45,14 @@ public class Add_HotelController implements Initializable {
             if (hotel == null) {
                 hotel = new Hotel(hotel_name);
                 LOGGER.debug("Creating new hotel: {}", hotel);
+                DecodeOperation.decodeLogicOperation(OperationType.SAVE, hotel, null);
             }
             else {
                 hotel.setHotel_name(hotel_name);
                 LOGGER.debug("Renaming existing hotel to: {}", hotel);
+                DecodeOperation.decodeLogicOperation(OperationType.UPDATE, hotel, null);
             }
 
-            DecodeOperation.decodeLogicOperation(OperationType.UPDATE, hotel, null);
-            
             Stage st = (Stage) hotel_name_txt.getScene().getWindow();
             st.close();
         }
