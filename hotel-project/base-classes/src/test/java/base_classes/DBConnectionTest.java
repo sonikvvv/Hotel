@@ -29,20 +29,20 @@ import base_classes.classes.emuns.URE;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DBConnectionTest {
-    private DBConnection db = new DBConnection();
-    private Country country = new Country("Testiviles"); 
-    private Hotel h1 = new Hotel("Testivile"); 
-    private ReservationForm rf = new ReservationForm("reservation_type", "room_type", "cancel_type",
+    private static DBConnection db = new DBConnection();
+    private static Country country = new Country("Testiviles"); 
+    private static Hotel h1 = new Hotel("Testivile"); 
+    private static ReservationForm rf = new ReservationForm("reservation_type", "room_type", "cancel_type",
             LocalDate.parse("2020-10-13"), LocalDate.parse("2020-10-23"), 4, 0, 1, "food_type", 1050, "status", "notes",
             "client_name");
-    private Room room = new Room("103", "Double", 1000, SE.FREE, h1); 
-    private ServiceCategory sc = new ServiceCategory("Safe", ServiceType.PROSITIVE); 
-    private User user = new User("Anastacio48", "6gGJ7LYSbNbMkom", "Mariah O'Kon", "940.249.9052 x164", URE.ADMIN); 
-    private AdditServices ads = new AdditServices("Safe 14d", sc, 15, h1);
-    private Clients client = new Clients("Susanna O'Connell", LocalDate.parse("2020-11-15"), false, "47195",
+    private static Room room = new Room("103", "Double", 1000, SE.FREE, h1); 
+    private static ServiceCategory sc = new ServiceCategory("Safe", ServiceType.PROSITIVE); 
+    private static User user = new User("Anastacio48", "6gGJ7LYSbNbMkom", "Mariah O'Kon", "940.249.9052 x164", URE.ADMIN); 
+    private static AdditServices ads = new AdditServices("Safe 14d", sc, 15, h1);
+    private static Clients client = new Clients("Susanna O'Connell", LocalDate.parse("2020-11-15"), false, "47195",
             LocalDate.parse("2020-05-13"), "67419", country, "client_note", "Multi-channelled", h1); 
-    private ClientUsedServices cus = new ClientUsedServices(ads, 3, "note", h1);
-    private Reservation res = new Reservation(user, rf, room, h1);
+    private static ClientUsedServices cus = new ClientUsedServices(ads, 3, "note", h1);
+    private static Reservation res = new Reservation(user, rf, room, h1);
 
     public DBConnectionTest() {
         List<Hotel> hotels = new ArrayList<>();
@@ -75,15 +75,15 @@ public class DBConnectionTest {
 
     @Test
     public void Test_11() { //get by id
-        Hotel get_h1 = db.getHotelById(1);
-        User get_user = db.getUserByID(1);
-        Room get_room = db.getRoomByID(1);
-        ServiceCategory get_sc = db.getServiceCategoryByID(1);
-        AdditServices get_ads = db.getAdditServicesByID(1);
-        ClientUsedServices get_cus = db.getClientUsedServicesByID(1);
-        Country get_country = db.getCountryByID(1);
-        Clients get_client = db.getClientByID(1);
-        Reservation get_res = db.getReservationByID(1);
+        Hotel get_h1 = db.getHotelById(h1.getHotel_id());
+        User get_user = db.getUserByID(user.getUser_id());
+        Room get_room = db.getRoomByID(room.getR_id());
+        ServiceCategory get_sc = db.getServiceCategoryByID(sc.getCategory_id());
+        AdditServices get_ads = db.getAdditServicesByID(ads.getServ_id());
+        ClientUsedServices get_cus = db.getClientUsedServicesByID(cus.getCus_id());
+        Country get_country = db.getCountryByID(country.getCountry_id());
+        Clients get_client = db.getClientByID(client.getC_id());
+        Reservation get_res = db.getReservationByID(res.getReservation_id());
 
         assertEquals(h1.getHotel_name(), get_h1.getHotel_name());
         assertEquals(user.getName(), get_user.getName());
@@ -131,7 +131,7 @@ public class DBConnectionTest {
 
     @Test
     public void Test_15() { //get all users by hotel
-        List<User> result = db.getUserByHotel(1);
+        List<User> result = db.getUserByHotel(h1.getHotel_id());
 
         assertNotNull(result);
         assertTrue(result.size() > 0);
@@ -143,7 +143,7 @@ public class DBConnectionTest {
 
     @Test
     public void Test_16() { //get adsitional services by hotel
-        List<AdditServices> result = db.getAdditServicesByHotel(1);
+        List<AdditServices> result = db.getAdditServicesByHotel(h1.getHotel_id());
 
         assertNotNull(result);
         assertTrue(result.size() > 0);
@@ -193,7 +193,7 @@ public class DBConnectionTest {
 
     @Test
     public void Test_22() { //get all reservations by hotel
-        List<Reservation> result = db.getAllReservationsByHotel(1);
+        List<Reservation> result = db.getAllReservationsByHotel(h1.getHotel_id());
 
         assertNotNull(result);
         assertTrue(result.size() > 0);
@@ -205,7 +205,7 @@ public class DBConnectionTest {
 
     @Test
     public void Test_23() { //get all rooms by hotel
-        List<Room> result = db.getRoomsByHotel(1);
+        List<Room> result = db.getRoomsByHotel(h1.getHotel_id());
 
         assertNotNull(result);
         assertTrue(result.size() > 0);
@@ -226,7 +226,7 @@ public class DBConnectionTest {
 
     @Test
     public void Test_25() { // get clients by hotel
-        List<Clients> result = db.getClientsByHotel(1);
+        List<Clients> result = db.getClientsByHotel(h1.getHotel_id());
 
         assertNotNull(result);
         assertTrue(result.size() > 0);
@@ -272,15 +272,15 @@ public class DBConnectionTest {
 
     @Test
     public void Test_3() { // update
-        h1 = db.getHotelById(1);
-        user = db.getUserByID(1);
-        room = db.getRoomByID(1);
-        sc = db.getServiceCategoryByID(1);
-        ads = db.getAdditServicesByID(1);
-        cus = db.getClientUsedServicesByID(1);
-        country = db.getCountryByID(1);
-        client = db.getClientByID(1);
-        res = db.getReservationByID(1);
+        h1 = db.getHotelById(h1.getHotel_id());
+        user = db.getUserByID(user.getUser_id());
+        room = db.getRoomByID(room.getR_id());
+        sc = db.getServiceCategoryByID(sc.getCategory_id());
+        ads = db.getAdditServicesByID(ads.getServ_id());
+        cus = db.getClientUsedServicesByID(cus.getCus_id());
+        country = db.getCountryByID(country.getCountry_id());
+        client = db.getClientByID(client.getC_id());
+        res = db.getReservationByID(res.getReservation_id());
 
         h1.setHotel_name("Test");
         user.setName("Test");
@@ -302,15 +302,15 @@ public class DBConnectionTest {
         db.updateObject(client);
         db.updateObject(res);
         
-        Hotel updated_h1 = db.getHotelById(1);
-        User updated_user = db.getUserByID(1);
-        Room updated_room = db.getRoomByID(1);
-        ServiceCategory updated_sc = db.getServiceCategoryByID(1);
-        AdditServices updated_ads = db.getAdditServicesByID(1);
-        ClientUsedServices updated_cus = db.getClientUsedServicesByID(1);
-        Country updated_country = db.getCountryByID(1);
-        Clients updated_client = db.getClientByID(1);
-        Reservation updated_res = db.getReservationByID(1);
+        Hotel updated_h1 = db.getHotelById(h1.getHotel_id());
+        User updated_user = db.getUserByID(user.getUser_id());
+        Room updated_room = db.getRoomByID(room.getR_id());
+        ServiceCategory updated_sc = db.getServiceCategoryByID(sc.getCategory_id());
+        AdditServices updated_ads = db.getAdditServicesByID(ads.getServ_id());
+        ClientUsedServices updated_cus = db.getClientUsedServicesByID(cus.getCus_id());
+        Country updated_country = db.getCountryByID(country.getCountry_id());
+        Clients updated_client = db.getClientByID(client.getC_id());
+        Reservation updated_res = db.getReservationByID(res.getReservation_id());
 
         assertEquals(h1.getHotel_name(), updated_h1.getHotel_name());
         assertEquals(user.getName(), updated_user.getName());
@@ -324,16 +324,26 @@ public class DBConnectionTest {
     }
 
     @Test
-    public void Test_31() { //delete 
-        db.deleteObject(h1);
-        db.deleteObject(user);
-        db.deleteObject(room);
-        db.deleteObject(sc);
-        db.deleteObject(ads);
-        db.deleteObject(cus);
-        db.deleteObject(country);
+    public void Test_31() { //delete
+        h1 = db.getHotelById(h1.getHotel_id());
+        user = db.getUserByID(user.getUser_id());
+        room = db.getRoomByID(room.getR_id());
+        sc = db.getServiceCategoryByID(sc.getCategory_id());
+        ads = db.getAdditServicesByID(ads.getServ_id());
+        cus = db.getClientUsedServicesByID(cus.getCus_id());
+        country = db.getCountryByID(country.getCountry_id());
+        client = db.getClientByID(client.getC_id());
+        res = db.getReservationByID(res.getReservation_id());
+
         db.deleteObject(client);
+        db.deleteObject(cus);
+        db.deleteObject(ads);
+        db.deleteObject(sc);
+        db.deleteObject(country);
         db.deleteObject(res);
+        db.deleteObject(room);
+        db.deleteObject(user);
+        db.deleteObject(h1);
 
         Hotel deleted_h1 = db.getHotelById(h1.getHotel_id());
         User deleted_user = db.getUserByID(user.getUser_id());
