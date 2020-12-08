@@ -8,45 +8,64 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
+import base_classes.DBConnection;
 import base_classes.classes.*;
 import base_classes.classes.emuns.*;
-import logic.operations.UserOperations;
+import logic.operations.RoomBusyness;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DecodeOperationTest {
-    private Country country = new Country("Testiviles");
-    private Hotel h1 = new Hotel("Testivile");
-    private ReservationForm rf = new ReservationForm("reservation_type", "room_type", "cancel_type",
+    private static Country country = new Country("Testiviles");
+    private static Hotel h1 = new Hotel("Testivile");
+    private static ReservationForm rf = new ReservationForm("reservation_type", "room_type", "cancel_type",
             LocalDate.parse("2020-10-13"), LocalDate.parse("2020-10-23"), 4, 0, 1, "food_type", 1050, "status", "notes",
             "client_name");
-    private Room room = new Room("103", "Double", 1000, SE.FREE, h1);
-    private ServiceCategory sc = new ServiceCategory("Safe", ServiceType.PROSITIVE);
-    private User user = new User("Anastacio48", "6gGJ7LYSbNbMkom", "Mariah O'Kon", "940.249.9052 x164", URE.ADMIN);
-    private AdditServices ads = new AdditServices("Safe 14d", sc, 15, h1);
-    private Clients client = new Clients("Susanna O'Connell", LocalDate.parse("2020-11-15"), false, "47195",
+    private static Room room = new Room("103", "Double", 1000, SE.FREE, h1);
+    private static ServiceCategory sc = new ServiceCategory("Safe", ServiceType.PROSITIVE);
+    private static User user = new User("Anastacio48", "6gGJ7LYSbNbMkom", "Mariah O'Kon", "940.249.9052 x164", URE.ADMIN);
+    private static AdditServices ads = new AdditServices("Safe 14d", sc, 15, h1);
+    private static Clients client = new Clients("Susanna O'Connell", LocalDate.parse("2020-11-15"), false, "47195",
             LocalDate.parse("2020-05-13"), "67419", country, "client_note", "Multi-channelled", h1);
-    private ClientUsedServices cus = new ClientUsedServices(ads, 3, "note", h1);
-    private Reservation res = null;
+    private static ClientUsedServices cus = new ClientUsedServices(ads, 3, "note", h1);
+    private static Reservation res = null;
 
-    private LocalDate min = LocalDate.parse("2020-10-05");
-    private LocalDate max = LocalDate.parse("2020-12-10");
+    private static LocalDate min = LocalDate.parse("2020-10-05");
+    private static LocalDate max = LocalDate.parse("2020-12-10");
+    private static LocalDate ref_min = null;
+    private static LocalDate ref_max = null;
 
-    @Before
-    public void initialize() {
-        client.addToUsedServices(cus);
+
+    @Test
+    public void Test_1() { // save
+        DecodeOperation.decodeLogicOperation(OperationType.SAVE, h1, null);
+        DecodeOperation.decodeLogicOperation(OperationType.SAVE, user, null);
+        DecodeOperation.decodeLogicOperation(OperationType.SAVE, room, null);
+        DecodeOperation.decodeLogicOperation(OperationType.SAVE, sc, null);
+        DecodeOperation.decodeLogicOperation(OperationType.SAVE, ads, null);
+        DecodeOperation.decodeLogicOperation(OperationType.SAVE, cus, null);
+        DecodeOperation.decodeLogicOperation(OperationType.SAVE, country, null);
+        
         room.addToClients(client);
-        DecodeOperation.decodeLogicOperation(OperationType.UPDATE, h1, null);
-        DecodeOperation.decodeLogicOperation(OperationType.UPDATE, user, null);
-        DecodeOperation.decodeLogicOperation(OperationType.UPDATE, room, null);
-        DecodeOperation.decodeLogicOperation(OperationType.UPDATE, sc, null);
-        DecodeOperation.decodeLogicOperation(OperationType.UPDATE, ads, null);
-        DecodeOperation.decodeLogicOperation(OperationType.UPDATE, cus, null);
-        DecodeOperation.decodeLogicOperation(OperationType.UPDATE, country, null);
-        DecodeOperation.decodeLogicOperation(OperationType.UPDATE, client, null);
+        DecodeOperation.decodeLogicOperation(OperationType.SAVE, client, null);
         res = new Reservation(user, rf, room, h1);
-        DecodeOperation.decodeLogicOperation(OperationType.UPDATE, res, null);
+        DecodeOperation.decodeLogicOperation(OperationType.SAVE, res, null);
+
+        ref_min = LocalDate.now();
+        ref_min = ref_min.plusDays(5);
+        ref_max = LocalDate.now();
+        ref_max = ref_max.plusDays(20);
+
+    }
+
+    @AfterClass
+    public static void clean_up() {
+        DBConnection db = DecodeOperation.getDb();
+        db.truncateAllTables();
     }
 
     @Test
@@ -77,7 +96,7 @@ public class DecodeOperationTest {
     public void getReceptionistTest() {
         List<?> result = DecodeOperation.decodeLogicOperation(OperationType.GET_RECEPTIONIST, null, null);
         assertNotNull(result);
-        assertTrue(result.size() != 0);
+        assertTrue(result.size() == 0);
     }
 
     @Test
@@ -131,7 +150,7 @@ public class DecodeOperationTest {
     @Test
     public void getReservationsTest() {
         List<String> data = new ArrayList<>();
-        data.add("2020-12-07");
+        data.add(LocalDate.now().toString());
 
         List<?> result = DecodeOperation.decodeLogicOperation(OperationType.GET_RESERVATIONS, null, data);
         assertNotNull(result);
@@ -140,7 +159,7 @@ public class DecodeOperationTest {
 
 
         data.clear();
-        data.add("2020-12-08");
+        data.add(ref_min.toString());
         result = DecodeOperation.decodeLogicOperation(OperationType.GET_RESERVATIONS, null, data);
         assertNotNull(result);
         assertTrue(result.size() == 0);
@@ -158,8 +177,8 @@ public class DecodeOperationTest {
         assertTrue(result.get(0) instanceof Clients);
 
         data.clear();
-        data.add("2020-12-08");
-        data.add("2020-12-20");
+        data.add(ref_min.toString());
+        data.add(ref_max.toString());
         result = DecodeOperation.decodeLogicOperation(OperationType.CLIENT_INFO, null, data);
         assertNotNull(result);
         assertTrue(result.size() == 0);
@@ -177,8 +196,8 @@ public class DecodeOperationTest {
         assertTrue(result.get(0) instanceof Clients);
 
         data.clear();
-        data.add("2020-12-08");
-        data.add("2020-12-20");
+        data.add(ref_min.toString());
+        data.add(ref_max.toString());
         result = DecodeOperation.decodeLogicOperation(OperationType.CLIENT_RAITING, null, data);
         assertNotNull(result);
         assertTrue(result.size() == 0);
@@ -186,6 +205,8 @@ public class DecodeOperationTest {
 
     @Test
     public void getUsedServicesTest() {
+        client.addToUsedServices(cus);
+        DecodeOperation.decodeLogicOperation(OperationType.UPDATE, client, null);
         List<String> data = new ArrayList<>();
         data.add(min.toString());
         data.add(max.toString());
@@ -196,11 +217,14 @@ public class DecodeOperationTest {
         assertTrue(result.get(0) instanceof ClientUsedServices);
 
         data.clear();
-        data.add("2020-12-08");
-        data.add("2020-12-20");
+        data.add(ref_min.toString());
+        data.add(ref_max.toString());
         result = DecodeOperation.decodeLogicOperation(OperationType.USED_SERVICES, null, data);
         assertNotNull(result);
         assertTrue(result.size() == 0);
+
+        client.detach();
+        DecodeOperation.decodeLogicOperation(OperationType.UPDATE, client, null);
     }
 
     @Test
@@ -215,8 +239,8 @@ public class DecodeOperationTest {
         assertTrue(result.get(0) instanceof Room);
 
         data.clear();
-        data.add("2020-12-08");
-        data.add("2020-12-20");
+        data.add(ref_min.toString());
+        data.add(ref_max.toString());
         result = DecodeOperation.decodeLogicOperation(OperationType.ROOM_RAITING, null, data);
         assertNotNull(result);
         assertTrue(result.size() == 0);
@@ -234,8 +258,8 @@ public class DecodeOperationTest {
         assertTrue(result.get(0) instanceof Reservation);
 
         data.clear();
-        data.add("2020-12-08");
-        data.add("2020-12-20");
+        data.add(ref_min.toString());
+        data.add(ref_max.toString());
         result = DecodeOperation.decodeLogicOperation(OperationType.CREATED_RESERVATIONS, null, data);
         assertNotNull(result);
         assertTrue(result.size() == 0);
@@ -254,8 +278,8 @@ public class DecodeOperationTest {
         assertTrue(result.get(0) instanceof Reservation);
 
         data.clear();
-        data.add("2020-12-08");
-        data.add("2020-12-20");
+        data.add(ref_min.toString());
+        data.add(ref_max.toString());
         data.add(user.getUser_name());
         result = DecodeOperation.decodeLogicOperation(OperationType.RECEPT_CREATED_RESERVATIONS, null, data);
         assertNotNull(result);
@@ -278,80 +302,29 @@ public class DecodeOperationTest {
     }
 
     @Test
-    public void addUserTest() {
+    public void getRecepcionistReference() {
         List<String> data = new ArrayList<>();
-        String user_name = "Webster66";
-        String pass = "gvleFm1j3e_sh0N";
-        String name = "Earline Reichert";
-        String phone = "320-885-0009";
-        String email = "Cali42@hotmail.com";
-        String hotel = h1.getHotel_name();
+        data.add(min.toString());
+        data.add(max.toString());
 
-        data.add(user_name);
-        data.add(pass);
-        data.add(name);
-        data.add(phone);
-        data.add(email);
-        data.add(hotel);
-
-        //Admin
-        DecodeOperation.decodeLogicOperation(OperationType.ADD_TO_USERS, null, data);
-
-        List<?> result = DecodeOperation.decodeLogicOperation(OperationType.GET_USERS, null, null);
-        for (Object object : result) {
-            User tmp = (User) object;
-            if (tmp.getUser_name() == user_name) {
-                assertEquals(URE.OWNER, tmp.getUser_role());
-            }
-        }
-
-        //Owner
-        UserOperations.setUser_now(new User("name", "password", URE.OWNER));
+        List<?> result = DecodeOperation.decodeLogicOperation(OperationType.RECEPTIONIST_REFERENCE, null, data);
+        assertNotNull(result);
+        // for (Object object : result) {
+        //     RoomBusyness tmp = (RoomBusyness) object;
+        //     System.out.println(tmp);
+        // }
+        assertTrue(result.size() > 0);
+        assertTrue(result.get(0) instanceof RoomBusyness);
 
         data.clear();
-        user_name = "Vincenzo_Raynor";
-        data.add(user_name);
-        data.add(pass);
-        data.add(name);
-        data.add(phone);
-        data.add(email);
-        data.add(hotel);
+        data.add(ref_min.toString());
+        data.add(ref_max.toString());
+        result = DecodeOperation.decodeLogicOperation(OperationType.RECEPTIONIST_REFERENCE, null, data);
+        assertNotNull(result);
 
-        DecodeOperation.decodeLogicOperation(OperationType.ADD_TO_USERS, null, data);
-        result = DecodeOperation.decodeLogicOperation(OperationType.GET_USERS, null, null);
         for (Object object : result) {
-            User tmp = (User) object;
-            if (tmp.getUser_name() == user_name) {
-                assertEquals(URE.MANAGER, tmp.getUser_role());
-            }
+            RoomBusyness tmp = (RoomBusyness) object;
+            assertTrue(tmp.getRoom_busynes()[0] == 0);
         }
-
-        //Manager
-        User manager = new User("Hyman_Donnelly84", "password", URE.MANAGER);
-        manager.addToHotel(h1);
-        UserOperations.setUser_now(manager);
-
-        data.clear();
-        user_name = "Vincenza.Schultz64";
-        data.add(user_name);
-        data.add(pass);
-        data.add(name);
-        data.add(phone);
-        data.add(email);
-        data.add(hotel);
-
-        DecodeOperation.decodeLogicOperation(OperationType.ADD_TO_USERS, null, data);
-        result = DecodeOperation.decodeLogicOperation(OperationType.GET_USERS, null, null);
-        for (Object object : result) {
-            User tmp = (User) object;
-            if (tmp.getUser_name() == user_name) {
-                assertEquals(URE.RECEPTIONIST, tmp.getUser_role());
-            }
-        }
-
-        manager = new User("name", "password", URE.ADMIN);
-        manager.addToHotel(h1);
-        UserOperations.setUser_now(manager);
     }
-    
 }
