@@ -84,6 +84,9 @@ public class DecodeOperation {
             case ROOM_TYPES:
                 result = RoomOperations.getRoomTypes(db);
                 break;
+            case CHECKOUT_FOR_TODAY:
+                result = ReservOperations.getCheckoutForToday(db);
+                break;
             default:
                 break;
         }
