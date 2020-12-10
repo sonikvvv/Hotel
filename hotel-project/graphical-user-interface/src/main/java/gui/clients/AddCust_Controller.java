@@ -32,6 +32,9 @@ public class AddCust_Controller implements Initializable {
     private TextField addcust_name;
 
     @FXML
+    private TextField addcust_voucher;
+
+    @FXML
     private TextField addcust_country;
 
     @FXML
@@ -61,7 +64,8 @@ public class AddCust_Controller implements Initializable {
         addcust_note.setText(client.getC_note());
         addcust_passportdate.setValue(client.getC_passport_date());
         addcust_dateofbirth.setValue(client.getC_bd());
-        addcust_sex.getSelectionModel().select(client.getC_sex() == "M"? polove.get(0):polove.get(1));
+        addcust_voucher.setText(client.getVaucher());
+        addcust_sex.getSelectionModel().select(client.getC_sex() == "M" ? polove.get(0) : polove.get(1));
     }
 
     public Clients getClient() {
@@ -85,9 +89,11 @@ public class AddCust_Controller implements Initializable {
         String PassportNumber = addcust_passportnumber.getText();
         String CarNumber = addcust_carnumber.getText();
         String Note = addcust_note.getText();
+        String vaucher = addcust_voucher.getText();
 
         if (Name.length() == 0 || Country.length() == 0 || PassportNumber.length() == 0 || CarNumber.length() == 0
-                || DateOfBirth == null || PassportDate == null || addcust_sex.getValue().length() == 0) {
+                || DateOfBirth == null || PassportDate == null || addcust_sex.getValue().length() == 0
+                || vaucher == null || vaucher.length() == 0) {
 
             Alert al = new Alert(AlertType.WARNING, "Don't leave empty fields!");
             al.showAndWait();
@@ -95,6 +101,7 @@ public class AddCust_Controller implements Initializable {
             if (client == null) {
                 client = new Clients(Name, DateOfBirth, sex, PassportNumber, PassportDate, CarNumber,
                         new Country(Country), Note);
+                        client.setVaucher(vaucher);
                 DecodeOperation.decodeLogicOperation(OperationType.SAVE, client, null);
             } else {
                 client.setC_name(Name);
@@ -104,9 +111,10 @@ public class AddCust_Controller implements Initializable {
                 client.setC_passport_date(PassportDate);
                 client.setC_car_number(CarNumber);
                 client.setC_note(Note);
+                client.setVaucher(vaucher);
                 if (!Country.equalsIgnoreCase(client.getCountry().getCountry_name()))
                     client.setCountry(new Country(Country));
-                
+
                 DecodeOperation.decodeLogicOperation(OperationType.UPDATE, client, null);
             }
         }
@@ -118,7 +126,7 @@ public class AddCust_Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         addcust_sex.setItems(polove);
-        if (client != null){
+        if (client != null) {
             addcust_name.setText(client.getC_name());
             addcust_country.setText(client.getCountry().getCountry_name());
             addcust_passportnumber.setText(client.getC_passport_number());
