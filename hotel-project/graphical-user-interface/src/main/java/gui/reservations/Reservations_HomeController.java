@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import base_classes.classes.Reservation;
+import base_classes.classes.ReservationForm;
 import base_classes.classes.User;
 import base_classes.classes.emuns.URE;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -23,6 +24,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -129,6 +131,31 @@ public class Reservations_HomeController implements Initializable {
     void rowClicked(MouseEvent event) {
         if (event.getClickCount() == 2) {
             System.out.println("2 click");
+          try {
+                Reservation temporaryReservation = reserv_table.getSelectionModel().getSelectedItem();
+                if (temporaryReservation != null) {
+                    try {
+
+                        URL location = editreservation_Controller.class.getResource("editreservation.fxml");
+                         FXMLLoader loader = new FXMLLoader(location);
+                         Parent parent = loader.load();
+                        editreservation_Controller edit = loader.getController();
+                        edit.changeEverything(temporaryReservation.getReservation_form());
+
+                        Stage st = new Stage();
+                        Scene sc;
+                        sc = new Scene(parent);
+                        st.setScene(sc);
+                        st.showAndWait();
+                       //load();
+
+                    } catch (Exception e) {
+                        LOGGER.error("Loading exeption occured -> {}", e);
+                    }
+                }
+            } catch (Exception e) {
+                LOGGER.error("Loading exeption occured -> {}", e);
+            }
 
         }
     }
