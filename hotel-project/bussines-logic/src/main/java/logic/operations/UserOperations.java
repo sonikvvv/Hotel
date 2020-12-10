@@ -129,7 +129,7 @@ public class UserOperations {
                 break;
         }
         LOGGER.debug("Result. {}", newUser.toString());
-        db.saveOrUpdateObject(newUser);
+        db.saveObject(newUser);
 
     }
 }

@@ -21,8 +21,11 @@ public class DecodeOperation {
     public static List<?> decodeLogicOperation(OperationType type, Object o, List<String> data) {
         List<?> result = new ArrayList<>();
         switch (type){
-            case SAVE_OR_UPDATE:
-                db.saveOrUpdateObject(o);
+            case SAVE:
+                db.saveObject(o);
+                break;
+            case UPDATE:
+                db.updateObject(o);
                 break;
             case GET_ADS:
                 result = AdditionalServicesOperations.getAllAdditionalServices(db);
@@ -80,6 +83,9 @@ public class DecodeOperation {
                 break;
             case ROOM_TYPES:
                 result = RoomOperations.getRoomTypes(db);
+                break;
+            case CHECKOUT_FOR_TODAY:
+                result = ReservOperations.getCheckoutForToday(db);
                 break;
             default:
                 break;

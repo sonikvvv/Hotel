@@ -10,7 +10,9 @@ import org.apache.logging.log4j.Logger;
 import base_classes.DBConnection;
 import base_classes.classes.Hotel;
 import base_classes.classes.Reservation;
+import base_classes.classes.Room;
 import base_classes.classes.User;
+import base_classes.classes.emuns.SE;
 import base_classes.classes.emuns.URE;
 
 public class ReservOperations {
@@ -43,6 +45,40 @@ public class ReservOperations {
         return result;
     }
 
+    public static List<Reservation> getCheckoutForToday(DBConnection db) {
+        LOGGER.debug("Starting getReservationsCheckout.");
+        User user_now = UserOperations.getUser_now().get(0);
+
+        List<Reservation> result = new ArrayList<>();
+        List<Reservation> reservations = new ArrayList<>();
+        if (user_now.getUser_role() == URE.ADMIN) {
+            reservations.addAll(db.getAllReservations());
+            LOGGER.debug("Getting reservations from all hotels.");
+        } else {
+            for (Hotel hotel : user_now.getHotel()) {
+                reservations.addAll(db.getAllReservationsByHotel(hotel.getHotel_id()));
+                LOGGER.debug("Getting reservations from hotel id: {}.", hotel.getHotel_id());
+            }
+        }
+
+        LocalDate today = LocalDate.now();
+        LOGGER.debug("Comparing reservations to date - {}.", today);
+        for (Reservation reservation : reservations) {
+            if (DateOperations.compareTwoDates(reservation.getDate_made(), today)) {
+                result.add(reservation);
+            }
+        }
+
+        for (Reservation reservation : result) {
+            Room tmp = reservation.getRoom();
+            tmp.setR_status(SE.CHECCK_OUT);
+            reservation.setRoom(tmp);
+            db.updateObject(reservation);
+        }
+
+        return result;
+    }
+
     public static List<Reservation> getCreatedReservations(DBConnection db, List<String> data) {
         LOGGER.debug("Starting getCreatedReservations with data {}.", data);
         User user_now = UserOperations.getUser_now().get(0);
@@ -65,8 +101,7 @@ public class ReservOperations {
         LOGGER.debug("Comparing reservations to dates {} - {}.", fromdate.toString(), todate.toString());
         for (Reservation reservation : reservations) {
             if (DateOperations.compareDates(reservation.getDate_made(), fromdate, todate)) {
-                if(reservation.getReceptionist().getUser_name().equals(data.get(2)))
-                    result.add(reservation);
+                result.add(reservation);
             }
         }
 

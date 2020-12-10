@@ -49,7 +49,8 @@ public class LoginController {
             Boolean flag = Boolean.valueOf( (String) result.get(0));
 
             if (flag == false) {
-                username_txt.setStyle("-fx-border-color: #ff0000"); // TODO: change the denied login identification
+                username_txt.setStyle("-fx-border-color: #ff0000");
+                pas_txt.setStyle("-fx-border-color: #ff0000");
                 LOGGER.debug("Login denied.");
             }else {
                 try {

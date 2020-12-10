@@ -9,6 +9,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import base_classes.classes.Hotel;
+import base_classes.classes.User;
+import base_classes.classes.emuns.URE;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -28,9 +31,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import logic.DecodeOperation;
 import logic.OperationType;
+import logic.operations.UserOperations;
 
 public class Hotel_HomeCotroller implements Initializable {
 
+    @FXML
+    private Button add_hotel_bttn;
+    
     @FXML
     private TableView<Hotel> hotel_table;
 
@@ -106,7 +113,6 @@ public class Hotel_HomeCotroller implements Initializable {
                     LOGGER.debug("Hotel for editing: {}", to_edit);
                     add_hotel.setHotel(to_edit);
                 }
-
                 
                 Stage st = new Stage();
                 Scene sc;
@@ -124,8 +130,13 @@ public class Hotel_HomeCotroller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         LOGGER.debug("Starting initialize.");
+        User user_now = UserOperations.getUser_now().get(0);
         activ.clear();
-        hotel_name_col.setCellValueFactory(new PropertyValueFactory<>("hotel_name"));        
+        hotel_name_col.setCellValueFactory(new PropertyValueFactory<>("hotel_name"));
+
+        if (user_now.getUser_role() == URE.RECEPTIONIST || user_now.getUser_role() == URE.MANAGER){
+            add_hotel_bttn.setVisible(false);
+        }
 
         load();
     }

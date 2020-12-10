@@ -12,8 +12,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.PreRemove;
 import javax.persistence.SequenceGenerator;
 
 import base_classes.classes.emuns.SE;
@@ -31,15 +32,15 @@ public class Room {
     @Column(columnDefinition = "Number(10,2)")
     private double price; 
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(unique = false)
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "c_id")
     private List<Clients> clients = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private SE r_status;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(unique = false)
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "rait_id")
     private List<Raiting> rait = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -124,6 +125,12 @@ public class Room {
 
     public void addToRait(Raiting rait) {
         this.rait.add(rait);
+    }
+
+    @PreRemove
+    public void detach() {
+        this.clients.forEach(client -> client = null);
+        this.hotel = null;
     }
 
     public static List<String> getFields() {

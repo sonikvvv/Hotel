@@ -1,7 +1,8 @@
 package logic;
 
 public enum OperationType {
-    SAVE_OR_UPDATE,
+    SAVE,
+    UPDATE,
     GET_USERS,
     CHECK_USER,
     CLIENT_INFO,
@@ -24,5 +25,6 @@ public enum OperationType {
     ADD_TO_USERS,
     CHECKOUT,
     RECEPTIONIST_REFERENCE,
-    ROOM_TYPES
+    ROOM_TYPES,
+    CHECKOUT_FOR_TODAY
 }

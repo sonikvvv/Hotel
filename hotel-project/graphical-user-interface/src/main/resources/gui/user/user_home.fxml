@@ -60,9 +60,10 @@
                            </styleClass>
                         </TableColumn>
                         <TableColumn fx:id="role_col" prefWidth="120.0" styleClass="column-header-background" text="Role" />
-                        <TableColumn fx:id="name_col" prefWidth="304.0" styleClass="column-header-background" text="Name" />
-                        <TableColumn fx:id="email_col" prefWidth="304.0" styleClass="column-header-background" text="Email" />
-                        <TableColumn fx:id="phone_n_col" prefWidth="130.0" styleClass="column-header-background" text="Phone N" />
+                        <TableColumn fx:id="name_col" prefWidth="317.0" styleClass="column-header-background" text="Name" />
+                        <TableColumn fx:id="email_col" prefWidth="140.0" styleClass="column-header-background" text="Email" />
+                        <TableColumn fx:id="phone_n_col" prefWidth="140.0" styleClass="column-header-background" text="Phone N" />
+                        <TableColumn fx:id="hotel_col" prefWidth="140.0" styleClass="column-header-background" text="Hotel" />
                      </columns>
                   </TableView>
                </children>

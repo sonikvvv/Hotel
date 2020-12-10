@@ -42,7 +42,7 @@
                         <Font size="30.0" />
                      </font>
                   </Label>
-                  <Button mnemonicParsing="false" onAction="#addHotel" styleClass="bttn" stylesheets="@../style.css" text="Add" GridPane.halignment="RIGHT" />
+                  <Button fx:id="add_hotel_bttn" mnemonicParsing="false" onAction="#addHotel" styleClass="bttn" stylesheets="@../style.css" text="Add" GridPane.halignment="RIGHT" />
                </children>
             </GridPane>
             <TableView fx:id="hotel_table" onKeyPressed="#keyPressed" prefHeight="200.0" prefWidth="202.0" styleClass="table_view" stylesheets="@../style.css" GridPane.columnIndex="1" GridPane.rowIndex="2">

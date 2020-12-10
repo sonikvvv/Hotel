@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PreRemove;
 import javax.persistence.SequenceGenerator;
 
 @Entity(name = "reservation")
@@ -22,17 +23,18 @@ public class Reservation {
     private int reservation_id;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "r_id")
     private Room room;
 
     @Embedded
     private ReservationForm reservation_form;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", unique = false)
+    @JoinColumn(name = "user_id")
     private User receptionist;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn( name = "hotel_id", unique = false)
+    @JoinColumn( name = "hotel_id")
     private Hotel hotel;
 
     private LocalDate date_made;
@@ -91,6 +93,13 @@ public class Reservation {
     }
     public void setDate_made(LocalDate date_made) {
         this.date_made = date_made;
+    }
+
+    @PreRemove
+    public void detach() {
+        this.hotel = null;
+        this.receptionist = null;
+        this.room = null;
     }
 
     public static List<String> getFields() {

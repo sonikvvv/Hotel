@@ -88,18 +88,16 @@ public class RoomOperations {//TODO: fix the raiting
                 }
             }
 
-            try {
-                Raiting max = raits.get(0);
+            Raiting max = null;
+            if (raits != null && raits.size() != 0) {
+                max = raits.get(0);
                 for (Raiting raiting : raits) {
                     if (max.getRait_value() < raiting.getRait_value()) {
                         max = raiting;
                     }
                 }
-
                 tmp.getRait().set(0, max);
                 result.add(tmp);
-            } catch (Exception e) {
-                LOGGER.error("Error occured -> {}", e);
             }
         }
 
@@ -129,9 +127,9 @@ public class RoomOperations {//TODO: fix the raiting
         LOGGER.debug("Client for check out - {}", client_for_checkout);
         room.getClients().remove(client_for_checkout);
         client_for_checkout.checkOut();
-        db.saveOrUpdateObject(client_for_checkout);
+        db.updateObject(client_for_checkout);
         LOGGER.debug("Room for update - {}", room);
-        db.saveOrUpdateObject(room);
+        db.updateObject(room);
     }
 
     public static List<String> getRoomTypes(DBConnection db) {
@@ -194,9 +192,10 @@ public class RoomOperations {//TODO: fix the raiting
                 r_typeIndex = room_types.indexOf(reservation.getRoom().getR_type());
 
             for (int i = dateIndex; i <= todateIndex; i++) {
-                tmp[i][r_typeIndex] += 1;
+                if (i != 0 && todateIndex != 0){
+                    tmp[i][r_typeIndex] += 1;
+                }
             }
-            
         }
 
         for (int i = 0; i <= datesBetween.size() - 1; i++) {

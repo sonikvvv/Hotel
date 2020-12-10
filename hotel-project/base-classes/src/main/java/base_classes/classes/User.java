@@ -10,11 +10,12 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.PreRemove;
 import javax.persistence.SequenceGenerator;
 
 import base_classes.classes.emuns.URE;
-
 
 @Entity(name = "app_user")
 public class User {
@@ -32,6 +33,7 @@ public class User {
     private URE user_role;
 
     @ManyToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "hotel_id")
     private List<Hotel> hotel = new ArrayList<>();
 
     public User() {}
@@ -48,6 +50,17 @@ public class User {
         this.name = name;
         this.phone = phone;
         this.user_role = user_role;
+    }
+
+    public User(String user_name, String user_password, String name, String phone, String email, URE user_role,
+            List<Hotel> hotel) {
+        this.user_name = user_name;
+        this.user_password = user_password;
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.user_role = user_role;
+        this.hotel = hotel;
     }
     
     public void setUser_id(int user_id) {
@@ -115,6 +128,11 @@ public class User {
         this.hotel.add(h);
     }
 
+    @PreRemove
+    public void detach() {
+        this.hotel = null;
+    }
+
     public static List<String> getFields() {
         List<String> ls = new ArrayList<>();
         ls.add("user_id");
@@ -132,5 +150,5 @@ public class User {
     @Override
     public String toString() {
         return "User [ id = " + this.user_id + " username: " + this.user_name + " role: " + this.user_role + " hotels: " + this.hotel + " ]";
-    }    
+    }
 }

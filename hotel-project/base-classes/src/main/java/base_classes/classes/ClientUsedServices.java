@@ -12,7 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.PreRemove;
 import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.Type;
@@ -24,7 +24,7 @@ public class ClientUsedServices {
     @SequenceGenerator(name = "cus_generator", sequenceName = "cus_seq", allocationSize = 1)
     private int cus_id;
     
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "serv_id")
     private AdditServices addit_service;
     private int quantity;
@@ -52,14 +52,11 @@ public class ClientUsedServices {
         calcTotal();
     }
 
-    public ClientUsedServices(AdditServices addit_service, int quantity, LocalDateTime purchase_date, String note,
-            double total, boolean paid, Hotel hotel) {
+    public ClientUsedServices(AdditServices addit_service, int quantity, String note, Hotel hotel) {
         this.addit_service = addit_service;
         this.quantity = quantity;
-        this.purchase_date = purchase_date;
+        this.purchase_date = LocalDateTime.now();
         this.note = note;
-        this.total = total;
-        this.paid = paid;
         this.hotel = hotel;
     }
 
@@ -131,6 +128,12 @@ public class ClientUsedServices {
     private void calcTotal() {
         double total = this.quantity * this.addit_service.getPrice();
         this.total = total;
+    }
+
+    @PreRemove
+    public void detach() {
+        this.addit_service = null;
+        this.hotel = null;
     }
 
     public static List<String> getFields() {

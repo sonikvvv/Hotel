@@ -64,6 +64,19 @@ public class Room_HomeController implements Initializable {
 
     private static final Logger LOGGER = LogManager.getLogger(Room_HomeController.class);
 
+    private void load() {
+        LOGGER.debug("Starting load.");
+        List<?> result = DecodeOperation.decodeLogicOperation(OperationType.GET_ROOMS, null, null);
+        if (result != null && result.size() != 0) {
+            for (Object object : result) {
+                Room tmp = (Room) object;
+                activ.add(tmp);
+            }
+        }
+
+        room_table.getItems().setAll(activ);
+    }
+
     @FXML
     void add_btn(ActionEvent event) {
         LOGGER.info("User clicked add room.");
@@ -72,7 +85,8 @@ public class Room_HomeController implements Initializable {
             Stage st = new Stage();
             Scene sc = new Scene(FXMLLoader.load(getClass().getResource("add_room.fxml")));
             st.setScene(sc);
-            st.show();
+            st.showAndWait();
+            load();
             LOGGER.debug("Room view scene loaded succesfuly.");
         } catch (Exception e) {
             LOGGER.error("Loading exeption occured -> {}", e);
@@ -82,14 +96,29 @@ public class Room_HomeController implements Initializable {
     @FXML
     void keyPressed(KeyEvent event) {
         LOGGER.info("User pressed key -> {}", event.getCode());
-        if (event.getCode() == KeyCode.F7) { //TODO: make dirty after check out
-            Room clean = room_table.getSelectionModel().getSelectedItem();
-            LOGGER.debug("Room to clean -> {}", clean);
-            if (clean.getR_status() == SE.DIRTY) {
-                int index = room_table.getItems().indexOf(clean);
-                clean.setR_status(SE.FREE);
-                room_table.getItems().set(index, clean);
-                DecodeOperation.decodeLogicOperation(OperationType.SAVE_OR_UPDATE, clean, null);
+        if (event.getCode() == KeyCode.F7) {
+            Room room = room_table.getSelectionModel().getSelectedItem();
+            LOGGER.debug("Room to clean -> {}", room);
+            if (room.getR_status() == SE.DIRTY) {
+                int index = room_table.getItems().indexOf(room);
+                room.setR_status(SE.FREE);
+                room_table.getItems().set(index, room);
+                DecodeOperation.decodeLogicOperation(OperationType.UPDATE, room, null);
+            }
+        } else if (event.getCode() == KeyCode.F6) {
+            Room room = room_table.getSelectionModel().getSelectedItem();
+            LOGGER.debug("Room to make out of order -> {}", room);
+            if (room.getR_status() == SE.FREE) {
+                int index = room_table.getItems().indexOf(room);
+                room.setR_status(SE.OUT_OF_ORDER);
+                room_table.getItems().set(index, room);
+                DecodeOperation.decodeLogicOperation(OperationType.UPDATE, room, null);
+            }
+            else if (room.getR_status() == SE.OUT_OF_ORDER) {
+                int index = room_table.getItems().indexOf(room);
+                room.setR_status(SE.DIRTY);
+                room_table.getItems().set(index, room);
+                DecodeOperation.decodeLogicOperation(OperationType.UPDATE, room, null);
             }
         }
     }
@@ -137,7 +166,7 @@ public class Room_HomeController implements Initializable {
             new Callback<TableColumn.CellDataFeatures<Room, String>, ObservableValue<String>>() {
                 @Override
                 public ObservableValue<String> call(CellDataFeatures<Room, String> param) {
-                    return new SimpleStringProperty(param.getValue().getR_status().toString());
+                    return new SimpleStringProperty(param.getValue().getR_status().toString()/*.replace("_", " ")*/);
                 }
         });
 
@@ -156,16 +185,7 @@ public class Room_HomeController implements Initializable {
             
         });
 
-        List<?> result = DecodeOperation.decodeLogicOperation(OperationType.GET_ROOMS, null, null);
-        if(result != null && result.size() != 0) {
-            for (Object object : result) {
-                Room tmp = (Room) object;
-                activ.add(tmp);
-            }
-        }
-
-        room_table.getItems().setAll(activ);
-
+        load();
     }
 
 }

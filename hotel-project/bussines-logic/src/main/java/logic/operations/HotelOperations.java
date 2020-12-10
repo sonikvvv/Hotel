@@ -13,16 +13,7 @@ import base_classes.classes.emuns.URE;
 
 
 public class HotelOperations {
-    private Hotel hotel_now;
     private static final Logger LOGGER = LogManager.getLogger(ClientOperations.class);
-
-    public Hotel getHotel_now() {
-        return hotel_now;
-    }
-
-    public void setHotel_now(Hotel hotel_now) {
-        this.hotel_now = hotel_now;
-    }
 
 	public static List<Hotel> getHotels(DBConnection db) {
         LOGGER.debug("Starting getHotels.");

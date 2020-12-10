@@ -139,19 +139,21 @@ public class ClientOperations {
                 }
             }
 
-            Raiting max = raits.get(0);
-            for (Raiting raiting : raits) {
-                if(max.getRait_value() < raiting.getRait_value()){
-                    max = raiting;
+            Raiting max = null;
+            if (raits != null && raits.size() != 0) {
+                max = raits.get(0);
+                for (Raiting raiting : raits) {
+                    if(max.getRait_value() < raiting.getRait_value()){
+                        max = raiting;
+                    }
                 }
+                tmp.getRait().set(0, max);
+                result.add(tmp);
             }
-
-            tmp.getRait().set(0, max);
-            result.add(tmp);
         }
 
-        LOGGER.debug("Result. - {}", clientList);
+        LOGGER.debug("Result. - {}", result);
 
-        return clientList; 
+        return result; 
     }
 }
