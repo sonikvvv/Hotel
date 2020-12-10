@@ -1,14 +1,19 @@
 package gui;
 
-import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.controlsfx.control.Notifications;
 
+import base_classes.classes.Reservation;
 import base_classes.classes.User;
 import base_classes.classes.emuns.URE;
+import gui.notification.NotificationController;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +23,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
+import logic.DecodeOperation;
+import logic.OperationType;
 import logic.operations.UserOperations;
 
 public class HomeController extends Application implements Initializable {
@@ -47,6 +55,42 @@ public class HomeController extends Application implements Initializable {
     private AnchorPane main_view_pane;
 
     private static final Logger LOGGER = LogManager.getLogger(HomeController.class);
+
+    private List<Reservation> for_notifying = new ArrayList<>();
+
+    private static LocalDate date = null;
+
+    private void notifyUser() {
+        List<?> for_checkout = DecodeOperation.decodeLogicOperation(OperationType.CHECKOUT_FOR_TODAY, null, null);
+        if (for_checkout != null && for_checkout.size() != 0){
+            for (Object object : for_checkout) {
+                for_notifying.add((Reservation) object);
+            }
+
+            if (date == null || !date.isEqual(LocalDate.now())){
+                NotificationController.setActiv(for_notifying);
+                Notifications notify = Notifications.create();
+                notify.hideAfter(javafx.util.Duration.seconds(5));
+                notify.text("You have " + for_notifying.size() + " new notification.");
+                notify.hideAfter(Duration.seconds(10));
+                notify.darkStyle();
+                notify.showInformation();
+                date = LocalDate.now();
+            }
+        }
+    }
+
+    @FXML
+    void notification(ActionEvent event) {
+        try {
+            LOGGER.info("User clciked notifications button.");
+            LOGGER.debug("Starting notification services.");
+            AnchorPane next = FXMLLoader.load(getClass().getResource("notification/notifications.fxml"));
+            main_view_pane.getChildren().setAll(next);
+        } catch (Exception e) {
+            LOGGER.error("Loading exeption occured -> {}", e);
+        }
+    }
 
     @FXML
     void ads(ActionEvent event) {
@@ -81,31 +125,33 @@ public class HomeController extends Application implements Initializable {
     }
 
     @FXML
-    void reservations(ActionEvent event) throws IOException {
+    void reservations(ActionEvent event) {
         try {
             LOGGER.info("User clicked reservations button.");
             LOGGER.debug("Starting reservations.");
             AnchorPane next = FXMLLoader.load(getClass().getResource("reservations/reservations_home.fxml"));
             main_view_pane.getChildren().setAll(next);
+            notifyUser();
         } catch (Exception e) {
             LOGGER.error("Loading exeption occured -> {}", e);
         }
     }
 
     @FXML
-    void rooms(ActionEvent event) throws IOException {
+    void rooms(ActionEvent event) {
         try {
             LOGGER.info("User clicked rooms button.");
             LOGGER.debug("Starting rooms.");
             AnchorPane next = FXMLLoader.load(getClass().getResource("room/room_home.fxml"));
             main_view_pane.getChildren().setAll(next);
+            notifyUser();
         } catch (Exception e) {
             LOGGER.error("Loading exeption occured -> {}", e);
         }
     }
 
     @FXML
-    void users(ActionEvent event) throws IOException {
+    void users(ActionEvent event) {
         try {
             LOGGER.info("User clicked users button.");
             LOGGER.debug("Statring users.");
@@ -117,7 +163,7 @@ public class HomeController extends Application implements Initializable {
     }
 
     @FXML
-    void hotels(ActionEvent event) throws IOException {
+    void hotels(ActionEvent event) {
         try {
             LOGGER.info("User clicked hotels button.");
             LOGGER.debug("Starting hotels.");
@@ -132,11 +178,9 @@ public class HomeController extends Application implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         LOGGER.debug("Starting initialize.");
         User user_now = UserOperations.getUser_now().get(0);
-        if (user_now.getUser_role() != URE.ADMIN){
+        if (user_now.getUser_role() != URE.ADMIN && user_now.getUser_role() != URE.OWNER){
             hotel_btn.setVisible(false);
         }
-        main_view_pane.getScene();
-
     }
 
     @Override
