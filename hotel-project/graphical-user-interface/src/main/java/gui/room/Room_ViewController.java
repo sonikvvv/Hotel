@@ -14,6 +14,7 @@ import base_classes.classes.ClientUsedServices;
 import base_classes.classes.Clients;
 import base_classes.classes.Room;
 import base_classes.classes.User;
+import base_classes.classes.emuns.SE;
 import base_classes.classes.emuns.URE;
 import gui.clients.AddCust_Controller;
 import javafx.beans.property.SimpleStringProperty;
@@ -217,6 +218,7 @@ public class Room_ViewController implements Initializable {
             st.setScene(sc);
             st.showAndWait();
 
+            r.setR_status(SE.OCCUPIED);
             r.addToClients(cust.getClient());
             DecodeOperation.decodeLogicOperation(OperationType.UPDATE, r, null);
 

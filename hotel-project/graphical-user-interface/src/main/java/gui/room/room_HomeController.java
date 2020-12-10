@@ -97,13 +97,28 @@ public class Room_HomeController implements Initializable {
     void keyPressed(KeyEvent event) {
         LOGGER.info("User pressed key -> {}", event.getCode());
         if (event.getCode() == KeyCode.F7) {
-            Room clean = room_table.getSelectionModel().getSelectedItem();
-            LOGGER.debug("Room to clean -> {}", clean);
-            if (clean.getR_status() == SE.DIRTY) {
-                int index = room_table.getItems().indexOf(clean);
-                clean.setR_status(SE.FREE);
-                room_table.getItems().set(index, clean);
-                DecodeOperation.decodeLogicOperation(OperationType.UPDATE, clean, null);
+            Room room = room_table.getSelectionModel().getSelectedItem();
+            LOGGER.debug("Room to clean -> {}", room);
+            if (room.getR_status() == SE.DIRTY) {
+                int index = room_table.getItems().indexOf(room);
+                room.setR_status(SE.FREE);
+                room_table.getItems().set(index, room);
+                DecodeOperation.decodeLogicOperation(OperationType.UPDATE, room, null);
+            }
+        } else if (event.getCode() == KeyCode.F6) {
+            Room room = room_table.getSelectionModel().getSelectedItem();
+            LOGGER.debug("Room to make out of order -> {}", room);
+            if (room.getR_status() == SE.FREE) {
+                int index = room_table.getItems().indexOf(room);
+                room.setR_status(SE.OUT_OF_ORDER);
+                room_table.getItems().set(index, room);
+                DecodeOperation.decodeLogicOperation(OperationType.UPDATE, room, null);
+            }
+            else if (room.getR_status() == SE.OUT_OF_ORDER) {
+                int index = room_table.getItems().indexOf(room);
+                room.setR_status(SE.DIRTY);
+                room_table.getItems().set(index, room);
+                DecodeOperation.decodeLogicOperation(OperationType.UPDATE, room, null);
             }
         }
     }
@@ -151,7 +166,7 @@ public class Room_HomeController implements Initializable {
             new Callback<TableColumn.CellDataFeatures<Room, String>, ObservableValue<String>>() {
                 @Override
                 public ObservableValue<String> call(CellDataFeatures<Room, String> param) {
-                    return new SimpleStringProperty(param.getValue().getR_status().toString());
+                    return new SimpleStringProperty(param.getValue().getR_status().toString()/*.replace("_", " ")*/);
                 }
         });
 
