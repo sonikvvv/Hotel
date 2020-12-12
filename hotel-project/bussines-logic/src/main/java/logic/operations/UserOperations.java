@@ -68,22 +68,26 @@ public class UserOperations {
         LOGGER.debug("Starting getReceptionists.");
         User user_now = UserOperations.getUser_now().get(0);
         List<User> result = new ArrayList<>();
-        List<User> receptionists = getUsers(db);
-        for (User user : receptionists) {
-            if (user.getUser_role() == URE.RECEPTIONIST){
-                for (Hotel hotel : user.getHotel()) {
-                    for (Hotel hotel2 : user_now.getHotel()) {
-                        if (hotel.getHotel_id() == hotel2.getHotel_id()) {
-                            result.add(user);
-                            break;
-                        }
-                    }
-                }
+        List<User> receptionists = new ArrayList<>();
+
+        if (user_now.getUser_role() == URE.ADMIN) {
+            result = db.getAllUsers();
+            LOGGER.debug("Getting users from all hotels.");
+        } else if (user_now.getUser_role() == URE.OWNER) {
+            List<Hotel> hotels = UserOperations.user_now.getHotel();
+            for (Hotel hotel : hotels) {
+                result.addAll(db.getUserByHotel(hotel.getHotel_id()));
+                LOGGER.debug("Getting users from hotel id: {}.", hotel.getHotel_id());
             }
         }
 
-        LOGGER.debug("Result. {}", result);
-        return result;
+        for (User user : result) {
+            if (user.getUser_role() == URE.RECEPTIONIST)
+                receptionists.add(user);
+        }
+
+        LOGGER.debug("Result. {}", receptionists);
+        return receptionists;
     }
 
     public static void addUser(DBConnection db, List<String> data) {
