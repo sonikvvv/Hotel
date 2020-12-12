@@ -4,7 +4,7 @@
 }
 
 .label_login {
-    -fx-text-fill: #c5c6c7;
+    -fx-text-fill: #c5c6c7b7;
     -fx-font-size: 40;
     -fx-text-aligment: center;
 }
@@ -266,4 +266,25 @@ th {
     -fx-border-style: solid;
     -fx-padding: 0 -50 0 0;
     -fx-background-color: #0d7377;
+}
+
+.logo {
+    -fx-font-family: 'perpetua';
+    -fx-text-fill:  #555555a9;
+}
+
+.logoB {
+    -fx-font-size: 450;
+}
+
+.logoM {
+    -fx-font-size: 300;
+}
+
+.logoS {
+    -fx-font-size: 150;
+}
+
+.logoXS {
+    -fx-font-size: 75;
 }
