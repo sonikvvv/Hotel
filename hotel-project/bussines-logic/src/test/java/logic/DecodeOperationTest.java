@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +43,11 @@ public class DecodeOperationTest {
 
     @Test
     public void Test_1() { // save
+        cus.setPurchase_date(LocalDateTime.of(2020, 11, 10, 0, 0, 0));
+        client.setCheck_in(LocalDateTime.of(2020, 11, 10, 0, 0, 0));
+        for (Raiting raiting : client.getRait()) {
+            raiting.setDate_made(LocalDateTime.of(2020, 11, 10, 0, 0, 0));
+        }
         DecodeOperation.decodeLogicOperation(OperationType.SAVE, h1, null);
         DecodeOperation.decodeLogicOperation(OperationType.SAVE, user, null);
         DecodeOperation.decodeLogicOperation(OperationType.SAVE, room, null);
@@ -53,6 +59,7 @@ public class DecodeOperationTest {
         room.addToClients(client);
         DecodeOperation.decodeLogicOperation(OperationType.SAVE, client, null);
         res = new Reservation(user, rf, room, h1);
+        res.setDate_made(LocalDate.of(2020, 11, 10));
         DecodeOperation.decodeLogicOperation(OperationType.SAVE, res, null);
 
         ref_min = LocalDate.now();
@@ -150,7 +157,7 @@ public class DecodeOperationTest {
     @Test
     public void getReservationsTest() {
         List<String> data = new ArrayList<>();
-        data.add(LocalDate.now().toString());
+        data.add(LocalDate.of(2020, 11, 10).toString());
 
         List<?> result = DecodeOperation.decodeLogicOperation(OperationType.GET_RESERVATIONS, null, data);
         assertNotNull(result);
@@ -236,14 +243,14 @@ public class DecodeOperationTest {
         List<?> result = DecodeOperation.decodeLogicOperation(OperationType.ROOM_RAITING, null, data);
         assertNotNull(result);
         assertTrue(result.size() > 0);
-        assertTrue(result.get(0) instanceof Room);
+        assertTrue(result.get(0) instanceof String);
 
         data.clear();
         data.add(ref_min.toString());
         data.add(ref_max.toString());
         result = DecodeOperation.decodeLogicOperation(OperationType.ROOM_RAITING, null, data);
         assertNotNull(result);
-        assertTrue(result.size() == 0);
+        assertTrue(result.size() != 0);
     }
 
     @Test
