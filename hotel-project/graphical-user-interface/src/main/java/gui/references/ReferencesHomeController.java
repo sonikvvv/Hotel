@@ -12,7 +12,6 @@ import org.apache.logging.log4j.Logger;
 import base_classes.classes.ClientUsedServices;
 import base_classes.classes.Clients;
 import base_classes.classes.Reservation;
-import base_classes.classes.Room;
 import base_classes.classes.User;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -63,25 +62,50 @@ public class ReferencesHomeController implements Initializable {
         LOGGER.info("User clicked room raiting.");
         LOGGER.debug("Starting room raiting.");
         removeNodeByRowColumnIndex(0, 2, sub_grid);
-        TableView<Room> room_rait_table = new TableView<>();
+        TableView<String> room_rait_table = new TableView<>();
         room_rait_table.getStyleClass().add("table_view");
-        TableColumn<Room, String> room_num_col = new TableColumn<>("Number");
-        TableColumn<Room, String> type_col = new TableColumn<>("Type");
-        TableColumn<Room, Number> raiting_col = new TableColumn<>("Rating");
-        ObservableList<Room> activ = FXCollections.observableArrayList();
+        TableColumn<String, String> type_col = new TableColumn<>("Type");
+        TableColumn<String, String> raiting_col = new TableColumn<>("Rating");
+        TableColumn<String, String> ocupied_col = new TableColumn<>("Occupied rooms");
+        ObservableList<String> rating = FXCollections.observableArrayList();
 
-        room_num_col.getStyleClass().add(style);
         type_col.getStyleClass().add(style);
         raiting_col.getStyleClass().add(style);
+        ocupied_col.getStyleClass().add(style);
 
-        room_num_col.setCellValueFactory(new PropertyValueFactory<>("r_number"));
-        type_col.setCellValueFactory(new PropertyValueFactory<>("r_type"));
-        raiting_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Room,Number>,ObservableValue<Number>>(){
+        type_col.setPrefWidth(150);
+        raiting_col.setPrefWidth(150);
+        ocupied_col.setPrefWidth(150);
+
+        type_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<String,String>,ObservableValue<String>>(){
+
             @Override
-            public ObservableValue<Number> call(CellDataFeatures<Room, Number> param) {
-                return new SimpleDoubleProperty(param.getValue().getRait().get(0).getRait_value());
+            public ObservableValue<String> call(CellDataFeatures<String, String> param) {
+                String[] type = param.getValue().split(" ");
+                return new SimpleStringProperty(type[0]);
             }
+            
         });
+        
+        raiting_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<String,String>,ObservableValue<String>>(){
+
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<String, String> param) {
+                String[] rait = param.getValue().split(" ");
+                return new SimpleStringProperty(rait[1]);
+            }
+            
+        });
+
+        ocupied_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<String, String>, ObservableValue<String>>() {
+
+                    @Override
+                    public ObservableValue<String> call(CellDataFeatures<String, String> param) {
+                        String[] rait = param.getValue().split(" ");
+                        return new SimpleStringProperty(rait[2]);
+                    }
+
+                });
 
         LocalDate fromD = fromDate.getValue();
         LocalDate toD = toDate.getValue();
@@ -93,16 +117,16 @@ public class ReferencesHomeController implements Initializable {
         List<?> room = DecodeOperation.decodeLogicOperation(OperationType.ROOM_RAITING, null, data);
         if (room != null && room.size() != 0) {
             for (Object object : room) {
-                Room tmp = (Room) object;
-                activ.add(tmp);
+                String tmp = (String) object;
+                rating.add(tmp);
             }
         }
 
-        room_rait_table.getColumns().add(room_num_col);
         room_rait_table.getColumns().add(type_col);
         room_rait_table.getColumns().add(raiting_col);
-
-        room_rait_table.getItems().setAll(activ);
+        room_rait_table.getColumns().add(ocupied_col);
+        
+        room_rait_table.getItems().setAll(rating);
 
         sub_grid.add(room_rait_table, 2, 0);
     }
