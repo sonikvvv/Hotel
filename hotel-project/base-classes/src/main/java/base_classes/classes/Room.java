@@ -39,10 +39,6 @@ public class Room {
     @Enumerated(EnumType.STRING)
     private SE r_status;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "rait_id")
-    private List<Raiting> rait = new ArrayList<>();
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
@@ -55,7 +51,6 @@ public class Room {
         this.r_type = r_type;
         this.price = price;
         this.r_status = r_status;
-        this.rait.add(new Raiting());
     }
 
     public Room(String r_number, String r_type, double price, SE r_status, Hotel hotel) {
@@ -64,7 +59,6 @@ public class Room {
         this.price = price;
         this.r_status = r_status;
         this.hotel = hotel;
-        this.rait.add(new Raiting());
     }
 
     public List<Clients> getClients() {
@@ -84,9 +78,6 @@ public class Room {
     }
     public String getR_type() {
         return r_type;
-    }
-    public List<Raiting> getRait() {
-        return rait;
     }
     public Hotel getHotel() {
         return hotel;
@@ -111,9 +102,6 @@ public class Room {
     public void setR_type(String r_type) {
         this.r_type = r_type;
     }
-    public void setRait(List<Raiting> rait) {
-        this.rait = rait;
-    }
     public void setHotel(Hotel hotel) {
         this.hotel = hotel;
     }
@@ -121,10 +109,6 @@ public class Room {
 
     public void addToClients(Clients client) {
         this.clients.add(client);
-    }
-
-    public void addToRait(Raiting rait) {
-        this.rait.add(rait);
     }
 
     @PreRemove
