@@ -1,7 +1,6 @@
 package logic.operations;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,14 +11,13 @@ import org.apache.logging.log4j.Logger;
 import base_classes.DBConnection;
 import base_classes.classes.Clients;
 import base_classes.classes.Hotel;
-import base_classes.classes.Raiting;
 import base_classes.classes.Reservation;
 import base_classes.classes.Room;
 import base_classes.classes.User;
 import base_classes.classes.emuns.SE;
 import base_classes.classes.emuns.URE;
 
-public class RoomOperations {//TODO: fix the raiting
+public class RoomOperations {
 
     private static List<Room> temporal = new ArrayList<>();
     private static final Logger LOGGER = LogManager.getLogger(ClientOperations.class);
@@ -58,46 +56,48 @@ public class RoomOperations {//TODO: fix the raiting
         return rooms;
     }
 
-    public static List<Room> getRoomRait(DBConnection db, List<String> data) {
+    public static List<String> getRoomRait(DBConnection db, List<String> data) {
         LOGGER.debug("Starting getRoomRait with data - {}", data);
-        User user_now = UserOperations.getUser_now().get(0);
-        List<Room> result = new ArrayList<>();
-        List<Room> rooms = new ArrayList<>();
+        List<String> result = new ArrayList<>();
+        List<RoomBusyness> roomBusynesses = getRoomBusyness(db, data);
+        List<String> room_types = db.getDistinctRoomTypes();
+        
+        int[] tmp = new int[roomBusynesses.get(0).getRoom_busynes().length];
 
-        if (user_now.getUser_role() == URE.ADMIN) {
-            rooms.addAll(db.getAllRooms());
-            LOGGER.debug("Getting room from all hotels.");
-        } else {
-            for (Hotel hotel : user_now.getHotel()) {
-                rooms.addAll(db.getRoomsByHotel(hotel.getHotel_id()));
-                LOGGER.debug("Getting room from hotel id: {}.", hotel.getHotel_id());
+        for (int i = 0; i < tmp.length; i++) {
+            for (RoomBusyness rBusyness : roomBusynesses) {
+                tmp[i] += rBusyness.getRoom_busynes()[i];
             }
         }
 
-        LocalDateTime fromdate = DateOperations.toDateAndTime(data.get(0));
-        LocalDateTime todate = DateOperations.toDateAndTimeEndOfDay(data.get(1));
+        int max = tmp[0];
+        int min = tmp[0];
 
-        LOGGER.debug("Comparing room raits by dates {} - {} ", fromdate, todate);
-        for (Room room : rooms) {
-            Room tmp = room;
-            List<Raiting> raits = new ArrayList<>();
+        for (int i : tmp) { // finding min and max
+            if (i > max)
+                max = i;
+            if (i < min)
+                min = i;
+        }
 
-            for (Raiting raiting : tmp.getRait()) {
-                if (DateOperations.compareDateTime(raiting.getDate_made(), fromdate, todate)){
-                    raits.add(raiting);
+        LOGGER.debug("Found the max room uses -> {}", max);
+        LOGGER.debug("Found the min room uses -> {}", min);
+
+        double step = (double)(max - min) / 10;
+        double[] raiting = new double[11];
+
+        for (int i = 0; i < raiting.length; i++) {
+            raiting[i] = i * step + min;
+        }
+
+        LOGGER.debug("Calculated the raiting array -> {}", raiting.toString());
+        
+        for (int index = 0; index < tmp.length; index++) {
+            for (int i = 0; i < raiting.length; i++) {
+                if (tmp[index] <= raiting[i]) {
+                    result.add(room_types.get(index) + " " + i + " " + tmp[index]);
+                    break;
                 }
-            }
-
-            Raiting max = null;
-            if (raits != null && raits.size() != 0) {
-                max = raits.get(0);
-                for (Raiting raiting : raits) {
-                    if (max.getRait_value() < raiting.getRait_value()) {
-                        max = raiting;
-                    }
-                }
-                tmp.getRait().set(0, max);
-                result.add(tmp);
             }
         }
 
