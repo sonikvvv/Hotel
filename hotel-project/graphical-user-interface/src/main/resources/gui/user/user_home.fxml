@@ -51,7 +51,7 @@
             </GridPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="root" stylesheets="@../style.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
-                  <TableView fx:id="user_table" onKeyPressed="#keyPressed" prefHeight="650.0" prefWidth="1010.0" styleClass="table_view" stylesheets="@../style.css">
+                  <TableView fx:id="user_table" onKeyPressed="#keyPressed" onMouseClicked="#editUser" prefHeight="650.0" prefWidth="1010.0" styleClass="table_view" stylesheets="@../style.css">
                      <columns>
                         <TableColumn fx:id="user_name_col" prefWidth="150.0" text="User Name">
                            <styleClass>

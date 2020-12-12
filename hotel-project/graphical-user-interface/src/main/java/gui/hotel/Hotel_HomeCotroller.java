@@ -28,6 +28,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import logic.DecodeOperation;
 import logic.OperationType;
@@ -83,6 +84,36 @@ public class Hotel_HomeCotroller implements Initializable {
     }
 
     @FXML
+    void editHotel(MouseEvent event) {
+        if (event.getClickCount() == 2) {
+            LOGGER.debug("Starting edit hotel.");
+            
+            try {
+                URL location = Hotel_HomeCotroller.class.getResource("add_hotel.fxml");
+                FXMLLoader loader = new FXMLLoader(location);
+                Parent parent = loader.load();
+                Add_HotelController add_hotel = loader.getController();
+
+                Hotel to_edit = hotel_table.getSelectionModel().getSelectedItem();
+                if (to_edit != null) {
+                    LOGGER.debug("Hotel for editing: {}", to_edit);
+                    add_hotel.setHotel(to_edit);
+                }
+
+                Stage st = new Stage();
+                Scene sc;
+                sc = new Scene(parent);
+                st.setScene(sc);
+                st.showAndWait();
+                load();
+                LOGGER.debug("Add hotel scene loaded succesfuly.");
+            } catch (Exception e) {
+                LOGGER.error("Loading exeption occured -> {}", e);
+            }
+        }
+    }
+
+    @FXML
     void keyPressed(KeyEvent event) {
         LOGGER.info("User pressed key -> {}", event.getCode());
         LOGGER.debug("Starting key pressed.");
@@ -100,29 +131,6 @@ public class Hotel_HomeCotroller implements Initializable {
                     hotel_table.getItems().remove(to_delete);
                     DecodeOperation.decodeLogicOperation(OperationType.DELETE, to_delete, null);
                 }
-            }
-        } else if (event.getCode() == KeyCode.F2) {
-            try {
-                URL location = Hotel_HomeCotroller.class.getResource("add_hotel.fxml");
-                FXMLLoader loader = new FXMLLoader(location);
-                Parent parent = loader.load();
-                Add_HotelController add_hotel = loader.getController();
-
-                Hotel to_edit = hotel_table.getSelectionModel().getSelectedItem();
-                if (to_edit != null) {
-                    LOGGER.debug("Hotel for editing: {}", to_edit);
-                    add_hotel.setHotel(to_edit);
-                }
-                
-                Stage st = new Stage();
-                Scene sc;
-                sc = new Scene(parent);
-                st.setScene(sc);
-                st.showAndWait();
-                load();
-                LOGGER.debug("Add hotel scene loaded succesfuly.");
-            } catch (Exception e) {
-                LOGGER.error("Loading exeption occured -> {}", e);
             }
         }
     }

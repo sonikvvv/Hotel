@@ -45,7 +45,7 @@
                   <Button fx:id="add_hotel_bttn" mnemonicParsing="false" onAction="#addHotel" styleClass="bttn" stylesheets="@../style.css" text="Add" GridPane.halignment="RIGHT" />
                </children>
             </GridPane>
-            <TableView fx:id="hotel_table" onKeyPressed="#keyPressed" prefHeight="200.0" prefWidth="202.0" styleClass="table_view" stylesheets="@../style.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <TableView fx:id="hotel_table" onKeyPressed="#keyPressed" onMouseClicked="#editHotel" prefHeight="200.0" prefWidth="202.0" styleClass="table_view" stylesheets="@../style.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <columns>
                   <TableColumn fx:id="hotel_name_col" prefWidth="1009.0" style="-fx-background-color: transparent;" styleClass="table-row-cell" text="Hotel Name" />
                </columns>

@@ -31,6 +31,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import logic.DecodeOperation;
@@ -114,29 +115,11 @@ public class User_HomeController implements Initializable {
     }
 
     @FXML
-    void keyPressed(KeyEvent event) {
-        LOGGER.info("User pressed key -> {}.", event.getCode());
-        LOGGER.debug("Starting key pressed.");
-        User user_now = UserOperations.getUser_now().get(0);
-        
-        if (event.getCode() == KeyCode.DELETE) {
-            if (user_now.getUser_role() == URE.ADMIN) {
-                Alert al = new Alert(AlertType.CONFIRMATION);
-                al.setContentText("Delete this user?");
-                Optional<ButtonType> result = al.showAndWait();
-                User to_delete;
-
-                if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
-                    to_delete = user_table.getSelectionModel().getSelectedItem();
-                    if (to_delete != null) {
-                        LOGGER.info("Deleting user: {}", to_delete);
-                        user_table.getItems().remove(to_delete);
-                        DecodeOperation.decodeLogicOperation(OperationType.DELETE, to_delete, null);
-                    }
-                }
-            }
-        } else if (event.getCode() == KeyCode.F2) {
-            if (user_now.getUser_role() != URE.RECEPTIONIST){
+    void editUser(MouseEvent event) {
+        if (event.getClickCount() == 2) {
+            User user_now = UserOperations.getUser_now().get(0);
+            LOGGER.debug("Starting edit user.");
+            if (user_now.getUser_role() != URE.RECEPTIONIST) {
                 try {
                     URL location;
                     boolean controller = false;
@@ -164,8 +147,7 @@ public class User_HomeController implements Initializable {
                             LOGGER.info("Updating user: {}", to_edit);
                             add_user_to_hotel.setUser(to_edit);
                         }
-                    }
-                    else {
+                    } else {
                         add_user = loader.getController();
                         to_edit = user_table.getSelectionModel().getSelectedItem();
                         if (to_edit != null) {
@@ -173,7 +155,7 @@ public class User_HomeController implements Initializable {
                             add_user.setUser(to_edit);
                         }
                     }
-                    
+
                     Stage st = new Stage();
                     Scene sc;
                     sc = new Scene(parent);
@@ -187,7 +169,31 @@ public class User_HomeController implements Initializable {
                 }
             }
         }
+    }
+
+    @FXML
+    void keyPressed(KeyEvent event) {
+        LOGGER.info("User pressed key -> {}.", event.getCode());
+        LOGGER.debug("Starting key pressed.");
+        User user_now = UserOperations.getUser_now().get(0);
         
+        if (event.getCode() == KeyCode.DELETE) {
+            if (user_now.getUser_role() == URE.ADMIN) {
+                Alert al = new Alert(AlertType.CONFIRMATION);
+                al.setContentText("Delete this user?");
+                Optional<ButtonType> result = al.showAndWait();
+                User to_delete;
+
+                if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
+                    to_delete = user_table.getSelectionModel().getSelectedItem();
+                    if (to_delete != null) {
+                        LOGGER.info("Deleting user: {}", to_delete);
+                        user_table.getItems().remove(to_delete);
+                        DecodeOperation.decodeLogicOperation(OperationType.DELETE, to_delete, null);
+                    }
+                }
+            }
+        }        
     }
 
     @Override
