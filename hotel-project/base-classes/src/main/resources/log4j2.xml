@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
     <Properties>
-        <Property name="basePath">D:\Programing\Java\hotel\Hotel\hotel-project\logs</Property>
+        <Property name="basePath">../logs</Property>
     </Properties>
 
     <Appenders>
