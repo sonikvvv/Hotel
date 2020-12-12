@@ -52,7 +52,7 @@ public class UserOperations {
         if (user_now.getUser_role() == URE.ADMIN) {
             result = db.getAllUsers();
             LOGGER.debug("Getting users from all hotels.");
-        } else if (user_now.getUser_role() == URE.OWNER){
+        } else {
             List<Hotel> hotels = UserOperations.user_now.getHotel();
             for (Hotel hotel : hotels) {
                 result.addAll(db.getUserByHotel(hotel.getHotel_id()));
@@ -73,7 +73,7 @@ public class UserOperations {
         if (user_now.getUser_role() == URE.ADMIN) {
             result = db.getAllUsers();
             LOGGER.debug("Getting users from all hotels.");
-        } else if (user_now.getUser_role() == URE.OWNER) {
+        } else {
             List<Hotel> hotels = UserOperations.user_now.getHotel();
             for (Hotel hotel : hotels) {
                 result.addAll(db.getUserByHotel(hotel.getHotel_id()));
