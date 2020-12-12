@@ -381,7 +381,8 @@ public class DBConnection {
         
     }
 
-    public List<String> getDistinctRoomTypes() { // single 7 double 11
+    // select DISTINCT r_type, count(*) from room group by r_type;
+    public List<String> getDistinctRoomTypes() {
         LOGGER.debug("Starting get distinct room types.");
         String sql = "select DISTINCT r_type from room"; 
         try {

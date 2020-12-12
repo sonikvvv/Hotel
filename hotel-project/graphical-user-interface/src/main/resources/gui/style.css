@@ -31,12 +31,41 @@
     -fx-border-color: #0d7377;
 }
 
-.txt_field{
+.controls:focused {
+    -fx-background-radius: 12px;
+    -fx-background-color: #0d7377;
+    -fx-text-fill:#c5c6c7;
+    -fx-border-color: #0d7377;
+}
+
+.txt_field {
     -fx-background-color:  transparent;
     -fx-border-color: #c5c6c7;
     -fx-border-width: 0 0 3 0;
     -fx-font-size: 15;
     -fx-text-fill: #c5c6c7;
+}
+
+.txt_field .virtual-flow .scroll-bar:vertical,
+.txt_field .virtual-flow .scroll-bar:vertical .track,
+.txt_field .virtual-flow .scroll-bar:vertical .track-background,
+.txt_field .virtual-flow .scroll-bar:horizontal,
+.txt_field .virtual-flow .scroll-bar:horizontal .track,
+.txt_field .virtual-flow .scroll-bar:horizontal .track-background {
+    -fx-background-color: transparent;
+}
+
+.txt_field .virtual-flow .scroll-bar .increment-button,
+.txt_field .virtual-flow .scroll-bar .decrement-button {
+    -fx-opacity: 0;
+    -fx-padding: 2;
+}
+
+.txt_field .virtual-flow .scroll-bar:vertical .thumb{
+    -fx-background-color:  #555555a9;
+}
+.txt_field .virtual-flow .scroll-bar:horizontal .thumb {
+    -fx-background-color:  #555555a9;
 }
 
 .bttn {
@@ -51,6 +80,12 @@
 }
 
 .bttn:hover {
+    -fx-background-radius: 12px;
+    -fx-background-color: #45a29d;
+    -fx-text-fill: #212121;
+}
+
+.bttn:focused {
     -fx-background-radius: 12px;
     -fx-background-color: #45a29d;
     -fx-text-fill: #212121;

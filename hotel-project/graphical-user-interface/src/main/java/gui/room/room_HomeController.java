@@ -66,6 +66,7 @@ public class Room_HomeController implements Initializable {
 
     private void load() {
         LOGGER.debug("Starting load.");
+        activ.clear();
         List<?> result = DecodeOperation.decodeLogicOperation(OperationType.GET_ROOMS, null, null);
         if (result != null && result.size() != 0) {
             for (Object object : result) {
@@ -137,7 +138,8 @@ public class Room_HomeController implements Initializable {
                         Stage st = new Stage();
                         Scene sc = new Scene(FXMLLoader.load(getClass().getResource("room_view.fxml")));
                         st.setScene(sc);
-                        st.show();
+                        st.showAndWait();
+                        load();
                         LOGGER.debug("Room view scene loaded succesfuly.");
                     } catch (Exception e) {
                         LOGGER.error("Loading exeption occured -> {}", e);

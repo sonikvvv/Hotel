@@ -11,7 +11,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import base_classes.classes.Reservation;
-import base_classes.classes.ReservationForm;
 import base_classes.classes.User;
 import base_classes.classes.emuns.URE;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -186,7 +185,7 @@ public class Reservations_HomeController implements Initializable {
         }
     }
 
-    @Override
+    @Override // TODO: make checks for reserv form and room else generates errors
     public void initialize(URL location, ResourceBundle resources) {
         LOGGER.debug("Starting initialize.");
         
