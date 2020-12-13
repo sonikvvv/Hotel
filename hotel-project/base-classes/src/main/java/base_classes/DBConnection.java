@@ -110,7 +110,7 @@ public class DBConnection {
             User result = query.uniqueResult();
             return result;
         } catch (Exception e) {
-            LOGGER.error("No unique user with this name: {} -: {}", data, e);
+            LOGGER.error("No unique user with this name: {} -> {}", data, e);
             return null;
         }
     }
@@ -120,7 +120,7 @@ public class DBConnection {
             LOGGER.debug("Starting get user by id -> {}", id);
             return session.get(User.class, id);
         } catch (Exception e) {
-            LOGGER.error("User with id not found {" + id + "} -: {} ", e);
+            LOGGER.error("User with id not found {" + id + "} -> {} ", e);
             return null;
         }
     }
@@ -151,7 +151,7 @@ public class DBConnection {
             query.setParameter("role", type);
             return query.list();
         } catch (Exception e) {
-            LOGGER.error("Problem with getting users by role: {} -: {}", type, e);
+            LOGGER.error("Problem with getting users by role: {} -> {}", type, e);
             return null;
         }
     }
@@ -168,7 +168,7 @@ public class DBConnection {
             query.setParameter("hotel_id", hotel_id);
             return query.list();
         } catch (Exception e) {
-            LOGGER.error("Problem with getting users by hotel id: {} -: {}", hotel_id, e);
+            LOGGER.error("Problem with getting users by hotel id: {} -> {}", hotel_id, e);
             return null;
         }
     }
@@ -185,7 +185,7 @@ public class DBConnection {
             query.setParameter("hotel_id", hotel_id);
             return query.list();
         } catch (Exception e) {
-            LOGGER.error("Problem with getting additional services by hotel id: {} -: {}", hotel_id, e);
+            LOGGER.error("Problem with getting additional services by hotel id: {} -> {}", hotel_id, e);
             return null;
         }
     }
@@ -200,7 +200,7 @@ public class DBConnection {
             query = session.createQuery(sql_comand, AdditServices.class);
             return query.list();
         } catch (Exception e) {
-            LOGGER.error("Problem with getting all additional services. -: {}", e);
+            LOGGER.error("Problem with getting all additional services. -> {}", e);
             return null;
         }
 
@@ -216,7 +216,7 @@ public class DBConnection {
             query = session.createQuery(sql_comand, ServiceCategory.class);
             return query.list();
         } catch (Exception e) {
-            LOGGER.error("Problem with getting all service categories -: {}", e);
+            LOGGER.error("Problem with getting all service categories -> {}", e);
             return null;
         }
     }
@@ -226,7 +226,7 @@ public class DBConnection {
             LOGGER.debug("Starting get hotel by id -> {}", hotel_id);
             return session.get(Hotel.class, hotel_id);
         } catch (Exception e) {
-            LOGGER.error("Problem with getting hotel by id: {} -: {}", hotel_id, e);
+            LOGGER.error("Problem with getting hotel by id: {} -> {}", hotel_id, e);
             return null;
         }
     }
@@ -242,7 +242,7 @@ public class DBConnection {
             query.setParameter("name", name);
             return query.uniqueResult();
         } catch (Exception e) {
-            LOGGER.error("Problem with getting hotel by name: {} -: {}", name, e);
+            LOGGER.error("Problem with getting hotel by name: {} -> {}", name, e);
             return null;
         }
     }
@@ -257,7 +257,7 @@ public class DBConnection {
             query = session.createQuery(sql_comand, Hotel.class);
             return query.list();
         } catch (Exception e) {
-            LOGGER.error("Problem with getting all hotels -: {}", e);
+            LOGGER.error("Problem with getting all hotels -> {}", e);
             return null;
         }
     }
@@ -274,7 +274,7 @@ public class DBConnection {
             query.setParameter("hotel_id", hotel_id);
             return query.list();
         } catch (Exception e) {
-            LOGGER.error("Problem getting reservations by hotel id: {} -: {}", hotel_id, e);
+            LOGGER.error("Problem getting reservations by hotel id: {} -> {}", hotel_id, e);
             return null;
         }
     }
@@ -284,7 +284,7 @@ public class DBConnection {
             LOGGER.debug("Starting get room by id -> {}", id);
             return session.get(Room.class, id);
         } catch (Exception e) {
-            LOGGER.error("Problem getting room by id: {} -: {}", id, e);
+            LOGGER.error("Problem getting room by id: {} -> {}", id, e);
             return null;
         }
     }
@@ -301,7 +301,7 @@ public class DBConnection {
             query.setParameter("hotel_id", hotel_id);
             return query.list();
         } catch (Exception e) {
-            LOGGER.error("Problem getting rooms by hotel id: {} -: {}", hotel_id, e);
+            LOGGER.error("Problem getting rooms by hotel id: {} -> {}", hotel_id, e);
             return null;
         }
 
@@ -317,7 +317,7 @@ public class DBConnection {
             query = session.createQuery(sql_comand, Room.class);
             return query.list();
         } catch (Exception e) {
-            LOGGER.error("Problem getting all rooms -: {}", e);
+            LOGGER.error("Problem getting all rooms -> {}", e);
             return null;
         }
     }
@@ -327,7 +327,7 @@ public class DBConnection {
             LOGGER.debug("Starting get client by id -> {}", id);
             return session.get(Clients.class, id);
         } catch (Exception e) {
-            LOGGER.error("Problem getting client by id: {} -: {}", id, e);
+            LOGGER.error("Problem getting client by id: {} -> {}", id, e);
             return null;
         }
     }
@@ -344,7 +344,7 @@ public class DBConnection {
             query.setParameter("hotel_id", hotel_id);
             return query.list();
         } catch (Exception e) {
-            LOGGER.error("Problem getting clients by hotel id: {} -: {}", hotel_id, e);
+            LOGGER.error("Problem getting clients by hotel id: {} -> {}", hotel_id, e);
             return null;
         }
         
@@ -360,7 +360,7 @@ public class DBConnection {
             query = session.createQuery(sql_comand, Clients.class);
             return query.list();
         } catch (Exception e) {
-            LOGGER.error("Problem getting all clients -: {}", e);
+            LOGGER.error("Problem getting all clients -> {}", e);
             return null;
         }
     }
@@ -375,7 +375,7 @@ public class DBConnection {
             query = session.createQuery(sql_comand, Reservation.class);
             return query.list();
         } catch (Exception e) {
-            LOGGER.error("Problem getting all reservations -: {}", e);
+            LOGGER.error("Problem getting all reservations -> {}", e);
             return null;
         }
         
@@ -397,7 +397,7 @@ public class DBConnection {
             LOGGER.debug("Result -> {}", distinct_roomTypes);
             return distinct_roomTypes;
         } catch (Exception e) {
-            LOGGER.error("Problem getting distinct room types -: {}", e);
+            LOGGER.error("Problem getting distinct room types -> {}", e);
             return null;
         }
     }
@@ -417,7 +417,7 @@ public class DBConnection {
             LOGGER.debug("Result -> {}", distinct_services);
             return distinct_services;
         } catch (Exception e) {
-            LOGGER.error("Problem getting distinct additional services -: {}", e);
+            LOGGER.error("Problem getting distinct additional services -> {}", e);
             return null;
         }
     }
@@ -427,7 +427,7 @@ public class DBConnection {
             LOGGER.debug("Starting get service categories by id -> {}", id);
             return session.get(ServiceCategory.class, id);
         } catch (Exception e) {
-            LOGGER.error("Problem getting service category by id: {} -: {}", id, e);
+            LOGGER.error("Problem getting service category by id: {} -> {}", id, e);
             return null;
         }
     }
@@ -437,7 +437,7 @@ public class DBConnection {
             LOGGER.debug("Starting get additional services by id -> {}", id);
             return session.get(AdditServices.class, id);
         } catch (Exception e) {
-            LOGGER.error("Problem getting additional services by id: {} -: {}", id, e);
+            LOGGER.error("Problem getting additional services by id: {} -> {}", id, e);
             return null;
         }
     }
@@ -447,7 +447,7 @@ public class DBConnection {
             LOGGER.debug("Starting get client used services by id -> {}", id);
             return session.get(ClientUsedServices.class, id);
         } catch (Exception e) {
-            LOGGER.error("Problem getting client used services by id: {} -: {}", id, e);
+            LOGGER.error("Problem getting client used services by id: {} -> {}", id, e);
             return null;
         }
     }
@@ -457,7 +457,7 @@ public class DBConnection {
             LOGGER.debug("Starting get country by id -> {}", id);
             return session.get(Country.class, id);
         } catch (Exception e) {
-            LOGGER.error("Problem getting country by id: {} -: {}", id, e);
+            LOGGER.error("Problem getting country by id: {} -> {}", id, e);
             return null;
         }
     }
@@ -467,7 +467,7 @@ public class DBConnection {
             LOGGER.debug("Starting get reservation by id -> {}", id);
             return session.get(Reservation.class, id);
         } catch (Exception e) {
-            LOGGER.error("Problem getting reservation by id: {} -: {}", id, e);
+            LOGGER.error("Problem getting reservation by id: {} -> {}", id, e);
             return null;
         }
     }
