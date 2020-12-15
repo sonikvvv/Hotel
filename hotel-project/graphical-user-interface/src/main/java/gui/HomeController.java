@@ -70,7 +70,6 @@ public class HomeController extends Application implements Initializable {
             if (date == null || !date.isEqual(LocalDate.now())){
                 NotificationController.setActiv(for_notifying);
                 Notifications notify = Notifications.create();
-                notify.hideAfter(javafx.util.Duration.seconds(5));
                 notify.text("You have " + for_notifying.size() + " new notification.");
                 notify.hideAfter(Duration.seconds(10));
                 notify.darkStyle();
