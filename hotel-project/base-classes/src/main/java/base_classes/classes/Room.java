@@ -86,6 +86,7 @@ public class Room {
 
     public void setClients(List<Clients> clients) {
         this.clients = clients;
+        this.r_status = SE.OCCUPIED;
     }
     public void setPrice(double price) {
         this.price = price;
@@ -109,6 +110,7 @@ public class Room {
 
     public void addToClients(Clients client) {
         this.clients.add(client);
+        this.r_status = SE.OCCUPIED;
     }
 
     @PreRemove
