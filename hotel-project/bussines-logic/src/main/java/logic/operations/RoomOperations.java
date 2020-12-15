@@ -22,6 +22,7 @@ public class RoomOperations {
     private static List<Room> temporal = new ArrayList<>();
     private static final Logger LOGGER = LogManager.getLogger(ClientOperations.class);
 
+        
     public static List<Room> getTemporal() {
         LOGGER.debug("Starting getTemporal.");
         return temporal;
@@ -55,6 +56,78 @@ public class RoomOperations {
         LOGGER.debug("Result. {}", rooms);
         return rooms;
     }
+
+    public static List<Room> getFreeRooms(DBConnection db, List<String> data) 
+    {
+        User user_now = UserOperations.getUser_now().get(0);
+        List<Room> rooms = new ArrayList<>();
+
+        if (user_now.getUser_role() == URE.ADMIN) {
+            rooms.addAll(db.getAllRooms());
+            LOGGER.debug("Getting rooms from all hotels.");
+        } else {
+            for (Hotel hotel : user_now.getHotel()) {
+                rooms.addAll(db.getRoomsByHotel(hotel.getHotel_id()));
+                LOGGER.debug("Getting rooms from hotel id: {}.", hotel.getHotel_id());
+            }
+        }
+        
+        List<Reservation> reservationResult = new ArrayList<>();
+
+        if (user_now.getUser_role() == URE.ADMIN) {
+            reservationResult.addAll(db.getAllReservations());
+            LOGGER.debug("Getting rooms from all hotels.");
+        } else {
+            for (Hotel hotel : user_now.getHotel()) {
+                reservationResult.addAll(db.getAllReservationsByHotel(hotel.getHotel_id()));
+                LOGGER.debug("Getting rooms from hotel id: {}.", hotel.getHotel_id());
+            }
+        }
+        LocalDate from = DateOperations.toDate(data.get(0));
+        LocalDate to = DateOperations.toDate(data.get(1));
+        for (Reservation reservation : reservationResult) 
+        {
+           
+            // if(from.isAfter(reservation.getReservation_form().getEnd_date()) || to.isBefore(reservation.getReservation_form().getStart_date()))
+            // {
+            //     //vsichko e ok
+            // }
+            // else
+            // {
+            //     System.out.println("Mahame rezervaciq s dati: " + reservation.getReservation_form().getStart_date().toString() + " za nacholo i " + reservation.getReservation_form().getEnd_date().toString() + " za krai");
+            //     rooms.remove(reservation.getRoom());
+            // }
+
+              if (DateOperations.compareDates(reservation.getReservation_form().getStart_date(), from, to))
+            {
+            rooms.remove(reservation.getRoom());
+            }
+             else if (DateOperations.compareDates(reservation.getReservation_form().getEnd_date(), from, to))
+            {
+                rooms.remove(reservation.getRoom());
+            }
+            else if (from.isBefore(reservation.getReservation_form().getStart_date()) && to.isAfter(reservation.getReservation_form().getEnd_date()))
+            {
+                rooms.remove(reservation.getRoom());
+            }
+            else if(reservation.getReservation_form().getStart_date().isBefore(from) && reservation.getReservation_form().getEnd_date().isAfter(to))
+            {
+                rooms.remove(reservation.getRoom());
+            }
+
+
+    
+            
+        }
+
+        
+        return rooms;
+        
+    }
+
+
+
+
 
     public static List<String> getRoomRait(DBConnection db, List<String> data) {
         LOGGER.debug("Starting getRoomRait with data - {}", data);
