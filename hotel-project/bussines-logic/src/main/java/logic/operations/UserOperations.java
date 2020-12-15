@@ -25,21 +25,16 @@ public class UserOperations {
         UserOperations.user_now = user_now;
     }
 
-    public UserOperations() {
-        Hotel h = new Hotel("Testivile");
-        h.setHotel_id(1);
-        user_now.addToHotel(h);
-    }
-
     public static List<String> authenticationOperation(DBConnection db, List<String> data) {
         LOGGER.debug("Starting authenticationOperation with data {}.", data);
         User user = db.getUserByUsername(data.get(0));
         List <String> result = new ArrayList<>();
         if (user == null) result.add("false");
         else {
-            if (user.getUser_password().equals(data.get(1)))
+            if (user.getUser_password().equals(data.get(1))) {
                 result.add("true");
                 setUser_now(user);
+            } else result.add("false");
         }
 
         LOGGER.debug("Result. {}", result);
