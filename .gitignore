@@ -32,7 +32,7 @@ target
 *.code-workspace
 *.vscode
 *.settings
-*.project
-*.factorypath
-*.classpath
+*/.project
+*/.factorypath
+*/.classpath
 GUI/Hotel Aplication/*
