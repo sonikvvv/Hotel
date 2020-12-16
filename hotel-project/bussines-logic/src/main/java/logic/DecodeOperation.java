@@ -87,6 +87,9 @@ public class DecodeOperation {
             case CHECKOUT_FOR_TODAY:
                 result = ReservOperations.getCheckoutForToday(db);
                 break;
+            case GET_FREE_ROOMS:
+             result = RoomOperations.getFreeRooms(db, data);
+             break;
             default:
                 break;
         }
