@@ -30,3 +30,9 @@ target
 **/testpom.txt
 **/todo.md
 *.code-workspace
+*.vscode
+*.settings
+*.project
+*.factorypath
+*.classpath
+GUI/Hotel Aplication/*
