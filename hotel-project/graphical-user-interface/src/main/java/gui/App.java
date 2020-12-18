@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import org.apache.logging.log4j.LogManager;
@@ -22,9 +23,9 @@ public class App extends Application {
     public void start(Stage stage) {
         try {
             LOGGER.debug("Starting application with values _> {}.", stage);
-            scene = new Scene(loadFXML("home_view1")); // login/login
-            // scene = new Scene(loadFXML("room/add_room"));
+            scene = new Scene(loadFXML("login/login")); // login/login
             stage.setScene(scene);
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("./icons/logo3.png")));
             stage.show();
         } catch (Exception e) {
             LOGGER.error("Loading exeption occured -> {}", e);
