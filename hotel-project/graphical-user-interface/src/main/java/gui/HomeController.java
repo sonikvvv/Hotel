@@ -52,6 +52,9 @@ public class HomeController extends Application implements Initializable {
     private Button hotel_btn;
 
     @FXML
+    private Button clients_btn;
+
+    @FXML
     private AnchorPane main_view_pane;
 
     private static final Logger LOGGER = LogManager.getLogger(HomeController.class);
@@ -76,6 +79,18 @@ public class HomeController extends Application implements Initializable {
                 notify.showInformation();
                 date = LocalDate.now();
             }
+        }
+    }
+
+    @FXML
+    void clients(ActionEvent event) {
+        try {
+            LOGGER.info("User clciked clients button.");
+            LOGGER.debug("Starting clients services.");
+            AnchorPane next = FXMLLoader.load(getClass().getResource("clients/clients_home.fxml"));
+            main_view_pane.getChildren().setAll(next);
+        } catch (Exception e) {
+            LOGGER.error("Loading exeption occured -> {}", e);
         }
     }
 

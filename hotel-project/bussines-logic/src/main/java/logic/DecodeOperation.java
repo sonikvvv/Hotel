@@ -88,8 +88,11 @@ public class DecodeOperation {
                 result = ReservOperations.getCheckoutForToday(db);
                 break;
             case GET_FREE_ROOMS:
-             result = RoomOperations.getFreeRooms(db, data);
-             break;
+                result = RoomOperations.getFreeRooms(db, data);
+                break;
+            case GET_CLIENTS:
+                result = ClientOperations.getClients(db);
+                break;
             default:
                 break;
         }

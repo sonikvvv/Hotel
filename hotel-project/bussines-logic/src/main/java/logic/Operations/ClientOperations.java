@@ -19,6 +19,24 @@ import base_classes.classes.emuns.URE;
 public class ClientOperations {
     private static final Logger LOGGER = LogManager.getLogger(ClientOperations.class);
 
+    public static List<Clients> getClients(DBConnection db) {
+        LOGGER.debug("Starting getClients with data ");
+        List<Clients> clientList = new ArrayList<>();
+        User user_now = UserOperations.getUser_now().get(0);
+        if (user_now.getUser_role() == URE.ADMIN) {
+            clientList = db.getAllClients();
+            LOGGER.debug("Getting clients from all hotels.");
+        } else {
+            for (Hotel hotel : user_now.getHotel()) {
+                clientList.addAll(db.getClientsByHotel(hotel.getHotel_id()));
+                LOGGER.debug("Getting clients from hotel id: {}.", hotel.getHotel_id());
+            }
+        }
+
+        LOGGER.debug("Result. getClientsInfo {} ", clientList.toString());
+        return clientList;
+    }
+
     public static List<Clients> getClientsInfo(DBConnection db, List<String> data) {
         LOGGER.debug("Starting getClientsInfo with data {}", data);
         List<Clients> clientList = new ArrayList<>();
