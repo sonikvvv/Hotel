@@ -11,6 +11,12 @@
                 <TimeBasedTriggeringPolicy interval="1" modulate="true" />
             </Policies>
         </RollingFile>
+        <RollingFile name="debugFile" fileName="${basePath}/debug.log" filePattern="${basePath}/debug-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{36} - %msg%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+            </Policies>
+        </RollingFile>
 
         <Console name="console" target="SYSTEM_OUT">
             <PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{36} - %msg%n" />
@@ -18,25 +24,30 @@
     </Appenders>
     <Loggers>
         <Logger name="org.hibernate" level="error" additivity="false">
+            <AppenderRef ref="debugFile" />
             <AppenderRef ref="fileLogger" />
         </Logger>
-        <!--Logger name="org.hibernate.SQL" level="debug" additivity="false">
-            <AppenderRef ref="fileLogger" />
+        <Logger name="org.hibernate.SQL" level="debug" additivity="false">
+            <AppenderRef ref="debugFile" />
         </Logger>
         <Logger name="org.hibernate.type.descriptor.sql" level="trace" additivity="false">
-            <AppenderRef ref="fileLogger" />
-        </Logger-->
+            <AppenderRef ref="debugFile" />
+        </Logger>
         <Logger name="base_classes" level="debug" additivity="false">
-            <AppenderRef ref="fileLogger" />
+            <AppenderRef ref="debugFile" />
         </Logger>
         <Logger name="logic" level="debug" additivity="false">
-            <AppenderRef ref="fileLogger" />
+            <AppenderRef ref="debugFile" />
         </Logger>
         <Logger name="gui" level="debug" additivity="false">
+            <AppenderRef ref="debugFile" />
+        </Logger>
+        <Logger name="gui" level="info" additivity="false">
             <AppenderRef ref="fileLogger" />
         </Logger>
         <Root level="info" additivity="false">
             <appender-ref ref="console" />
+            <AppenderRef ref="fileLogger" />
         </Root>
     </Loggers>
 </Configuration>
