@@ -217,6 +217,9 @@ public class Clients {
 
 
     public void addToUsedServices(ClientUsedServices cus) {
+        if (cus.getHotel() == null){
+            cus.setHotel(this.getHotel());
+        }
         this.cuds.add(cus);
         calcTotal();
     }
