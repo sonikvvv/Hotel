@@ -26,7 +26,7 @@ public class UserOperations {
     }
 
     public static List<String> authenticationOperation(DBConnection db, List<String> data) {
-        LOGGER.debug("Starting authenticationOperation with data {}.", data);
+        LOGGER.debug("Starting authenticationOperation with data {}.", data.get(0));
         User user = db.getUserByUsername(data.get(0));
         List <String> result = new ArrayList<>();
         if (user == null) result.add("false");
