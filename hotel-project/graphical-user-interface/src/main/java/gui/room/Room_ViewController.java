@@ -15,6 +15,7 @@ import base_classes.classes.Clients;
 import base_classes.classes.Room;
 import base_classes.classes.User;
 import base_classes.classes.emuns.URE;
+import gui.additional_services.services_add_controller;
 import gui.clients.AddCust_Controller;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -80,6 +81,7 @@ public class Room_ViewController implements Initializable {
     private static final Logger LOGGER = LogManager.getLogger(Room_ViewController.class);
 
     private List<Clients> clList = null;
+    private String client_name = "";
     private Room r = null;
 
     private void load() {
@@ -107,6 +109,7 @@ public class Room_ViewController implements Initializable {
                     ads_table.getItems().clear();
                     activ.clear();
                     if (e.getClickCount() == 1) {
+                        client_name = ((Button) e.getSource()).getText();
                         paid_col.setCellValueFactory(
                                 new Callback<TableColumn.CellDataFeatures<ClientUsedServices, String>, ObservableValue<String>>() {
                                     @Override
@@ -197,7 +200,45 @@ public class Room_ViewController implements Initializable {
 
     @FXML
     void ads_add(ActionEvent event) {
-        // TODO:
+        try {
+            LOGGER.info("User clicked add service button.");
+            LOGGER.debug("Starting add service to room.");
+            URL location = this.getClass().getResource("../additional_services/services_add.fxml");
+            FXMLLoader loader = new FXMLLoader(location);
+            Parent parent = loader.load();
+
+            Clients client = null;
+            for (Clients cl : clList) {
+                if (cl.getC_name().equalsIgnoreCase(client_name)) {
+                    client = cl;
+                }
+            }
+
+            if (client != null && client.getC_name().length() != 0) {
+                services_add_controller add_service = loader.getController();
+
+                Stage st = new Stage();
+                Scene sc;
+                sc = new Scene(parent);
+                st.setScene(sc);
+                st.showAndWait();
+
+                ClientUsedServices cus = add_service.getCus();
+                client.addToUsedServices(cus);
+                
+                LOGGER.debug("Added service to client's list -> {}", cus);
+                DecodeOperation.decodeLogicOperation(OperationType.UPDATE, client, null);
+            }
+            else {
+                Alert al = new Alert(AlertType.WARNING, "You need to select a client in the room first!");
+                al.showAndWait();
+            }
+
+            load();
+            LOGGER.debug("Add service scene loaded succesfuly.");
+        } catch (Exception e) {
+            LOGGER.error("Loading exeption occured -> {}", e);
+        }
     }
 
     @FXML
