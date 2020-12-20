@@ -34,6 +34,9 @@ public class AdditionalServicesOperations {
     }
 
     public static List<ServiceCategory> getCategories(DBConnection db) {
-        return db.getAllServiceCategories();
+        LOGGER.debug("Starting get categories.");
+        List<ServiceCategory> result = db.getAllServiceCategories();
+        LOGGER.debug("Result -> {}", result.toString());
+        return result;
     }
 }

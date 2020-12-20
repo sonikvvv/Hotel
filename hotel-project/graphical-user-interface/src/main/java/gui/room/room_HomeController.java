@@ -99,7 +99,7 @@ public class Room_HomeController implements Initializable {
         LOGGER.info("User pressed key -> {}", event.getCode());
         if (event.getCode() == KeyCode.F7) {
             Room room = room_table.getSelectionModel().getSelectedItem();
-            LOGGER.debug("Room to clean -> {}", room);
+            LOGGER.debug("Room to make clean or dirty-> {}", room);
             if (room.getR_status() == SE.DIRTY) {
                 int index = room_table.getItems().indexOf(room);
                 room.setR_status(SE.FREE);
@@ -113,7 +113,7 @@ public class Room_HomeController implements Initializable {
             }
         } else if (event.getCode() == KeyCode.F6) {
             Room room = room_table.getSelectionModel().getSelectedItem();
-            LOGGER.debug("Room to make out of order -> {}", room);
+            LOGGER.debug("Room to make out of order or dirty -> {}", room);
             if (room.getR_status() == SE.OUT_OF_ORDER) {
                 int index = room_table.getItems().indexOf(room);
                 room.setR_status(SE.DIRTY);

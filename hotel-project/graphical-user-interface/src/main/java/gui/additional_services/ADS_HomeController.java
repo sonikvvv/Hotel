@@ -45,6 +45,7 @@ public class ADS_HomeController implements Initializable {
     private static final Logger LOGGER = LogManager.getLogger(ADS_HomeController.class);
 
     private void load() {
+        LOGGER.debug("Starting loading.");
         activ.clear();
         List<?> adsl = DecodeOperation.decodeLogicOperation(OperationType.GET_ADS, null, null);
         if (adsl != null && adsl.size() != 0) {
