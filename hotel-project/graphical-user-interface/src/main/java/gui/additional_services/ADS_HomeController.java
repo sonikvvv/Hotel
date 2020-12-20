@@ -44,6 +44,19 @@ public class ADS_HomeController implements Initializable {
 
     private static final Logger LOGGER = LogManager.getLogger(ADS_HomeController.class);
 
+    private void load() {
+        activ.clear();
+        List<?> adsl = DecodeOperation.decodeLogicOperation(OperationType.GET_ADS, null, null);
+        if (adsl != null && adsl.size() != 0) {
+            for (Object o : adsl) {
+                AdditServices tmp = (AdditServices) o;
+                activ.add(tmp);
+            }
+        }
+
+        ads_table.getItems().setAll(activ);
+    }
+
     @FXML
     void add_btn(ActionEvent event) {
         LOGGER.info("Add additional service button clicked.");
@@ -52,7 +65,9 @@ public class ADS_HomeController implements Initializable {
             Stage st = new Stage();
             Scene sc = new Scene(FXMLLoader.load(getClass().getResource("services_category_add.FXML")));
             st.setScene(sc);
-            st.show();
+            st.showAndWait();
+            
+            load();
             LOGGER.debug("Add service scene loaded succesfuly.");
         } catch (Exception e) {
             LOGGER.error("Loading exeption occured -> {}", e);
@@ -76,16 +91,8 @@ public class ADS_HomeController implements Initializable {
                     }
             
         });
-
-        List<?> adsl = DecodeOperation.decodeLogicOperation(OperationType.GET_ADS, null, null);
-        if (adsl != null && adsl.size() != 0){
-            for (Object o : adsl) {
-                AdditServices tmp = (AdditServices) o;
-                activ.add(tmp);
-            }
-        }
-
-        ads_table.getItems().setAll(activ);
+        
+        load();
     }
 
 }
