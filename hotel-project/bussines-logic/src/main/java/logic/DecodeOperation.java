@@ -93,6 +93,9 @@ public class DecodeOperation {
             case GET_CLIENTS:
                 result = ClientOperations.getClients(db);
                 break;
+            case GET_SERVICE_CATEGORY:
+                result = AdditionalServicesOperations.getCategories(db);
+                break;
             default:
                 break;
         }

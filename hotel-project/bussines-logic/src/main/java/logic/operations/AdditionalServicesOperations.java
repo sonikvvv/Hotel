@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import base_classes.DBConnection;
 import base_classes.classes.AdditServices;
 import base_classes.classes.Hotel;
+import base_classes.classes.ServiceCategory;
 import base_classes.classes.User;
 import base_classes.classes.emuns.URE;
 
@@ -30,5 +31,9 @@ public class AdditionalServicesOperations {
             }
         }
         return result;
+    }
+
+    public static List<ServiceCategory> getCategories(DBConnection db) {
+        return db.getAllServiceCategories();
     }
 }
