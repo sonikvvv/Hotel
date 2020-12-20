@@ -123,6 +123,14 @@ public class DecodeOperationTest {
     }
 
     @Test
+    public void getClientsTest() {
+        List<?> result = DecodeOperation.decodeLogicOperation(OperationType.GET_CLIENTS, null, null);
+        assertNotNull(result);
+        assertTrue(result.size() > 0);
+        assertTrue(result.get(0) instanceof Clients);
+    }
+
+    @Test
     public void getRoomTypes() {
         List<?> result = DecodeOperation.decodeLogicOperation(OperationType.ROOM_TYPES, null, null);
         assertNotNull(result);
