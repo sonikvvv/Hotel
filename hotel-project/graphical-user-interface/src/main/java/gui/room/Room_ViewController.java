@@ -15,8 +15,9 @@ import base_classes.classes.Clients;
 import base_classes.classes.Room;
 import base_classes.classes.User;
 import base_classes.classes.emuns.URE;
-import gui.additional_services.services_add_controller;
+import gui.additional_services.Services_AddController;
 import gui.clients.AddCust_Controller;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -69,6 +70,9 @@ public class Room_ViewController implements Initializable {
 
     @FXML
     private TableColumn<ClientUsedServices, Number> price_col;
+
+    @FXML
+    private TableColumn<ClientUsedServices, Number> total_col;
 
     @FXML
     private TableColumn<ClientUsedServices, Number> quantity_col;
@@ -129,10 +133,19 @@ public class Room_ViewController implements Initializable {
                                     }
 
                                 });
+
+                        price_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ClientUsedServices,Number>,ObservableValue<Number>>(){
+
+                            @Override
+                            public ObservableValue<Number> call(CellDataFeatures<ClientUsedServices, Number> param) {
+                                return new SimpleDoubleProperty(param.getValue().getAddit_service().getPrice());
+                            }
+                            
+                        });
                         date_col.setCellValueFactory(new PropertyValueFactory<>("purchase_date"));
                         quantity_col.setCellValueFactory(new PropertyValueFactory<>("quantity"));
                         note_col.setCellValueFactory(new PropertyValueFactory<>("note"));
-                        price_col.setCellValueFactory(new PropertyValueFactory<>("total"));
+                        total_col.setCellValueFactory(new PropertyValueFactory<>("total"));
 
                         activ.addAll(clients.getCuds());
                         ads_table.getItems().addAll(activ);
@@ -177,7 +190,7 @@ public class Room_ViewController implements Initializable {
                     if (e.getCode() == KeyCode.DELETE) {
                         Button to_delete = (Button) e.getSource();
                         List<String> data = new ArrayList<>();
-                        data.add(room_l.getText());
+                        data.add(r.getR_id() + "");
                         data.add(to_delete.getText());
 
                         clients_vbox.getChildren().remove(to_delete);
@@ -185,6 +198,7 @@ public class Room_ViewController implements Initializable {
                             data.add("flag");
                         }
 
+                        ads_table.getItems().clear();
                         LOGGER.debug("Client for check out -> {}", to_delete);
                         DecodeOperation.decodeLogicOperation(OperationType.CHECKOUT, null, data);
                     }
@@ -203,6 +217,7 @@ public class Room_ViewController implements Initializable {
         try {
             LOGGER.info("User clicked add service button.");
             LOGGER.debug("Starting add service to room.");
+            Services_AddController.flag = true;
             URL location = this.getClass().getResource("../additional_services/services_add.fxml");
             FXMLLoader loader = new FXMLLoader(location);
             Parent parent = loader.load();
@@ -215,7 +230,7 @@ public class Room_ViewController implements Initializable {
             }
 
             if (client != null && client.getC_name().length() != 0) {
-                services_add_controller add_service = loader.getController();
+                Services_AddController add_service = loader.getController();
 
                 Stage st = new Stage();
                 Scene sc;
@@ -224,10 +239,12 @@ public class Room_ViewController implements Initializable {
                 st.showAndWait();
 
                 ClientUsedServices cus = add_service.getCus();
-                client.addToUsedServices(cus);
-                
-                LOGGER.debug("Added service to client's list -> {}", cus);
-                DecodeOperation.decodeLogicOperation(OperationType.UPDATE, client, null);
+                if (cus != null) {
+                    client.addToUsedServices(cus);
+                    
+                    LOGGER.debug("Added service to client's list -> {}", cus);
+                    DecodeOperation.decodeLogicOperation(OperationType.UPDATE, client, null);
+                }
             }
             else {
                 Alert al = new Alert(AlertType.WARNING, "You need to select a client in the room first!");
@@ -236,6 +253,7 @@ public class Room_ViewController implements Initializable {
 
             load();
             LOGGER.debug("Add service scene loaded succesfuly.");
+            Services_AddController.flag = false;
         } catch (Exception e) {
             LOGGER.error("Loading exeption occured -> {}", e);
         }

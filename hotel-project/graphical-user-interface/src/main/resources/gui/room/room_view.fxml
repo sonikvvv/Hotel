@@ -116,6 +116,7 @@
                                     <TableColumn fx:id="service_name_col" prefWidth="160.0" styleClass="column-header-background" text="Service" />
                                     <TableColumn fx:id="date_col" prefWidth="107.0" styleClass="column-header-background" text="Date" />
                                     <TableColumn fx:id="price_col" prefWidth="81.0" styleClass="column-header-background" text="Price" />
+                                    <TableColumn fx:id="total_col" prefWidth="81.0" styleClass="column-header-background" text="Total" />
                                     <TableColumn fx:id="quantity_col" prefWidth="71.0" styleClass="column-header-background" text="Quantity" />
                                     <TableColumn fx:id="note_col" minWidth="7.0" prefWidth="136.0" styleClass="column-header-background" text="Note" />
                                  </columns></TableView>
