@@ -105,19 +105,24 @@ public class Room_HomeController implements Initializable {
                 room.setR_status(SE.FREE);
                 room_table.getItems().set(index, room);
                 DecodeOperation.decodeLogicOperation(OperationType.UPDATE, room, null);
+            } else if (room.getR_status() == SE.FREE) {
+                int index = room_table.getItems().indexOf(room);
+                room.setR_status(SE.DIRTY);
+                room_table.getItems().set(index, room);
+                DecodeOperation.decodeLogicOperation(OperationType.UPDATE, room, null);
             }
         } else if (event.getCode() == KeyCode.F6) {
             Room room = room_table.getSelectionModel().getSelectedItem();
             LOGGER.debug("Room to make out of order -> {}", room);
-            if (room.getR_status() == SE.FREE) {
+            if (room.getR_status() == SE.OUT_OF_ORDER) {
                 int index = room_table.getItems().indexOf(room);
-                room.setR_status(SE.OUT_OF_ORDER);
+                room.setR_status(SE.DIRTY);
                 room_table.getItems().set(index, room);
                 DecodeOperation.decodeLogicOperation(OperationType.UPDATE, room, null);
             }
-            else if (room.getR_status() == SE.OUT_OF_ORDER) {
+            else if (room.getR_status() != SE.RESERVED && room.getR_status() != SE.OCCUPIED) {
                 int index = room_table.getItems().indexOf(room);
-                room.setR_status(SE.DIRTY);
+                room.setR_status(SE.OUT_OF_ORDER);
                 room_table.getItems().set(index, room);
                 DecodeOperation.decodeLogicOperation(OperationType.UPDATE, room, null);
             }
