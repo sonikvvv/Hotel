@@ -26,13 +26,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -47,7 +47,7 @@ public class Reservations_HomeController implements Initializable {
 
     @FXML
     private Button add_btn;
-    
+
     @FXML
     private DatePicker date_picker;
 
@@ -91,6 +91,22 @@ public class Reservations_HomeController implements Initializable {
 
     private static final Logger LOGGER = LogManager.getLogger(Reservations_HomeController.class);
 
+    private void load() {
+        LOGGER.debug("Starting load.");
+        activ.clear();
+        List<String> data = new ArrayList<>();
+        data.add(date_picker.getValue().toString());
+
+        List<?> res = DecodeOperation.decodeLogicOperation(OperationType.GET_RESERVATIONS, null, data);
+        if (res != null && res.size() != 0) {
+            for (Object object : res) {
+                activ.add((Reservation) object);
+            }
+        }
+
+        reserv_table.getItems().setAll(activ);
+    }
+
     @FXML
     void addReservation(ActionEvent event) {
         try {
@@ -99,7 +115,7 @@ public class Reservations_HomeController implements Initializable {
             Stage stage = new Stage();
             Scene scene = new Scene(FXMLLoader.load(getClass().getResource("../reservations/addreservation.fxml")));
             stage.setScene(scene);
-            stage.show();
+            stage.showAndWait();
             LOGGER.debug("Add reservation scene loaded succesfuly.");
         } catch (Exception e) {
             LOGGER.error("Loading exeption occured -> {}", e);
@@ -110,52 +126,36 @@ public class Reservations_HomeController implements Initializable {
     void datePickerChanged(ActionEvent event) {
         LOGGER.info("User changed date.");
         LOGGER.debug("Starting date picker changed.");
-        List<String> data = new ArrayList<>();
-        data.add(date_picker.getValue().toString());
-        activ.clear();
-
         LOGGER.debug("Date changet to -> {}", date_picker.getValue().toString());
-        List<?> res = DecodeOperation.decodeLogicOperation(OperationType.GET_RESERVATIONS, null, data);
-        if (res != null && res.size() != 0) {
-            for (Object object : res) {
-                activ.add((Reservation) object);
-            }
-        }
-
-        reserv_table.getItems().clear();
-        reserv_table.getItems().addAll(activ);
+        load();
     }
 
     @FXML
     void rowClicked(MouseEvent event) {
         if (event.getClickCount() == 2) {
-            System.out.println("2 click");
-          try {
-                Reservation temporaryReservation = reserv_table.getSelectionModel().getSelectedItem();
-                if (temporaryReservation != null) {
-                    try {
+            LOGGER.info("User double clicked row.");
+            LOGGER.debug("Starting row clicked.");
+            try {
+                Reservation tempRes = reserv_table.getSelectionModel().getSelectedItem();
+                if (tempRes != null) {
+                    URL location = getClass().getResource("../reservations/addreservation.fxml");
+                    FXMLLoader loader = new FXMLLoader(location);
+                    Parent parent = loader.load();
+                    
+                    AddReservation_Controller add_res = loader.getController();
+                    add_res.setRes(tempRes);
 
-                        URL location = editreservation_Controller.class.getResource("editreservation.fxml");
-                         FXMLLoader loader = new FXMLLoader(location);
-                         Parent parent = loader.load();
-                        editreservation_Controller edit = loader.getController();
-                        edit.changeEverything(temporaryReservation.getReservation_form());
-
-                        Stage st = new Stage();
-                        Scene sc;
-                        sc = new Scene(parent);
-                        st.setScene(sc);
-                        st.showAndWait();
-                       //load();
-
-                    } catch (Exception e) {
-                        LOGGER.error("Loading exeption occured -> {}", e);
-                    }
+                    Stage st = new Stage();
+                    Scene sc;
+                    sc = new Scene(parent);
+                    st.setScene(sc);
+                    st.showAndWait();
+                    
+                    load();
                 }
             } catch (Exception e) {
                 LOGGER.error("Loading exeption occured -> {}", e);
             }
-
         }
     }
 
@@ -179,16 +179,21 @@ public class Reservations_HomeController implements Initializable {
                         reserv_table.getItems().remove(to_delete);
                         DecodeOperation.decodeLogicOperation(OperationType.DELETE, to_delete, null);
                     }
-
                 }
             }
         }
     }
 
-    @Override // TODO: make checks for reserv form and room else generates errors
+    @Override
     public void initialize(URL location, ResourceBundle resources) {
         LOGGER.debug("Starting initialize.");
-        
+
+        User user_now = UserOperations.getUser_now().get(0);
+        if (user_now.getUser_role() != URE.MANAGER && user_now.getUser_role() != URE.RECEPTIONIST){
+            add_btn.setVisible(false);
+            LOGGER.debug("Hiding the add button from admin and owner.");
+        }
+
         date_picker.setValue(LocalDate.now());
         number_col.setCellValueFactory(new PropertyValueFactory<>("reservation_id"));
         client_name_col.setCellValueFactory(
@@ -247,46 +252,39 @@ public class Reservations_HomeController implements Initializable {
                     }
                 });
 
-        start_date_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Reservation,String>,ObservableValue<String>>(){
+        start_date_col.setCellValueFactory(
+                new Callback<TableColumn.CellDataFeatures<Reservation, String>, ObservableValue<String>>() {
 
-            @Override
-            public ObservableValue<String> call(CellDataFeatures<Reservation, String> param) {
-                return new SimpleStringProperty(param.getValue().getReservation_form().getStart_date().toString());
-            }
-            
-        });
+                    @Override
+                    public ObservableValue<String> call(CellDataFeatures<Reservation, String> param) {
+                        return new SimpleStringProperty(
+                                param.getValue().getReservation_form().getStart_date().toString());
+                    }
 
-        end_date_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Reservation,String>,ObservableValue<String>>(){
+                });
 
-            @Override
-            public ObservableValue<String> call(CellDataFeatures<Reservation, String> param) {
-                return new SimpleStringProperty(param.getValue().getReservation_form().getEnd_date().toString());
-            }
-            
-        });
+        end_date_col.setCellValueFactory(
+                new Callback<TableColumn.CellDataFeatures<Reservation, String>, ObservableValue<String>>() {
 
-        room_number_col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Reservation,String>,ObservableValue<String>>(){
+                    @Override
+                    public ObservableValue<String> call(CellDataFeatures<Reservation, String> param) {
+                        return new SimpleStringProperty(
+                                param.getValue().getReservation_form().getEnd_date().toString());
+                    }
 
-            @Override
-            public ObservableValue<String> call(CellDataFeatures<Reservation, String> param) {
-                return new SimpleStringProperty(param.getValue().getRoom().getR_number());
-            }
-            
-        });
+                });
 
-        List<String> data = new ArrayList<>();
-        data.add(date_picker.getValue().toString());
+        room_number_col.setCellValueFactory(
+                new Callback<TableColumn.CellDataFeatures<Reservation, String>, ObservableValue<String>>() {
 
-        List<?> res = DecodeOperation.decodeLogicOperation(OperationType.GET_RESERVATIONS, null, data);
-        if (res != null && res.size() != 0) {
-            for (Object object : res) {
-                activ.add((Reservation) object);
-            }
-        }
+                    @Override
+                    public ObservableValue<String> call(CellDataFeatures<Reservation, String> param) {
+                        return new SimpleStringProperty(param.getValue().getRoom().getR_number());
+                    }
 
-        reserv_table.getItems().setAll(activ);
+                });
 
+        load();
     }
 
 }
-

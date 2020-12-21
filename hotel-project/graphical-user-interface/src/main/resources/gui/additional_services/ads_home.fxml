@@ -45,7 +45,7 @@
                         <Font size="30.0" />
                      </font>
                   </Label>
-                  <Button mnemonicParsing="false" onAction="#add_btn" styleClass="bttn" stylesheets="@../style.css" text="Add" GridPane.columnIndex="3" GridPane.halignment="RIGHT" />
+                  <Button fx:id="add_btn_" mnemonicParsing="false" onAction="#add_btn" styleClass="bttn" stylesheets="@../style.css" text="Add" GridPane.columnIndex="3" GridPane.halignment="RIGHT" />
                </children>
             </GridPane>
             <TableView fx:id="ads_table" prefHeight="200.0" prefWidth="200.0" styleClass="table_view" stylesheets="@../style.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
