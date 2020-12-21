@@ -27,6 +27,7 @@ public class DecodeOperationTest {
             LocalDate.parse("2020-10-13"), LocalDate.parse("2020-10-23"), 4, 0, 1, "food_type", 1050, "status", "notes",
             "client_name");
     private static Room room = new Room("103", "Double", 1000, SE.FREE, h1);
+    private static Room room1 = new Room("105", "Double", 1000, SE.FREE, h1);
     private static ServiceCategory sc = new ServiceCategory("Safe", ServiceType.PROSITIVE);
     private static User user = new User("Anastacio48", "6gGJ7LYSbNbMkom", "Mariah O'Kon", "940.249.9052 x164", URE.ADMIN);
     private static AdditServices ads = new AdditServices("Safe 14d", sc, 15, h1);
@@ -51,6 +52,7 @@ public class DecodeOperationTest {
         DecodeOperation.decodeLogicOperation(OperationType.SAVE, h1, null);
         DecodeOperation.decodeLogicOperation(OperationType.SAVE, user, null);
         DecodeOperation.decodeLogicOperation(OperationType.SAVE, room, null);
+        DecodeOperation.decodeLogicOperation(OperationType.SAVE, room1, null);
         DecodeOperation.decodeLogicOperation(OperationType.SAVE, sc, null);
         DecodeOperation.decodeLogicOperation(OperationType.SAVE, ads, null);
         DecodeOperation.decodeLogicOperation(OperationType.SAVE, cus, null);
@@ -128,6 +130,18 @@ public class DecodeOperationTest {
         assertNotNull(result);
         assertTrue(result.size() > 0);
         assertTrue(result.get(0) instanceof Clients);
+    }
+
+    @Test
+    public void getFreeRoom() {
+        List<String> data = new ArrayList<>();
+        data.add(min.toString());
+        data.add(max.toString());
+
+        List<?> result = DecodeOperation.decodeLogicOperation(OperationType.GET_FREE_ROOMS, null, data);
+        assertNotNull(result);
+        assertTrue(result.size() > 0);
+        assertTrue(result.get(0) instanceof Room);
     }
 
     @Test
