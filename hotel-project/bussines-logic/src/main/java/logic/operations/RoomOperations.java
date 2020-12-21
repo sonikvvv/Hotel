@@ -57,8 +57,7 @@ public class RoomOperations {
         return rooms;
     }
 
-    public static List<Room> getFreeRooms(DBConnection db, List<String> data) 
-    {
+    public static List<Room> getFreeRooms(DBConnection db, List<String> data) {
         User user_now = UserOperations.getUser_now().get(0);
         List<Room> rooms = new ArrayList<>();
 
@@ -71,9 +70,8 @@ public class RoomOperations {
                 LOGGER.debug("Getting rooms from hotel id: {}.", hotel.getHotel_id());
             }
         }
-        
-        List<Reservation> reservationResult = new ArrayList<>();
 
+        List<Reservation> reservationResult = new ArrayList<>();
         if (user_now.getUser_role() == URE.ADMIN) {
             reservationResult.addAll(db.getAllReservations());
             LOGGER.debug("Getting rooms from all hotels.");
@@ -83,51 +81,26 @@ public class RoomOperations {
                 LOGGER.debug("Getting rooms from hotel id: {}.", hotel.getHotel_id());
             }
         }
+
         LocalDate from = DateOperations.toDate(data.get(0));
         LocalDate to = DateOperations.toDate(data.get(1));
-        for (Reservation reservation : reservationResult) 
-        {
-           
-            // if(from.isAfter(reservation.getReservation_form().getEnd_date()) || to.isBefore(reservation.getReservation_form().getStart_date()))
-            // {
-            //     //vsichko e ok
-            // }
-            // else
-            // {
-            //     System.out.println("Mahame rezervaciq s dati: " + reservation.getReservation_form().getStart_date().toString() + " za nacholo i " + reservation.getReservation_form().getEnd_date().toString() + " za krai");
-            //     rooms.remove(reservation.getRoom());
-            // }
 
-              if (DateOperations.compareDates(reservation.getReservation_form().getStart_date(), from, to))
-            {
-            rooms.remove(reservation.getRoom());
-            }
-             else if (DateOperations.compareDates(reservation.getReservation_form().getEnd_date(), from, to))
-            {
+        for (Reservation reservation : reservationResult) {
+            if (DateOperations.compareDates(reservation.getReservation_form().getStart_date(), from, to)) {
+                rooms.remove(reservation.getRoom());
+            } else if (DateOperations.compareDates(reservation.getReservation_form().getEnd_date(), from, to)) {
+                rooms.remove(reservation.getRoom());
+            } else if (from.isBefore(reservation.getReservation_form().getStart_date())
+                    && to.isAfter(reservation.getReservation_form().getEnd_date())) {
+                rooms.remove(reservation.getRoom());
+            } else if (reservation.getReservation_form().getStart_date().isBefore(from)
+                    && reservation.getReservation_form().getEnd_date().isAfter(to)) {
                 rooms.remove(reservation.getRoom());
             }
-            else if (from.isBefore(reservation.getReservation_form().getStart_date()) && to.isAfter(reservation.getReservation_form().getEnd_date()))
-            {
-                rooms.remove(reservation.getRoom());
-            }
-            else if(reservation.getReservation_form().getStart_date().isBefore(from) && reservation.getReservation_form().getEnd_date().isAfter(to))
-            {
-                rooms.remove(reservation.getRoom());
-            }
-
-
-    
-            
         }
 
-        
         return rooms;
-        
     }
-
-
-
-
 
     public static List<String> getRoomRait(DBConnection db, List<String> data) {
         LOGGER.debug("Starting getRoomRait with data - {}", data);
