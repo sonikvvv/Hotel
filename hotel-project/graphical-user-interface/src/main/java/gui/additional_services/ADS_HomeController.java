@@ -8,6 +8,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import base_classes.classes.AdditServices;
+import base_classes.classes.User;
+import base_classes.classes.emuns.URE;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -17,6 +19,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
@@ -25,9 +28,13 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import logic.DecodeOperation;
 import logic.OperationType;
+import logic.operations.UserOperations;
 
 public class ADS_HomeController implements Initializable {
 
+    @FXML
+    private Button add_btn_;
+    
     @FXML
     private TableView<AdditServices> ads_table;
 
@@ -80,6 +87,12 @@ public class ADS_HomeController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         LOGGER.debug("Starting initialize.");
+
+        User user_now = UserOperations.getUser_now().get(0);
+        if (user_now.getUser_role() != URE.MANAGER) {
+            add_btn_.setVisible(false);
+            LOGGER.debug("Hiding the add button from admin and owner.");
+        }
         
         title_col.setCellValueFactory(new PropertyValueFactory<>("title"));
         price_col.setCellValueFactory(new PropertyValueFactory<>("price"));

@@ -161,7 +161,7 @@ public class Room_HomeController implements Initializable {
         LOGGER.debug("Starting initializing");
         User user_now = UserOperations.getUser_now().get(0);
 
-        if (user_now.getUser_role() == URE.RECEPTIONIST) {
+        if (user_now.getUser_role() != URE.MANAGER) {
             add_btn.setVisible(false);
             add_btn.setDisable(true);
             LOGGER.debug("Hiding the add button from receptionists.");
