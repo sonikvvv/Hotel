@@ -24,6 +24,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import logic.DecodeOperation;
@@ -72,6 +73,8 @@ public class ADS_HomeController implements Initializable {
         try {
             Stage st = new Stage();
             Scene sc = new Scene(FXMLLoader.load(getClass().getResource("services_category_add.FXML")));
+            st.getIcons().add(new Image(getClass().getResourceAsStream("../icons/logo3.png")));
+            st.setTitle("Add service category or service");
             st.setScene(sc);
             st.showAndWait();
             

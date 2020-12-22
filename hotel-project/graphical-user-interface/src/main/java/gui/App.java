@@ -23,8 +23,9 @@ public class App extends Application {
     public void start(Stage stage) {
         try {
             LOGGER.debug("Starting application with values _> {}.", stage);
-            scene = new Scene(loadFXML("login/login")); // login/login
+            scene = new Scene(loadFXML("login/login"));
             stage.setScene(scene);
+            stage.setTitle("Login");
             stage.getIcons().add(new Image(getClass().getResourceAsStream("./icons/logo3.png")));
             stage.show();
         } catch (Exception e) {

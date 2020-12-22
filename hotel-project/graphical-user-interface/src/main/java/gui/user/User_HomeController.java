@@ -29,6 +29,7 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -104,6 +105,8 @@ public class User_HomeController implements Initializable {
             Stage st = new Stage();
             Scene sc;
             sc = new Scene(parent);
+            st.setTitle("Add user");
+            st.getIcons().add(new Image(getClass().getResourceAsStream("../icons/logo3.png")));
             st.setScene(sc);
             st.showAndWait();
 
@@ -159,6 +162,8 @@ public class User_HomeController implements Initializable {
                     Stage st = new Stage();
                     Scene sc;
                     sc = new Scene(parent);
+                    st.setTitle("Edit user");
+                    st.getIcons().add(new Image(getClass().getResourceAsStream("../icons/logo3.png")));
                     st.setScene(sc);
                     st.showAndWait();
 

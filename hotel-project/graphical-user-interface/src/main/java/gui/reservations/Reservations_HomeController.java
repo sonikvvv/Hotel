@@ -34,6 +34,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -114,6 +115,8 @@ public class Reservations_HomeController implements Initializable {
             LOGGER.debug("Starting add reservation.");
             Stage stage = new Stage();
             Scene scene = new Scene(FXMLLoader.load(getClass().getResource("../reservations/addreservation.fxml")));
+            stage.setTitle("Add reservation");
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("../icons/logo3.png")));
             stage.setScene(scene);
             stage.showAndWait();
 
@@ -150,6 +153,8 @@ public class Reservations_HomeController implements Initializable {
                     Stage st = new Stage();
                     Scene sc;
                     sc = new Scene(parent);
+                    st.setTitle("Edit reservation");
+                    st.getIcons().add(new Image(getClass().getResourceAsStream("../icons/logo3.png")));
                     st.setScene(sc);
                     st.showAndWait();
                     

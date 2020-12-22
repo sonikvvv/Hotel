@@ -37,6 +37,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -173,6 +174,8 @@ public class Room_ViewController implements Initializable {
                             Stage st = new Stage();
                             Scene sc;
                             sc = new Scene(parent);
+                            st.setTitle("Edit client");
+                            st.getIcons().add(new Image(getClass().getResourceAsStream("../icons/logo3.png")));
                             st.setScene(sc);
                             st.showAndWait();
 
@@ -235,6 +238,8 @@ public class Room_ViewController implements Initializable {
                 Stage st = new Stage();
                 Scene sc;
                 sc = new Scene(parent);
+                st.setTitle("Add service");
+                st.getIcons().add(new Image(getClass().getResourceAsStream("../icons/logo3.png")));
                 st.setScene(sc);
                 st.showAndWait();
 
@@ -273,6 +278,8 @@ public class Room_ViewController implements Initializable {
             Stage st = new Stage();
             Scene sc;
             sc = new Scene(parent);
+            st.setTitle("Add client");
+            st.getIcons().add(new Image(getClass().getResourceAsStream("../icons/logo3.png")));
             st.setScene(sc);
             st.showAndWait();
 

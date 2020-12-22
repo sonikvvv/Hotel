@@ -26,6 +26,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -74,6 +75,8 @@ public class Hotel_HomeCotroller implements Initializable {
             Stage st = new Stage();
             Scene sc;
             sc = new Scene(parent);
+            st.getIcons().add(new Image(getClass().getResourceAsStream("../icons/logo3.png")));
+            st.setTitle("Add hotel");
             st.setScene(sc);
             st.showAndWait();
             load();
@@ -103,6 +106,8 @@ public class Hotel_HomeCotroller implements Initializable {
                 Stage st = new Stage();
                 Scene sc;
                 sc = new Scene(parent);
+                st.getIcons().add(new Image(getClass().getResourceAsStream("../icons/logo3.png")));
+                st.setTitle("Edit hotel");
                 st.setScene(sc);
                 st.showAndWait();
                 load();

@@ -26,6 +26,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -85,6 +86,8 @@ public class Room_HomeController implements Initializable {
         try {
             Stage st = new Stage();
             Scene sc = new Scene(FXMLLoader.load(getClass().getResource("add_room.fxml")));
+            st.setTitle("Add room");
+            st.getIcons().add(new Image(getClass().getResourceAsStream("../icons/logo3.png")));
             st.setScene(sc);
             st.showAndWait();
             load();
@@ -142,6 +145,8 @@ public class Room_HomeController implements Initializable {
                     try {
                         Stage st = new Stage();
                         Scene sc = new Scene(FXMLLoader.load(getClass().getResource("room_view.fxml")));
+                        st.setTitle("Room view");
+                        st.getIcons().add(new Image(getClass().getResourceAsStream("../icons/logo3.png")));
                         st.setScene(sc);
                         st.showAndWait();
                         load();
