@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import base_classes.classes.Clients;
 import base_classes.classes.Country;
+import base_classes.classes.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,6 +21,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import logic.DecodeOperation;
 import logic.OperationType;
+import logic.operations.UserOperations;
 
 public class AddCust_Controller implements Initializable {
 
@@ -99,9 +101,11 @@ public class AddCust_Controller implements Initializable {
             al.showAndWait();
         } else {
             if (client == null) {
+                User user_now = UserOperations.getUser_now().get(0);
                 client = new Clients(Name, DateOfBirth, sex, PassportNumber, PassportDate, CarNumber,
                         new Country(Country), Note);
                         client.setVaucher(vaucher);
+                        client.setHotel(user_now.getHotel().get(0));
                 DecodeOperation.decodeLogicOperation(OperationType.SAVE, client, null);
             } else {
                 client.setC_name(Name);

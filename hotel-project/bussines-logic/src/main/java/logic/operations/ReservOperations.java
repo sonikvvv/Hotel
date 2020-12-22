@@ -64,7 +64,7 @@ public class ReservOperations {
         LocalDate today = LocalDate.now();
         LOGGER.debug("Comparing reservations to date - {}.", today);
         for (Reservation reservation : reservations) {
-            if (DateOperations.compareTwoDates(reservation.getDate_made(), today)) {
+            if (DateOperations.compareTwoDates(reservation.getReservation_form().getEnd_date(), today)) {
                 result.add(reservation);
             }
         }

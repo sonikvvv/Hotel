@@ -93,7 +93,11 @@ public class UserOperations {
         newUser.setName(data.get(2));
         newUser.setPhone(data.get(3));
         newUser.setEmail(data.get(4));
-        String[] hotels = data.get(5).split(",");
+        String[] hotels = null;
+        if (data.size() > 4) {
+            hotels = data.get(5).split(",");
+        }
+        
         List<Hotel> hotel_obj = new ArrayList<>();
 
         switch (user_now.getUser_role()) {

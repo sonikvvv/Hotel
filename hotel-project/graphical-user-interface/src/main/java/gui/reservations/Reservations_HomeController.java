@@ -116,6 +116,8 @@ public class Reservations_HomeController implements Initializable {
             Scene scene = new Scene(FXMLLoader.load(getClass().getResource("../reservations/addreservation.fxml")));
             stage.setScene(scene);
             stage.showAndWait();
+
+            load();
             LOGGER.debug("Add reservation scene loaded succesfuly.");
         } catch (Exception e) {
             LOGGER.error("Loading exeption occured -> {}", e);
@@ -182,6 +184,7 @@ public class Reservations_HomeController implements Initializable {
                 }
             }
         }
+        load();
     }
 
     @Override
