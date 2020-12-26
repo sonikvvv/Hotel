@@ -116,37 +116,38 @@ public class RoomOperations {
             }
         }
 
-        int max = tmp[0];
-        int min = tmp[0];
+        if (tmp.length != 0) {
+            int max = tmp[0];
+            int min = tmp[0];
 
-        for (int i : tmp) { // finding min and max
-            if (i > max)
-                max = i;
-            if (i < min)
-                min = i;
-        }
+            for (int i : tmp) { // finding min and max
+                if (i > max)
+                    max = i;
+                if (i < min)
+                    min = i;
+            }
 
-        LOGGER.debug("Found the max room uses -> {}", max);
-        LOGGER.debug("Found the min room uses -> {}", min);
+            LOGGER.debug("Found the max room uses -> {}", max);
+            LOGGER.debug("Found the min room uses -> {}", min);
 
-        double step = (double)(max - min) / 10;
-        double[] raiting = new double[11];
+            double step = (double)(max - min) / 10;
+            double[] raiting = new double[11];
 
-        for (int i = 0; i < raiting.length; i++) {
-            raiting[i] = i * step + min;
-        }
-
-        LOGGER.debug("Calculated the raiting array -> {}", raiting.toString());
-        
-        for (int index = 0; index < tmp.length; index++) {
             for (int i = 0; i < raiting.length; i++) {
-                if (tmp[index] <= raiting[i]) {
-                    result.add(room_types.get(index) + " " + i + " " + tmp[index]);
-                    break;
+                raiting[i] = i * step + min;
+            }
+
+            LOGGER.debug("Calculated the raiting array -> {}", raiting.toString());
+            
+            for (int index = 0; index < tmp.length; index++) {
+                for (int i = 0; i < raiting.length; i++) {
+                    if (tmp[index] <= raiting[i]) {
+                        result.add(room_types.get(index) + " " + i + " " + tmp[index]);
+                        break;
+                    }
                 }
             }
         }
-
         LOGGER.debug("Result. {}", result);
         return result;
     }
