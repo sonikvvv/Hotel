@@ -531,7 +531,5 @@ public class FillDB {
     public static void main(String[] args) {
         // FillDB fdb = new FillDB();
         // fdb.filldb();
-        double test = (double)(11-10)/10;
-        System.out.println(test);
     }
 }

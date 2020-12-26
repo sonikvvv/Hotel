@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.junit.AfterClass;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
@@ -19,6 +20,7 @@ import base_classes.classes.*;
 import base_classes.classes.emuns.*;
 import logic.operations.RoomBusyness;
 
+@Ignore
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DecodeOperationTest {
     private static Country country = new Country("Testiviles");

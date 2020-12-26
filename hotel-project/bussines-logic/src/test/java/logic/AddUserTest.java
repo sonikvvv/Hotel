@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import base_classes.DBConnection;
@@ -15,6 +16,7 @@ import base_classes.classes.User;
 import base_classes.classes.emuns.URE;
 import logic.operations.UserOperations;
 
+@Ignore
 public class AddUserTest {
     private Hotel h1 = new Hotel("Testivile");
     
