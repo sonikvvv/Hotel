@@ -44,14 +44,28 @@ public class UserOperations {
     public static List<User> getUsers(DBConnection db) {
         LOGGER.debug("Starting getUsers.");
         List<User> result = new ArrayList<>();
+        List<User> users = new ArrayList<>();
         if (user_now.getUser_role() == URE.ADMIN) {
-            result = db.getAllUsers();
-            LOGGER.debug("Getting users from all hotels.");
+            users = db.getAllUsers();
+            LOGGER.debug("Getting users from all hotels. Result ->{}", users);
+            return users;
         } else {
             List<Hotel> hotels = UserOperations.user_now.getHotel();
             for (Hotel hotel : hotels) {
-                result.addAll(db.getUserByHotel(hotel.getHotel_id()));
+                users.addAll(db.getUserByHotel(hotel.getHotel_id()));
                 LOGGER.debug("Getting users from hotel id: {}.", hotel.getHotel_id());
+            }
+
+            if (user_now.getUser_role() == URE.OWNER) {
+                boolean flag = false;
+                for (User user : users) {
+                    if (user.getUser_name().equals(user_now.getName())) {
+                        if (flag != true)
+                            result.add(user_now); flag = true;
+                    }
+                    else 
+                        result.add(user);
+                }
             }
         }
 
