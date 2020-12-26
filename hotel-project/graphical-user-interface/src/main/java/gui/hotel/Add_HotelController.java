@@ -7,6 +7,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import base_classes.classes.Hotel;
+import base_classes.classes.User;
+import base_classes.classes.emuns.URE;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,6 +18,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import logic.DecodeOperation;
 import logic.OperationType;
+import logic.operations.UserOperations;
 
 public class Add_HotelController implements Initializable {
 
@@ -37,6 +40,7 @@ public class Add_HotelController implements Initializable {
         LOGGER.info("Add hotel save button clicked.");
         LOGGER.debug("Starting save new hotel.");
         String hotel_name = hotel_name_txt.getText();
+        User user_now = UserOperations.getUser_now().get(0);
 
         if (hotel_name == null || hotel_name.length() == 0) {
             Alert alert = new Alert(AlertType.WARNING, "Don't leave the field empty!");
@@ -46,6 +50,10 @@ public class Add_HotelController implements Initializable {
                 hotel = new Hotel(hotel_name);
                 LOGGER.debug("Creating new hotel: {}", hotel);
                 DecodeOperation.decodeLogicOperation(OperationType.SAVE, hotel, null);
+                if (user_now.getUser_role() == URE.OWNER){
+                    user_now.addToHotel(hotel);
+                    DecodeOperation.decodeLogicOperation(OperationType.UPDATE, user_now, null);
+                }
             }
             else {
                 hotel.setHotel_name(hotel_name);
