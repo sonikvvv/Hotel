@@ -6,13 +6,6 @@
     "configurations": [
         {
             "type": "java",
-            "name": "CodeLens (Launch) - FillDB",
-            "request": "launch",
-            "mainClass": "base_classes.FillDB",
-            "projectName": "base-classes"
-        },
-        {
-            "type": "java",
             "name": "Debug (Attach) - Remote",
             "request": "attach",
             "hostName": "localhost",
@@ -20,29 +13,22 @@
         },
         {
             "type": "java",
-            "name": "Debug (Launch) - Current File",
+            "name": "Launch Current File",
             "request": "launch",
             "mainClass": "${file}"
         },
         {
             "type": "java",
-            "name": "Debug (Launch)-DecodeOperation<bussines-logic>",
+            "name": "Launch FillDB",
             "request": "launch",
-            "mainClass": "logic.DecodeOperation",
-            "projectName": "bussines-logic"
+            "mainClass": "base_classes.FillDB",
+            "projectName": "base-classes"
         },
         {
             "type": "java",
-            "name": "Debug (Launch)-App<graphical-user-interface>",
+            "name": "Launch App",
             "request": "launch",
             "mainClass": "gui.App",
-            "projectName": "graphical-user-interface"
-        },
-        {
-            "type": "java",
-            "name": "Debug (Launch)-testAPP<graphical-user-interface>",
-            "request": "launch",
-            "mainClass": "gui.references.testAPP",
             "projectName": "graphical-user-interface"
         }
     ]
